@@ -7,6 +7,7 @@ interface AppLayoutProps {
 
 export default ({ children }: AppLayoutProps) => (
     <div>
+        
         <AppNavbar/>
         {children}
     </div>

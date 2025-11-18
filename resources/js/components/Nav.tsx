@@ -34,7 +34,7 @@ export default function AppNavbar() {
         url === path || (path !== '/' && url.startsWith(path));
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen} isBlurred isBordered className="z-999">
+        <Navbar  onMenuOpenChange={setIsMenuOpen} isBlurred isBordered className="z-999">
             <NavbarContent>
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
@@ -69,7 +69,7 @@ export default function AppNavbar() {
             <NavbarContent justify="end" className="hidden sm:flex">
                 <NavbarItem>
                     <Button href="#" color="warning" variant="flat">
-                        Register Your Menu
+                        Login
                     </Button>
                 </NavbarItem>
             </NavbarContent>
@@ -104,7 +104,7 @@ export default function AppNavbar() {
                         variant="flat"
                         className="w-full"
                     >
-                        Register Your Menu
+                        Login
                     </Button>
                 </NavbarMenuItem>
             </NavbarMenu>

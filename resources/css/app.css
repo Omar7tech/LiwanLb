@@ -24,3 +24,11 @@
     }
   }
 }
+
+.cairo {
+  font-family: "Cairo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;   /* Change to any value from 200–1000 */
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+}

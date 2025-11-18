@@ -1,22 +1,9 @@
-import { motion, useScroll, useTransform, AnimatePresence, Variants } from "framer-motion"; // <-- Added Variants import
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
-
-// --- DYNAMIC ARABIC & ENGLISH PAIRS ---
-const KEYWORD_PAIRS = [
-    { ar: "هندسة", en: "Engineering" },
-    { ar: "بناء", en: "Construction" },
-    { ar: "اشراف", en: "Supervision" },
-];
-
-const ROTATION_INTERVAL_MS = 2500; // Switch every 2.5 seconds
-const INITIAL_DELAY_MS = 1000; // Start rotation 1 second after mount
+import { useRef } from "react";
 
 const HeroSection = () => {
     const ref = useRef(null);
-
-    // State for keyword rotation
-    const [currentKeywordIndex, setCurrentKeywordIndex] = useState(0);
 
     // Parallax
     const { scrollYProgress } = useScroll({
@@ -24,62 +11,24 @@ const HeroSection = () => {
         offset: ["start start", "end start"],
     });
 
-    // Helper function to check for mobile
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-
-    // Parallax Logic
+    // Stronger parallax on desktop, softer on mobile
     const imageY = useTransform(
         scrollYProgress,
         [0, 1],
-        [0, isMobile ? 40 : 120]
+        [0, typeof window !== "undefined" && window.innerWidth < 640 ? 40 : 120]
     );
 
     const cardY = useTransform(
         scrollYProgress,
         [0, 1],
-        [0, isMobile ? -20 : -60]
+        [0, typeof window !== "undefined" && window.innerWidth < 640 ? -20 : -60]
     );
 
-    // --- EFFECT: Manage the keyword rotation timer ---
-    useEffect(() => {
-        // Start rotation after the initial animation delay
-        const initialTimer = setTimeout(() => {
-            const rotationInterval = setInterval(() => {
-                setCurrentKeywordIndex((prevIndex) =>
-                    (prevIndex + 1) % KEYWORD_PAIRS.length
-                );
-            }, ROTATION_INTERVAL_MS);
-
-            // Cleanup interval on component unmount
-            return () => clearInterval(rotationInterval);
-
-        }, INITIAL_DELAY_MS);
-
-        // Cleanup initial timeout on component unmount
-        return () => clearTimeout(initialTimer);
-
-    }, []);
-
-    // Common animation variants for text stagger (main title)
-    // --- FIX: Use 'as Variants' to resolve TypeScript conflict with the 'spring' type string ---
+    // Common animation variants for text stagger
     const lineVariants = {
         hidden: { opacity: 0, y: 25 },
-        show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
-    } as Variants; // <-- Type assertion added here
-
-    // Keyword transition variants for the floating card (move up/down)
-    const keywordVariants = {
-        enter: { opacity: 0, y: 15 },
-        center: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-        exit: { opacity: 0, y: -15, transition: { duration: 0.2 } },
-    } as Variants; // <-- Type assertion added here
-
-    // General Entrance Variants (for description and CTAs)
-    const entranceVariants = {
-        hidden: { opacity: 0, y: 15 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.8 } },
-    } as Variants; // <-- Type assertion added here
-
+        show: { opacity: 1, y: 0 },
+    };
 
     return (
         <section
@@ -88,14 +37,13 @@ const HeroSection = () => {
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 sm:gap-16">
 
-                {/* LEFT CONTENT (ENGLISH TITLE) */}
+                {/* LEFT CONTENT */}
                 <div className="lg:col-span-6 space-y-6 sm:space-y-8">
 
                     {/* Animated heading container */}
                     <motion.div
                         initial="hidden"
                         animate="show"
-                        // The container variant also needs the type assertion if you define complex transitions here
                         variants={{
                             hidden: { opacity: 0 },
                             show: {
@@ -141,9 +89,9 @@ const HeroSection = () => {
 
                     {/* Description */}
                     <motion.p
-                        initial="hidden" // Changed to use named variant
-                        animate="show"  // Changed to use named variant
-                        variants={entranceVariants} // Passed named variant object
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7 }}
                         className="text-base sm:text-lg text-[#3A3B3A]/70 max-w-sm sm:max-w-md leading-relaxed"
                     >
                         We listen first, design spaces that reflect your identity,
@@ -152,9 +100,9 @@ const HeroSection = () => {
 
                     {/* CTA Buttons */}
                     <motion.div
-                        initial="hidden" // Changed to use named variant
-                        animate="show"  // Changed to use named variant
-                        variants={entranceVariants} // Passed named variant object
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7 }}
                         className="flex flex-col sm:flex-row gap-4"
                     >
                         <button className="group inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F2AE1D] text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all text-sm sm:text-base">
@@ -186,35 +134,16 @@ const HeroSection = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     </motion.div>
 
-                    {/* Floating Card - DYNAMIC ARABIC & ENGLISH TEXT */}
+                    {/* Floating Card - التعديل هنا */}
                     <motion.div
                         style={{ y: cardY }}
-                        className="absolute -bottom-5 sm:-bottom-8 left-1/2 -translate-x-1/2 bg-white shadow-lg border border-[#F2AE1D]/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 w-[88%] sm:w-[75%] max-w-sm"
+                        // تم الحفاظ على تصميم البطاقة وشكلها تماماً
+                        className="absolute -bottom-5 sm:-bottom-8 left-1/2 -translate-x-1/2 bg-white shadow-lg border border-[#F2AE1D]/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 w-[88%] sm:w-[75%]"
                     >
-                        {/* Container for the rotating text - fixed height, centered */}
-                        <div className="h-10 sm:h-12 flex flex-col justify-center items-center overflow-hidden">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={currentKeywordIndex}
-                                    variants={keywordVariants}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    className="text-center"
-                                    dir="rtl"
-                                >
-                                    {/* Arabic Text (Main Title) */}
-                                    <p className="font-extrabold text-[#3A3B3A] text-base sm:text-lg">
-                                        {KEYWORD_PAIRS[currentKeywordIndex].ar}
-                                    </p>
-
-                                    {/* English Text (Subtitle) - Smaller, gold color */}
-                                    <p className="text-xs sm:text-sm text-[#F2AE1D] font-medium tracking-wider mt-0.5" dir="ltr">
-                                        {KEYWORD_PAIRS[currentKeywordIndex].en.toUpperCase()}
-                                    </p>
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
+                        {/* النص العربي الجديد فقط، تم توسيطه بشكل أنيق */}
+                        <p className="font-bold text-[#3A3B3A] text-sm sm:text-base text-center">
+                            هندسة . بناء . اشراف
+                        </p>
                     </motion.div>
                 </div>
             </div>

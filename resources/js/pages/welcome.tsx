@@ -1,9 +1,8 @@
-import HeroSection from '@/components/sections/HeroSection';
-import { BackgroundRippleEffect } from '@/components/ui/background-ripple-effect';
+import HomeSections from '@/components/sections/HomeSections';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export default function Welcome() {
@@ -44,19 +43,7 @@ export default function Welcome() {
                 )}
             </AnimatePresence>
 
-            <AppLayout>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isLoading ? 0 : 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative flex min-h-screen w-full flex-col items-start justify-start overflow-hidden"
-                >
-                    <BackgroundRippleEffect />
-                    {showContent && <HeroSection />}
-                </motion.div>
-
-                
-            </AppLayout>
+            <AppLayout>{showContent && <HomeSections />}</AppLayout>
         </>
     );
 }

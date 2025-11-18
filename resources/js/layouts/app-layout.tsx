@@ -6,9 +6,8 @@ interface AppLayoutProps {
 }
 
 export default ({ children }: AppLayoutProps) => (
-    <div>
-        
-        <AppNavbar/>
-        {children}
+    <div className="cairo antialiased">
+        <AppNavbar />
+        <div className="bg-[#FAFAFA]">{children}</div>
     </div>
 );

@@ -1,4 +1,4 @@
-import AppNavbar from '@/components/Nav';
+import { NavbarDemo } from '@/components/Nav';
 import { type ReactNode } from 'react';
 
 interface AppLayoutProps {
@@ -6,8 +6,10 @@ interface AppLayoutProps {
 }
 
 export default ({ children }: AppLayoutProps) => (
-    <div className="cairo antialiased">
-        <AppNavbar />
-        <div className="bg-[#FAFAFA]">{children}</div>
+    <div className="bg-[#fafafa]">
+        <div>
+            <NavbarDemo />
+            {children}
+        </div>
     </div>
 );

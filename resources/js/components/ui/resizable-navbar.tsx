@@ -111,7 +111,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "inset-0 hidden flex-1 flex-row items-center justify-center space-x-1 text-lg  text-[#3A3B3A] lg:flex",
+        "inset-0 hidden whitespace-nowrap flex-1 flex-row items-center justify-center space-x-1 text-[20px]  text-[#3A3B3A] lg:flex",
         className
       )}
     >
@@ -222,8 +222,8 @@ export const NavbarLogo = () => {
       <img
         src="/images/logo.png"
         alt="logo"
-        width={50}
-        height={50}
+        width={60}
+        height={60}
       />
 
     </a>

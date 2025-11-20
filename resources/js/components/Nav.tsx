@@ -24,6 +24,14 @@ export function NavbarDemo() {
     ];
     const navItems2 = [
         {
+            name: 'Partner With Us',
+            link: '/',
+        },
+        {
+            name: 'Blogs',
+            link: '/',
+        },
+        {
             name: 'Blogs',
             link: '/',
         },

@@ -2,7 +2,7 @@ import BlurText from "../BlurText";
 
 export default function HeroSection() {
     return (
-        <section className="w-full px-5 py-10">
+        <section className="w-full px-5 pt-10">
             <div className="mx-auto space-y-10">
                 <div className="or grid grid-cols-1 items-baseline-last gap-6 lg:grid-cols-2">
                     <div>

@@ -16,3 +16,24 @@
     --primary-grey: #3a3b3a;
     --offwhite: #fafafa;
 }
+
+::selection {
+    background-color: #f2ae1d;
+    color: #3a3b3a;
+}
+
+::-moz-selection {
+    background-color: #f2ae1d;
+    color: #3a3b3a;
+}
+
+
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #f2ae1d #fafafa;
+}
+
+* {
+  cursor: none !important;
+}

@@ -31,10 +31,6 @@ export function NavbarDemo() {
             name: 'Blogs',
             link: '/',
         },
-        {
-            name: 'Blogs',
-            link: '/',
-        },
     ];
     const navItems3 = [
         {

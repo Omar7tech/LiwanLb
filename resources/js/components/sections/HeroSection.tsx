@@ -34,12 +34,12 @@ export default function HeroSection() {
                     {/* RIGHT TEXT */}
                     <div className="flex flex-col lg:ml-30">
                         <div className="flex justify-between">
-                            <p className="mt-18 lg:mt-0 max-w-48 leading-tight font-light text-[#3A3B3A]">
+                            <p className="mt-18 lg:mt-0 max-w-48 leading-tight font-light text-[#3A3B3A] animate-[fadeInLeft_1s_ease-out_0.6s_both]">
                                 We listen first, design spaces that reflect your
                                 identity, carry purpose, and deliver lasting
                                 value.
                             </p>
-                            <p className="max-w-48 leading-tight font-light text-[#3A3B3A]">
+                            <p className="max-w-48 leading-tight font-light text-[#3A3B3A] animate-[fadeInRight_1s_ease-out_0.8s_both]">
                                 Home <br />
                                 Estate <br />
                                 Interior <br />
@@ -47,7 +47,7 @@ export default function HeroSection() {
                             </p>
                         </div>
                         <div className="flex justify-end md:justify-center">
-                            <button className="cursor-pointer mt-6 w-fit rounded-lg bg-[#F2AE1D] px-3 py-2 text-xl font-bold text-white transition-all hover:opacity-95">
+                            <button className="cursor-pointer mt-6 w-fit rounded-lg bg-[#F2AE1D] px-3 py-2 text-xl font-bold text-white transition-all hover:opacity-95 hover:scale-105 hover:shadow-lg animate-[fadeInUp_0.8s_ease-out_1s_both]">
                                 Meet The Architect
                             </button>
                         </div>
@@ -55,7 +55,7 @@ export default function HeroSection() {
                 </div>
                 {/* VIDEO SECTION */}
                 <div className="w-full">
-                    <div className="overflow-hidden rounded-2xl shadow-md">
+                    <div className="overflow-hidden rounded-2xl shadow-md animate-[fadeInScale_1.2s_ease-out_1.2s_both]">
                         <video
                             src="/videos/herovid.mp4"
                             className="max-h-[calc(100vh-260px)] w-full object-cover"
@@ -67,6 +67,8 @@ export default function HeroSection() {
                     </div>
                 </div>
             </div>
+
+           
         </section>
     );
 }

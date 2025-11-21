@@ -8,16 +8,21 @@ import {
     NavBody,
     NavItems,
 } from '@/components/ui/resizable-navbar';
-import { Link } from '@inertiajs/react';
+
+import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { type SharedData } from '@/types';
 
 export function NavbarDemo() {
+    const { auth } = usePage<SharedData>().props;
+
     const navItems = [
         {
             name: 'Home',
             link: '/',
         },
         {
+
             name: 'About',
             link: '/about',
         },
@@ -29,15 +34,17 @@ export function NavbarDemo() {
         },
         {
             name: 'Blogs',
-            link: '/',
+            link: '/blogs',
         },
     ];
     const navItems3 = [
         {
-            name: 'Login',
-            link: '/login',
+            name: auth.user ? 'Your Account' : 'Login',
+            link: auth.user ? '/dashboard' : '/login',
         },
     ];
+    
+
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

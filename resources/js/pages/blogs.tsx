@@ -1,19 +1,19 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 
-function contact() {
+function blogs() {
     return (
         <>
-            <Head title="Contact Us">
+            <Head title="blogs">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link
                     href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
                     rel="stylesheet"
                 />
             </Head>
-            <AppLayout>Contact Us</AppLayout>
+            <AppLayout>This is Blogs</AppLayout>
         </>
     );
 }
 
-export default contact;
+export default blogs;

@@ -117,6 +117,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     >
       {items.map((item, idx) => (
         <Link
+        prefetch="click"
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
           className="relative px-3 py-2"

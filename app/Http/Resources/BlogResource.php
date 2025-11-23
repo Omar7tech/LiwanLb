@@ -12,8 +12,17 @@ class BlogResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
+    public static $wrap = false ;
+
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'image' => $this->getFirstMediaUrl() ?: null,
+            'content' => $this->content,
+            'description' => $this->description,
+        ];
     }
 }

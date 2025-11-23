@@ -10,9 +10,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/blogs', [BlogController::class , 'index'])->name('blogs');
-
+Route::get('/blog/{blog}' , [BlogController::class , 'show'] )->name('blogs.show');
 Route::get('/about', function () {
-    dump(Auth::user());
     return Inertia::render('about');
 })->name('about');
 

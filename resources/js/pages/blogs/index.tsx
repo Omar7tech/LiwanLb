@@ -1,5 +1,4 @@
 import Card from '@/components/blogs/Card';
-import Header from '@/components/blogs/Header';
 import Pagination from '@/components/Pagination';
 import AppLayout from '@/layouts/app-layout';
 import { Blog, PaginationProps } from '@/types';
@@ -19,7 +18,6 @@ function blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
                 <div className="p-5 text-[#3a3b3a]">
                     {blogs.data.length > 0 ? (
                         <>
-                            <Header />
                             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                                 {blogs.data.map((blog: Blog, index: number) => (
                                     <Card key={index} blog={blog} />

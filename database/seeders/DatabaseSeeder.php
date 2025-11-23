@@ -24,9 +24,20 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+        User::firstOrCreate(
+            ['email' => 'yamen@admin.com'],
+            [
+                'name' => 'Yamen',
+                'username' => 'yamen' ,
+                'password' => 'password',
+                'email_verified_at' => now(),
+                'role' => 'admin',
+            ]
+        );
 
-        $this->call([
+        /* $this->call([
             UserSeeder::class,
-        ]);
+            BlogSeeder::class
+        ]); */
     }
 }

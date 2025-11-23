@@ -41,3 +41,31 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Blog {
+    title: string;
+    slug: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+}
+export interface PaginationLink {
+  url?: string;
+  label: string;
+  active: boolean;
+  page?: number;
+}
+
+export interface PaginationMeta {
+  current_page: number;
+  last_page: number;
+  total: number;
+  from: number;
+  to: number;
+  links: PaginationLink[];
+}
+
+export interface PaginationProps<T> {
+  data: T[];
+  meta: PaginationMeta;
+}

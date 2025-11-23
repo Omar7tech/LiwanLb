@@ -11,6 +11,8 @@ class Blog extends Model
 {
     /** @use HasFactory<\Database\Factories\BlogFactory> */
     use HasFactory , HasSlug;
+
+    protected $guarded = ['id'];
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
@@ -21,5 +23,12 @@ class Blog extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'active' => 'boolean',
+        ];
     }
 }

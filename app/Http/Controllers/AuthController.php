@@ -21,7 +21,7 @@ class AuthController extends Controller
             'password' => 'required|max:255',
         ]);
 
-        if (Auth::attempt($validated)) {
+        if (Auth::attempt($validated , true)) {
             $request->session()->regenerate();
             return to_route('dashboard');
         }
@@ -32,9 +32,14 @@ class AuthController extends Controller
 
     }
 
-    public function logout()
-    {
-        Auth::logout();
-        return to_route('login');
-    }
+    public function logout(Request $request)
+{
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return to_route('login');
+}
+
 }

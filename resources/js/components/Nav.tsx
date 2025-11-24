@@ -8,10 +8,11 @@ import {
     NavBody,
     NavItems,
 } from '@/components/ui/resizable-navbar';
+import { dashboard } from '@/routes/filament/admin/pages';
 
+import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { type SharedData } from '@/types';
 
 export function NavbarDemo() {
     const { auth } = usePage<SharedData>().props;
@@ -22,7 +23,6 @@ export function NavbarDemo() {
             link: '/',
         },
         {
-
             name: 'About',
             link: '/about',
         },
@@ -39,12 +39,14 @@ export function NavbarDemo() {
     ];
     const navItems3 = [
         {
-            name: auth.user ? 'Your Account' : 'Login',
+            name: auth.user
+                ? auth.user.role == 'user'
+                    ? 'Your Account'
+                    : 'Admin'
+                : 'Login',
             link: auth.user ? '/dashboard' : '/login',
         },
     ];
-    
-
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -55,8 +57,24 @@ export function NavbarDemo() {
                     <NavbarLogo />
                     <NavItems items={navItems} />
                     <NavItems items={navItems2} />
-                    <NavItems items={navItems3} className='font-bold text-[#f2ae1d]' />
-
+                    {auth.user?.role === 'user' ? (
+                        <NavItems
+                            items={navItems3}
+                            className="font-bold text-[#f2ae1d]"
+                        />
+                    ) : auth.user ? (
+                        <a
+                            className="font-bold text-[#f2ae1d]"
+                            href={dashboard().url}
+                        >
+                            Admin
+                        </a>
+                    ) : (
+                        <NavItems
+                            items={navItems3}
+                            className="font-bold text-[#f2ae1d]"
+                        />
+                    )}
                 </NavBody>
 
                 {/* Mobile Navigation */}
@@ -80,7 +98,7 @@ export function NavbarDemo() {
                                 key={`mobile-link-${idx}`}
                                 href={item.link}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="relative text-neutral-600 text-3xl font-light"
+                                className="relative text-3xl font-light text-neutral-600"
                             >
                                 <span className="block">{item.name}</span>
                             </Link>
@@ -90,7 +108,7 @@ export function NavbarDemo() {
                                 key={`mobile-link-${idx}`}
                                 href={item.link}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="relative text-neutral-600 text-3xl font-light"
+                                className="relative text-3xl font-light text-neutral-600"
                             >
                                 <span className="block">{item.name}</span>
                             </Link>
@@ -100,12 +118,11 @@ export function NavbarDemo() {
                                 key={`mobile-link-${idx}`}
                                 href={item.link}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="relative text-[#f2ae1d] text-3xl"
+                                className="relative text-3xl text-[#f2ae1d]"
                             >
                                 <span className="block">{item.name}</span>
                             </Link>
                         ))}
-
                     </MobileNavMenu>
                 </MobileNav>
             </Navbar>

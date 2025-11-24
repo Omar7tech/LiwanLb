@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Middleware\RoleAuthRedirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,11 +19,15 @@ Route::get('/about', function () {
 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login-store', [AuthController::class, 'store'])->name('login-store');
+
+
+
+Route::middleware(['auth' , RoleAuthRedirect::class])->group(function (){
 Route::get('/dashboard' , function () {
     return Inertia::render('dashboard');
-})->name('dashboard')->middleware('auth');
+})->name('dashboard');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+});
 
 
 

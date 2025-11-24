@@ -14,7 +14,7 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::paginate(6);
-        return Inertia::render('blogs/index', ['blogs' => BlogListResource::collection($blogs)]);
+        return Inertia::render('blogs/index', ['blogs'=>Inertia::scroll( fn () => BlogListResource::collection($blogs))]);
     }
 
     public function show(Blog $blog)

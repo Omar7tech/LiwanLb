@@ -1,8 +1,8 @@
 import Card from '@/components/blogs/Card';
-import Pagination from '@/components/Pagination';
+import Header from '@/components/blogs/Header';
 import AppLayout from '@/layouts/app-layout';
 import { Blog, PaginationProps } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, InfiniteScroll } from '@inertiajs/react';
 
 function blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
     return (
@@ -18,12 +18,34 @@ function blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
                 <div className="p-5 text-[#3a3b3a]">
                     {blogs.data.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                                {blogs.data.map((blog: Blog, index: number) => (
-                                    <Card key={index} blog={blog} />
-                                ))}
-                            </div>
-                            <Pagination pagination={blogs} />
+                            <Header />
+                            <InfiniteScroll
+                                data="blogs"
+                                preserveUrl
+                                loading={() => (
+                                    <div className="flex items-center justify-center py-12">
+                                        <div className="flex flex-col items-center gap-4">
+                                            {/* Spinner */}
+                                            <div className="relative h-12 w-12">
+                                                <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+                                                <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#f2ae1d] border-r-[#f2ae1d] animate-spin"></div>
+                                            </div>
+                                            <p className="text-sm font-medium text-gray-600">
+                                                Loading more blogs...
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                            >
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                                    {blogs.data.map(
+                                        (blog: Blog, index: number) => (
+                                            <Card key={index} blog={blog} />
+                                        ),
+                                    )}
+                                    
+                                </div>
+                            </InfiniteScroll>
                         </>
                     ) : (
                         <div className="flex flex-col items-center justify-center py-20">

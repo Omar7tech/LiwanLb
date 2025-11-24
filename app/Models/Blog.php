@@ -13,7 +13,7 @@ class Blog extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\BlogFactory> */
     use HasFactory , HasSlug;
-     use InteractsWithMedia;
+    use InteractsWithMedia;
 
     protected $guarded = ['id'];
     public function getSlugOptions() : SlugOptions

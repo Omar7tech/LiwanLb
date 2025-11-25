@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import { NavbarDemo } from '@/components/Nav';
 /* import { SmoothCursor } from '@/components/ui/smooth-cursor';
  *//* import { SmoothCursor } from '@/components/ui/smooth-cursor';
@@ -13,6 +14,7 @@ export default ({ children }: AppLayoutProps) => (
             <NavbarDemo />
     {/*         <SmoothCursor /> */}
             {children}
+            <Footer />
         </div>
     </div>
 );

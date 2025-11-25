@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Blogs\Schemas;
 
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\RichEditor\TextColor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -36,7 +38,15 @@ class BlogForm
                     ->helperText('📸 Upload image (max 1MB)')
                     ->columnSpanFull(),
 
-                Textarea::make('content')
+                RichEditor::make('content')
+
+                    ->toolbarButtons([
+                        ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link' , 'alignJustify' , 'clearFormatting' , 'details' ,'lead' , 'small' , 'highlight' , 'horizontalRule'],
+                        ['h1', 'h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'  , ],
+                        ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                        ['table'],
+                        ['undo', 'redo'],
+                    ])
                     ->columnSpanFull(),
                 Textarea::make('description')
                     ->columnSpanFull(),

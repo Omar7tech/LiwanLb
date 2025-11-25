@@ -13,12 +13,12 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::paginate(6);
-        return Inertia::render('blogs/index', ['blogs'=>Inertia::scroll( fn () => BlogListResource::collection($blogs))]);
+        $blogs = Blog::paginate(8);
+        return Inertia::render('blogs/index', ['blogs' => fn() => BlogListResource::collection($blogs)]);
     }
 
     public function show(Blog $blog)
     {
-        return Inertia::render('blogs/show', ['blog' => $blog->toResource()] );
+        return Inertia::render('blogs/show', ['blog' => $blog->toResource()]);
     }
 }

@@ -101,3 +101,363 @@
     }
 }
 
+/* ============================================
+   GLOBAL MARKDOWN / RICH TEXT CONTENT STYLES
+   Add this to your main app.css or global stylesheet
+   ============================================ */
+
+/* Base Markdown Container */
+.markdown-content,
+.rich-content,
+.prose-content {
+    @apply text-gray-800 text-base leading-relaxed;
+}
+
+/* ========== HEADINGS ========== */
+.markdown-content h1,
+.rich-content h1,
+.prose-content h1 {
+    @apply text-4xl font-bold mt-12 mb-6 text-gray-900 leading-tight;
+}
+
+.markdown-content h2,
+.rich-content h2,
+.prose-content h2 {
+    @apply text-3xl font-bold mt-10 mb-5 text-gray-900 leading-snug;
+}
+
+.markdown-content h3,
+.rich-content h3,
+.prose-content h3 {
+    @apply text-2xl font-semibold mt-8 mb-4 text-gray-900 leading-snug;
+}
+
+.markdown-content h4,
+.rich-content h4,
+.prose-content h4 {
+    @apply text-xl font-semibold mt-6 mb-3 text-gray-800;
+}
+
+.markdown-content h5,
+.rich-content h5,
+.prose-content h5 {
+    @apply text-lg font-semibold mt-4 mb-2 text-gray-800;
+}
+
+.markdown-content h6,
+.rich-content h6,
+.prose-content h6 {
+    @apply text-base font-semibold mt-4 mb-2 text-gray-700;
+}
+
+/* ========== PARAGRAPHS ========== */
+.markdown-content p,
+.rich-content p,
+.prose-content p {
+    @apply mb-6 leading-relaxed;
+}
+
+/* Lead Paragraph */
+.markdown-content .lead,
+.rich-content .lead,
+.prose-content .lead {
+    @apply text-xl text-gray-600 mb-8 leading-relaxed font-light;
+}
+
+/* ========== LINKS ========== */
+.markdown-content a,
+.rich-content a,
+.prose-content a {
+    @apply text-amber-500 font-medium underline hover:text-amber-600 hover:no-underline transition-colors duration-200;
+}
+
+/* ========== LISTS ========== */
+.markdown-content ul,
+.rich-content ul,
+.prose-content ul {
+    @apply list-disc list-outside ml-6 mb-6 space-y-2;
+}
+
+.markdown-content ol,
+.rich-content ol,
+.prose-content ol {
+    @apply list-decimal list-outside ml-6 mb-6 space-y-2;
+}
+
+.markdown-content li,
+.rich-content li,
+.prose-content li {
+    @apply leading-relaxed;
+}
+
+.markdown-content li > ul,
+.markdown-content li > ol,
+.rich-content li > ul,
+.rich-content li > ol,
+.prose-content li > ul,
+.prose-content li > ol {
+    @apply mt-2 mb-2 ml-4;
+}
+
+/* ========== BLOCKQUOTES ========== */
+.markdown-content blockquote,
+.rich-content blockquote,
+.prose-content blockquote {
+    @apply border-l-4 border-amber-500 pl-6 pr-4 py-4 my-8 italic bg-gray-50 text-gray-700 rounded-r-lg;
+}
+
+.markdown-content blockquote p,
+.rich-content blockquote p,
+.prose-content blockquote p {
+    @apply mb-0;
+}
+
+.markdown-content blockquote p:not(:last-child),
+.rich-content blockquote p:not(:last-child),
+.prose-content blockquote p:not(:last-child) {
+    @apply mb-4;
+}
+
+/* ========== CODE BLOCKS ========== */
+.markdown-content pre,
+.rich-content pre,
+.prose-content pre {
+    @apply bg-gray-900 text-gray-100 rounded-lg p-6 overflow-x-auto mb-6 text-sm font-mono shadow-lg;
+}
+
+.markdown-content code,
+.rich-content code,
+.prose-content code {
+    @apply bg-gray-100 text-pink-600 px-2 py-1 rounded text-sm font-mono;
+}
+
+.markdown-content pre code,
+.rich-content pre code,
+.prose-content pre code {
+    @apply bg-transparent text-gray-100 p-0;
+}
+
+/* ========== TABLES - EXCEL STYLE ========== */
+.markdown-content table,
+.rich-content table,
+.prose-content table {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-collapse: collapse;
+    border: 2px solid #9ca3af;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.markdown-content thead,
+.rich-content thead,
+.prose-content thead {
+    background-color: #3a3b3a;
+}
+
+.markdown-content thead th,
+.rich-content thead th,
+.prose-content thead th {
+    color: white;
+    font-weight: 700;
+    text-align: left;
+    padding: 12px 16px;
+    border: 1px solid #6b7280;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.markdown-content tbody,
+.rich-content tbody,
+.prose-content tbody {
+    background-color: white;
+}
+
+.markdown-content tbody tr,
+.rich-content tbody tr,
+.prose-content tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.markdown-content tbody tr:nth-child(odd),
+.rich-content tbody tr:nth-child(odd),
+.prose-content tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.markdown-content tbody tr:nth-child(even),
+.rich-content tbody tr:nth-child(even),
+.prose-content tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.markdown-content tbody tr:hover,
+.rich-content tbody tr:hover,
+.prose-content tbody tr:hover {
+    background-color: #fef3c7 !important;
+}
+
+.markdown-content td,
+.rich-content td,
+.prose-content td {
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    color: #1f2937;
+    font-size: 0.875rem;
+}
+
+.markdown-content th,
+.rich-content th,
+.prose-content th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Mobile Responsive - Horizontal Scroll */
+@media (max-width: 768px) {
+    .markdown-content,
+    .rich-content,
+    .prose-content {
+        overflow-x: auto;
+    }
+    
+    .markdown-content table,
+    .rich-content table,
+    .prose-content table {
+        display: table;
+        min-width: 600px;
+        font-size: 0.8125rem;
+    }
+    
+    .markdown-content thead th,
+    .rich-content thead th,
+    .prose-content thead th,
+    .markdown-content td,
+    .rich-content td,
+    .prose-content td {
+        padding: 10px 12px;
+        white-space: nowrap;
+    }
+}
+
+/* ========== IMAGES ========== */
+.markdown-content img,
+.rich-content img,
+.prose-content img {
+    @apply rounded-lg shadow-md my-8 max-w-full h-auto;
+}
+
+/* ========== HORIZONTAL RULE ========== */
+.markdown-content hr,
+.rich-content hr,
+.prose-content hr {
+    @apply my-12 border-t-2 border-gray-200;
+}
+
+/* ========== TEXT FORMATTING ========== */
+.markdown-content strong,
+.markdown-content b,
+.rich-content strong,
+.rich-content b,
+.prose-content strong,
+.prose-content b {
+    @apply font-bold text-gray-900;
+}
+
+.markdown-content em,
+.markdown-content i,
+.rich-content em,
+.rich-content i,
+.prose-content em,
+.prose-content i {
+    @apply italic;
+}
+
+.markdown-content del,
+.markdown-content s,
+.rich-content del,
+.rich-content s,
+.prose-content del,
+.prose-content s {
+    @apply line-through opacity-75;
+}
+
+.markdown-content u,
+.rich-content u,
+.prose-content u {
+    @apply underline;
+}
+
+/* ========== SUBSCRIPT & SUPERSCRIPT ========== */
+.markdown-content sub,
+.rich-content sub,
+.prose-content sub {
+    @apply text-xs align-sub;
+}
+
+.markdown-content sup,
+.rich-content sup,
+.prose-content sup {
+    @apply text-xs align-super;
+}
+
+/* ========== HIGHLIGHT ========== */
+.markdown-content mark,
+.rich-content mark,
+.prose-content mark {
+    @apply bg-yellow-200 text-gray-900 px-1 rounded;
+}
+
+/* ========== DETAILS/SUMMARY ========== */
+.markdown-content details,
+.rich-content details,
+.prose-content details {
+    @apply mb-6 border border-gray-300 rounded-lg p-4 bg-white shadow-sm;
+}
+
+.markdown-content summary,
+.rich-content summary,
+.prose-content summary {
+    @apply cursor-pointer font-semibold text-gray-800 mb-2 hover:text-amber-600 transition-colors select-none;
+}
+
+.markdown-content details[open] summary,
+.rich-content details[open] summary,
+.prose-content details[open] summary {
+    @apply mb-4 pb-2 border-b border-gray-200;
+}
+
+/* ========== TEXT ALIGNMENT ========== */
+.markdown-content [style*="text-align: center"],
+.rich-content [style*="text-align: center"],
+.prose-content [style*="text-align: center"] {
+    @apply text-center;
+}
+
+.markdown-content [style*="text-align: right"],
+.rich-content [style*="text-align: right"],
+.prose-content [style*="text-align: right"] {
+    @apply text-right;
+}
+
+.markdown-content [style*="text-align: left"],
+.rich-content [style*="text-align: left"],
+.prose-content [style*="text-align: left"] {
+    @apply text-left;
+}
+
+/* ========== CUSTOM UTILITIES ========== */
+/* Add spacing between first and last elements */
+.markdown-content > *:first-child,
+.rich-content > *:first-child,
+.prose-content > *:first-child {
+    @apply mt-0;
+}
+
+.markdown-content > *:last-child,
+.rich-content > *:last-child,
+.prose-content > *:last-child {
+    @apply mb-0;
+}

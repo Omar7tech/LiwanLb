@@ -12,9 +12,12 @@ use App\Filament\Resources\Blogs\Tables\BlogsTable;
 use App\Models\Blog;
 use BackedEnum;
 use Filament\Resources\Resource;
+
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class BlogResource extends Resource
 {
@@ -53,4 +56,12 @@ class BlogResource extends Resource
             'edit' => EditBlog::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->withoutGlobalScopes();
+    }
+
+
+
 }

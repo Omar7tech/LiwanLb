@@ -3,12 +3,12 @@
 namespace App\Filament\Resources\Blogs\Schemas;
 
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\RichEditor\TextColor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Schema;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Schemas\Components\Section; // Only using Section
+use Filament\Schemas\Schema;
 
 class BlogForm
 {
@@ -16,42 +16,70 @@ class BlogForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
-                    ->required(),
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->label('Upload Images')
-                    ->disk('public')
-                    ->visibility('public')
-                    ->directory('blogs')
-                    ->image()
-                    ->downloadable()
-                    ->openable()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                        '3:4',
-                    ])
-                    ->maxSize(1024)
-                    ->helperText('📸 Upload image (max 1MB)')
-                    ->columnSpanFull(),
+                // 1. Primary Metadata Section (Default 1-column layout)
+                Section::make('📝 Post Details')
+                    ->description('Set the post title and publishing status.')
+                    // Removed columns(1) as it's the default, but explicitly listing components
+                    ->components([
+                        // Original TextInput (Full Width)
+                        TextInput::make('title')
+                            ->required(),
 
-                RichEditor::make('content')
+                        // Original Toggle (Full Width - Stacks below the Title)
+                        Toggle::make('active')
+                            ->required()
+                            ->label('Post is Active / Publish')
+                            ->inline(false) // Ensures it takes vertical space cleanly
+                            ->default(true),
+                    ])->columnSpanFull(),
 
-                    ->toolbarButtons([
-                        ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link' , 'alignJustify' , 'clearFormatting' , 'details' ,'lead' , 'small' , 'highlight' , 'horizontalRule'],
-                        ['h1', 'h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'  , ],
-                        ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
-                        ['table'],
-                        ['undo', 'redo'],
-                    ])
-                    ->columnSpanFull(),
-                Textarea::make('description')
-                    ->columnSpanFull(),
-                Toggle::make('active')
-                    ->required(),
+                // --- 2. Featured Image Section (Full Width) ---
+                Section::make('🖼️ Featured Image')
+                    ->description('Upload the main image for the blog post.')
+                    // Full width is inherent when columns(1) or no columns are specified
+                    ->components([
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label('Upload Images')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->directory('blogs')
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                                '3:4',
+                            ])
+                            ->maxSize(1024)
+                            ->helperText('📸 Upload image (max 1MB)')
+                            ->columnSpanFull(), // Optional: ensures component respects its parent section's width
+                    ])->columnSpanFull(),
+
+                Section::make('✍️ Article Content')
+                    ->description('Write the main article and provide an SEO summary.')
+                    ->components([
+                        // Original RichEditor (Full Width)
+                        RichEditor::make('content')
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'highlight', 'details', 'strike', 'subscript', 'superscript', 'link'],
+                                ['clearFormatting'],
+                                ['h1', 'h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd', 'lead'],
+                                ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                                ['table'],
+                                ['undo', 'redo'],
+                            ])
+                            ->columnSpanFull(),
+
+                        // Original Textarea (Full Width)
+                        Textarea::make('description')
+                            ->label('Summary Description')
+                            ->helperText('A brief summary of the post (ideal for SEO and excerpts).')
+                            ->columnSpanFull(),
+                    ])->columnSpanFull(),
             ]);
     }
 }

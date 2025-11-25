@@ -11,10 +11,12 @@ class AuthController extends Controller
 
     public function index()
     {
+        Auth::logout();
         return Inertia::render('auth/login');
     }
     public function store(Request $request)
     {
+        Auth::logout();
 
         $validated = $request->validate([
             'username' => 'required|max:255',

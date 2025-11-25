@@ -22,9 +22,7 @@ function show({ blog }: { blog: Blog }) {
 
     return (
         <>
-            <Head title={pageTitle}>
-                
-            </Head>
+            <Head title={pageTitle} />
             <AppLayout>
                 <div className="text-gray-800">
 
@@ -39,7 +37,6 @@ function show({ blog }: { blog: Blog }) {
                                 <img
                                     src={blog.image}
                                     alt={blog.title}
-                                    // Soft opacity and dark overlay for dramatic effect and readability
                                     className="w-full h-full object-cover opacity-30 transition-opacity duration-500"
                                 />
                                 {/* Dark overlay for text contrast */}
@@ -74,16 +71,11 @@ function show({ blog }: { blog: Blog }) {
                     </header>
 
                     {/* --- 2. MAIN CONTENT BODY --- */}
-                    {/* Max width set for optimal reading line length (75 characters/line) */}
                     <main className="max-w-4xl mx-auto px-6 py-12 md:py-20">
 
                         {/* Conditional Content Rendering */}
                         {postContent && (
-                            <div
-                                // Tailwind classes for styling rich text content (using 'prose' or custom classes)
-                                className="blog-content text-lg leading-relaxed space-y-8"
-                                style={{ color: PRIMARY_COLOR }}
-                            >
+                            <div className="markdown-content text-lg">
                                 {/* DANGER: Only render HTML if you trust the source (WYSIWYG editor output) */}
                                 <div dangerouslySetInnerHTML={{ __html: postContent }} />
                             </div>
@@ -97,7 +89,7 @@ function show({ blog }: { blog: Blog }) {
                         )}
                     </main>
 
-                    {/* --- 3. Optional Footer/Author/CTA Area (Not fully implemented, but shown where it belongs) --- */}
+                    {/* --- 3. Optional Footer/Author/CTA Area --- */}
                     <div className="max-w-4xl mx-auto px-6 pb-12">
                         {/* You would place a Share Bar, Author Bio, or related posts here */}
                     </div>

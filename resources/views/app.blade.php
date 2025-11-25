@@ -24,7 +24,7 @@
     @inertiaHead
 </head>
 
-<body class="cairo antialiased bg-[#fafafa]">
+<body class="cairo antialiased bg-[#FAFAFA]">
     @inertia
 </body>
 

@@ -72,3 +72,18 @@ export interface PaginationProps<T> {
   data: T[];
   meta: PaginationMeta;
 }
+
+export interface DesignDeliveryStandard {
+    english_title: string;
+    english_description: string;
+    arabic_title: string;
+    arabic_description: string;
+    order: number;
+    active: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface DesignDeliveryStandards {
+    data: DesignDeliveryStandard[];
+}

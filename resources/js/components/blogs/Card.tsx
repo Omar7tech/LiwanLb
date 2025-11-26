@@ -20,14 +20,13 @@ function Card({blog} : {blog : Blog}) {
 
     return (
         <div className="group relative w-full overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl">
-            {/* Image Container */}
             <div className="relative h-48 w-full overflow-hidden">
                 <img
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src={blog.image ?? '/images/logo.png'}
+                    loading="lazy"
+                    src={blog.image ?? '/images/blognoimage.webp'}
                     alt={blog.slug}
                 />
-                {/* Overlay gradient on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             </div>
             {/* Content Container */}

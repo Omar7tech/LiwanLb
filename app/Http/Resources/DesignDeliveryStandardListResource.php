@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BlogListResource extends JsonResource
+class DesignDeliveryStandardListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,10 @@ class BlogListResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title' => $this->title,
-            'slug' => $this->slug,
-            'image' => $this->getFirstMediaUrl('images', 'webp') ? $this->getFirstMediaUrl('images'): null,
-            'description' => $this->description,
+            'english_title' => $this->english_title,
+            'english_description' => $this->english_description,
+            'arabic_title' => $this->arabic_title,
+            'arabic_description' => $this->arabic_description, 
         ];
     }
 }

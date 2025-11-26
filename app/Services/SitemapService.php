@@ -15,14 +15,12 @@ class SitemapService
         $sitemap = Sitemap::create();
 
         // Add blog posts
-        $sitemap->add(\App\Models\Blog::all());
+        $sitemap->add(\App\Models\Blog::where('active', true)->get());
 
         // Add other models as needed:
         // $sitemap->add(\App\Models\Product::all());
         // $sitemap->add(\App\Models\Service::all());
         // $sitemap->add(\App\Models\Category::all());
-
-        // Add static pages
         $staticUrls = [
              Url::create(route('home'))
                 ->setPriority(1.0),

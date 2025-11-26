@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\RoleAuthRedirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [HomeController::class , 'index'])->name('home');
 
 Route::get('/blogs', [BlogController::class , 'index'])->name('blogs');
 Route::get('/blog/{blog}' , [BlogController::class , 'show'] )->name('blogs.show');

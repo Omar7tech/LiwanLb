@@ -47,6 +47,8 @@ class BlogForm
                             ->downloadable()
                             ->openable()
                             ->imageEditor()
+                            ->conversion('webp')
+                            ->collection('images')
                             ->imageEditorAspectRatios([
                                 null,
                                 '16:9',
@@ -54,9 +56,9 @@ class BlogForm
                                 '1:1',
                                 '3:4',
                             ])
-                            ->maxSize(1024)
-                            ->helperText('📸 Upload image (max 1MB)')
-                            ->columnSpanFull(), // Optional: ensures component respects its parent section's width
+                            ->maxSize(2048)
+                            ->helperText('📸 Upload image (max 2MB)')
+                            ->columnSpanFull(),
                     ])->columnSpanFull(),
 
                 Section::make('✍️ Article Content')

@@ -5,7 +5,48 @@ function BuiltFor() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
+    const [scrollOffset, setScrollOffset] = useState(0);
     const carouselRef = useRef<HTMLDivElement>(null);
+    const componentRef = useRef<HTMLDivElement>(null);
+
+    // --- Counter-Directional Parallax Setup (Desktop Only) ---
+    useEffect(() => {
+        const handleScroll = () => {
+            if (componentRef.current) {
+                // Check if the screen width is above the Tailwind 'lg' breakpoint (1024px)
+                if (window.innerWidth < 1024) {
+                    setScrollOffset(0); // Disable parallax on mobile/tablet
+                    return;
+                }
+
+                const componentTop = componentRef.current.offsetTop;
+                const windowHeight = window.innerHeight;
+                const scrollY = window.scrollY;
+
+                // Calculate a base scroll value relative to the component
+                const parallaxValue = Math.max(0, scrollY - componentTop + windowHeight);
+                setScrollOffset(parallaxValue);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleScroll);
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
+        }
+    }, []);
+
+    // 1. Title Text Parallax (Slightly slower movement, upward direction when scrolling down)
+    // Divisor 15 = slow movement, simulates background layer.
+    const titleParallaxTransform = `translateY(${scrollOffset / 15}px)`;
+
+    // 2. Cards Parallax (Noticeable movement in the opposite direction: moves DOWN when scrolling DOWN)
+    // By multiplying by -1 (or using a negative division), the element moves against the scroll.
+    // Divisor -25 or -30 is usually effective for a smooth, counter-directional pull.
+    const cardsParallaxTransform = `translateY(${scrollOffset / -30}px)`;
+
 
     const cards = [
         {
@@ -25,6 +66,7 @@ function BuiltFor() {
         }
     ];
 
+    // --- Existing Carousel Logic (Mobile Swipe) ---
     const handlePrevious = () => {
         setCurrentIndex((prev) => (prev - 1 + cards.length) % cards.length);
     };
@@ -64,20 +106,27 @@ function BuiltFor() {
         }
         setIsDragging(false);
     };
+    // ---------------------------------------------
+
 
     return (
-        <div className="w-full items-center justify-between space-y-5 p-5 lg:space-x-16 lg:flex">
-
-            {/* LEFT TEXT */}
-            <div className="flex flex-col pe-8 leading-[1.1] font-bold whitespace-nowrap text-[#3a3b3a]">
-                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block">Built For</span>
-                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block">People</span>
-                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block">Like You</span>
+        <div 
+            ref={componentRef} 
+            className="w-full items-center justify-between space-y-5 p-5 lg:space-x-16 lg:flex overflow-hidden relative" 
+        >
+            {/* LEFT TEXT (TITLE) - Parallax 1: Moves slightly UP on scroll */}
+            <div 
+                className="flex flex-col pe-8 leading-[1.1] font-bold whitespace-nowrap text-[#3a3b3a] lg:relative lg:z-10 transition-[transform] duration-50"
+                style={{ transform: titleParallaxTransform }} 
+            >
+                {/* Hover effect remains: changes color to accent yellow */}
+                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block transition-all duration-300 hover:text-[#f2ae1d] cursor-default">Built For</span>
+                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block transition-all duration-300 hover:text-[#f2ae1d] cursor-default">People</span>
+                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block transition-all duration-300 hover:text-[#f2ae1d] cursor-default">Like You</span>
             </div>
 
-            {/* CAROUSEL WRAPPER - MOBILE */}
+            {/* CAROUSEL WRAPPER - MOBILE (UNCHANGED) */}
             <div className="relative w-full lg:hidden">
-                {/* CAROUSEL CONTAINER */}
                 <div
                     ref={carouselRef}
                     className="flex gap-5 overflow-hidden rounded-2xl"
@@ -102,10 +151,7 @@ function BuiltFor() {
                                 transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 1.25}rem))`
                             }}
                         >
-                            {/* FADE BLACK OVERLAY */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-0"></div>
-
-                            {/* Description - Bottom section */}
                             <div className="absolute bottom-0 left-0 right-0 z-10 p-6 md:p-8 text-white">
                                 <h3 className="font-bold text-xl md:text-2xl mb-2">
                                     {card.title}
@@ -151,10 +197,13 @@ function BuiltFor() {
                 </div>
             </div>
 
-            {/* ALL CARDS - DESKTOP */}
-            <div className="hidden w-full gap-5 lg:flex">
+            {/* ALL CARDS - DESKTOP - Parallax 2: Moves significantly DOWN on scroll (Counter-Directional) */}
+            <div 
+                className="hidden w-full gap-5 lg:flex lg:relative lg:z-10 transition-[transform] duration-50"
+                style={{ transform: cardsParallaxTransform }} 
+            >
 
-                {/* --- CARD 1: Home Owners --- */}
+                {/* --- CARD 1: Home Owners --- (UNCHANGED) */}
                 <div
                     className="group relative flex-[1] hover:flex-[2] transition-[flex] duration-500 flex h-[300px] md:h-[500px]
                                 cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
@@ -166,17 +215,12 @@ function BuiltFor() {
                         `
                     }}
                 >
-                    {/* FADE BLACK OVERLAY */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/80 transition-all duration-500 z-0"></div>
-
-                    {/* Title */}
                     <span className="relative z-10 font-bold text-center px-4 pb-10
                                      text-lg sm:text-xl md:text-2xl transition-all duration-500
                                      group-hover:translate-y-[-50px] group-hover:opacity-0">
                         {cards[0].title}
                     </span>
-
-                    {/* Description on hover */}
                     <p className="
                         absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] text-center text-base md:text-xl font-medium
                         opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 z-10
@@ -185,7 +229,7 @@ function BuiltFor() {
                     </p>
                 </div>
 
-                {/* --- CARD 2: Developers --- */}
+                {/* --- CARD 2: Developers --- (UNCHANGED) */}
                 <div
                     className="group relative flex-[2] hover:flex-[2] transition-[flex] duration-500 flex h-[300px] md:h-[500px]
                                 cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
@@ -197,17 +241,12 @@ function BuiltFor() {
                         `
                     }}
                 >
-                    {/* FADE BLACK OVERLAY */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/80 transition-all duration-500 z-0"></div>
-
-                    {/* Title */}
                     <span className="relative z-10 font-extrabold text-center px-4 pb-10
                                      text-xl sm:text-2xl md:text-4xl transition-all duration-500
                                      group-hover:translate-y-[-50px] group-hover:opacity-0">
                         {cards[1].title}
                     </span>
-
-                    {/* Description on hover */}
                     <p className="
                         absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] text-center text-base md:text-xl font-medium
                         opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 z-10
@@ -216,7 +255,7 @@ function BuiltFor() {
                     </p>
                 </div>
 
-                {/* --- CARD 3: Business Owners --- */}
+                {/* --- CARD 3: Business Owners --- (UNCHANGED) */}
                 <div
                     className="group relative flex-[1] hover:flex-[2] transition-[flex] duration-500 flex h-[300px] md:h-[500px]
                                 cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
@@ -228,17 +267,12 @@ function BuiltFor() {
                         `
                     }}
                 >
-                    {/* FADE BLACK OVERLAY */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/80 transition-all duration-500 z-0"></div>
-
-                    {/* Title */}
                     <span className="relative z-10 font-bold text-center px-4 pb-10
                                      text-lg sm:text-xl md:text-2xl transition-all duration-500
                                      group-hover:translate-y-[-50px] group-hover:opacity-0">
                         {cards[2].title}
                     </span>
-
-                    {/* Description on hover */}
                     <p className="
                         absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] text-center text-base md:text-xl font-medium
                         opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 z-10
@@ -246,7 +280,6 @@ function BuiltFor() {
                         {cards[2].description}
                     </p>
                 </div>
-
             </div>
         </div>
     );

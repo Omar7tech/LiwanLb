@@ -8,18 +8,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Sitemap\Tags\Url;
-class Blog extends Model implements HasMedia , Sitemapable
+class Blog extends Model implements HasMedia, Sitemapable
 {
     /** @use HasFactory<\Database\Factories\BlogFactory> */
-    use HasFactory , HasSlug;
+    use HasFactory, HasSlug;
     use InteractsWithMedia;
-
+public $registerMediaConversionsUsingModelInstance = true;
     protected $guarded = ['id'];
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('title')
@@ -38,18 +39,18 @@ class Blog extends Model implements HasMedia , Sitemapable
         ];
     }
 
-     protected static function booted(): void
+    protected static function booted(): void
     {
         static::addGlobalScope('ServiceScope', function (Builder $builder) {
             $builder->orderBy('created_at', 'desc')->where('active', true);
         });
 
-        
+
         static::created(function () {
             \App\Services\SitemapService::generate();
         });
 
-        
+
         static::updated(function () {
             \App\Services\SitemapService::generate();
         });
@@ -60,9 +61,17 @@ class Blog extends Model implements HasMedia , Sitemapable
         });
     }
 
-     public function toSitemapTag(): Url | string | array
+    public function toSitemapTag(): Url|string|array
     {
         return Url::create(route('blogs.show', $this))
             ->setLastModificationDate(Carbon::create($this->updated_at));
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('webp')
+            ->format('webp')
+            ->quality(80)
+            ->nonQueued();
     }
 }

@@ -20,7 +20,7 @@ class BlogResource extends JsonResource
         return [
             'title' => $this->title,
             'slug' => $this->slug,
-            'image' => $this->getFirstMediaUrl() ?: null,
+            'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'content' => $this->content,
             'description' => $this->description,
             'created_at' => $this->created_at->toFormattedDateString(),

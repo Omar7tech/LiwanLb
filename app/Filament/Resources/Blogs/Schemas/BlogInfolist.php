@@ -18,11 +18,13 @@ class BlogInfolist
                 TextEntry::make('title'),
 
                 SpatieMediaLibraryImageEntry::make('image')
-                    ->placeholder('No Image'),
+                    ->placeholder('No Image')
+                    ->conversion('webp')
+                            ->collection('images'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                
+
 
                 IconEntry::make('active')
                     ->boolean(),

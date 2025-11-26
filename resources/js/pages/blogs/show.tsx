@@ -32,17 +32,16 @@ function show({ blog }: { blog: Blog }) {
                         style={{ backgroundColor: PRIMARY_COLOR }}
                     >
                         {/* Conditional Full-Width Image (if available) */}
-                        {blog.image && (
+
                             <div className="absolute inset-0 z-0">
                                 <img
-                                    src={blog.image}
+                                    src={blog.image ?? '/images/blogshowplaceholder.webp'}
                                     alt={blog.title}
                                     className="w-full h-full object-cover opacity-30 transition-opacity duration-500"
                                 />
-                                {/* Dark overlay for text contrast */}
                                 <div className="absolute inset-0 bg-black/50" />
                             </div>
-                        )}
+
 
                         {/* Header Content Wrapper */}
                         <div className="relative z-10 max-w-4xl mx-auto px-6 text-white text-center">

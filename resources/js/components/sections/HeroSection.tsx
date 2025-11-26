@@ -57,8 +57,8 @@ export default function HeroSection() {
                 <div className="w-full">
                     <div className="overflow-hidden rounded-2xl shadow-md animate-[fadeInScale_1.2s_ease-out_1.2s_both]">
                         <video
-                            src="/videos/herovid.mp4"
-                            className="max-h-[calc(100vh-260px)] w-full object-cover"
+                            src="/videos/video.webm"
+                            className="max-h-[calc(100vh-150px)] w-full object-cover"
                             autoPlay
                             loop
                             muted

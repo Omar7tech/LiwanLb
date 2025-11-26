@@ -25,7 +25,7 @@ class BlogFactory extends Factory
             $table->timestamps(); */
         return [
             'title' => fake()->words(1 , true) ,
-            'content' => fake()->sentences(10 , true) ,
+            'content' => fake()->randomHtml(5 , 5) ,
             'description' => fake()->sentence(20 , true) ,
             'active' => fake()->boolean(80)
         ];

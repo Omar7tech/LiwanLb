@@ -16,8 +16,11 @@ class TestimonialFactory extends Factory
      */
     public function definition(): array
     {
+        
         return [
-            //
+            'name' => fake()->name() ,
+            'testimonial' => fake()->paragraphs(1 , true) ,
+            'rating' => fake()->numberBetween(3 , 5)
         ];
     }
 }

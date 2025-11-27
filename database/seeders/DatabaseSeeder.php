@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->call([DesignDeliveryStandardSeeder::class , BlogSeeder::class]);
+        $this->call([DesignDeliveryStandardSeeder::class , BlogSeeder::class , TestimonialSeeder::class]);
 
     }
 }

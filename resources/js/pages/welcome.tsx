@@ -2,11 +2,12 @@ import BuiltFor from '@/components/sections/BuiltFor';
 import HeroSection from '@/components/sections/HeroSection';
 import OnePartner from '@/components/sections/OnePartner';
 import OurDesignDeliveryStandards from '@/components/sections/OurDesignDeliveryStandards';
+import TestimonialsSection from '@/components/sections/Testimonials';
 import AppLayout from '@/layouts/app-layout';
-import {  DesignDeliveryStandards } from '@/types';
+import {  DesignDeliveryStandards, Testimonials } from '@/types';
 import { Head } from '@inertiajs/react';
 
-export default function Welcome({designDeliveryStandards}: {designDeliveryStandards: DesignDeliveryStandards}) {
+export default function Welcome({designDeliveryStandards , testimonials}: {designDeliveryStandards: DesignDeliveryStandards , testimonials : Testimonials}) {
     console.log(designDeliveryStandards);
     return (
         <>
@@ -29,6 +30,9 @@ export default function Welcome({designDeliveryStandards}: {designDeliveryStanda
                     {designDeliveryStandards?.data && designDeliveryStandards.data.length > 0 && (
                         <OurDesignDeliveryStandards designDeliveryStandards={designDeliveryStandards} />
                     )}
+
+                    <TestimonialsSection testimonials={testimonials}/>
+
                 </>
             </AppLayout>
         </>

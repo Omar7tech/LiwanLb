@@ -27,6 +27,7 @@ export interface SharedData {
     quote: { message: string; author: string };
     auth: Auth;
     sidebarOpen: boolean;
+    generalSettings: GeneralSettings;
     [key: string]: unknown;
 }
 
@@ -86,4 +87,20 @@ export interface DesignDeliveryStandard {
 
 export interface DesignDeliveryStandards {
     data: DesignDeliveryStandard[];
+}
+
+
+
+export interface Testimonial {
+    name: string;
+    testimonial: string;
+    rating: number;
+}
+
+export interface Testimonials {
+    data: Testimonial[];
+}
+
+export interface GeneralSettings {
+    site_active: boolean;
 }

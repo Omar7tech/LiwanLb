@@ -11,9 +11,13 @@ class HomeController extends Controller
     public function index()
     {
         $designDeliveryStandards = \App\Models\DesignDeliveryStandard::where('active', true)->orderBy('order')->get();
+        $testimonials = \App\Models\Testimonial::where('active', true)->orderBy('order')->get();
         return Inertia::render(
             'welcome',
-            ['designDeliveryStandards' => fn() => DesignDeliveryStandardListResource::collection($designDeliveryStandards)],
+            [
+                'designDeliveryStandards' => fn() => DesignDeliveryStandardListResource::collection($designDeliveryStandards),
+                'testimonials' => fn() => \App\Http\Resources\TestimonialListResource::collection($testimonials)
+            ],
         );
 
     }

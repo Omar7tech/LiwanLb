@@ -25,5 +25,6 @@ return new class extends SettingsMigration
         $this->migrator->add('social.email_active', true);
         $this->migrator->add('social.address_active', true);
         $this->migrator->add('social.location_active', true);
+         $this->migrator->add('social.whatsapp_widget_active', true);
     }
 };

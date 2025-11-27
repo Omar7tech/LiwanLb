@@ -131,6 +131,10 @@ class ManageSocial extends SettingsPage
                                         Toggle::make('whatsapp_active')
                                             ->label('Show WhatsApp')
                                             ->inline(false),
+                                        Toggle::make('whatsapp_widget_active')
+                                            ->label('Enable Floating WhatsApp Widget')
+                                            ->inline(false)
+                                            ->helperText('Show the floating WhatsApp chat button on all pages'),
                                     ])
                                     ->columns(2)
                                     ->collapsible(),

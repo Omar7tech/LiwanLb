@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import { NavbarDemo } from '@/components/Nav';
+import WhatsAppWidget from '@/components/WhatsAppWidget';
 import { type ReactNode } from 'react';
 
 interface AppLayoutProps {
@@ -12,6 +13,7 @@ export default ({ children }: AppLayoutProps) => (
             <NavbarDemo />
             {children}
             <Footer />
+            <WhatsAppWidget />
         </div>
     </div>
 );

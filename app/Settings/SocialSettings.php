@@ -25,6 +25,7 @@ class SocialSettings extends Settings
     public bool $email_active = true;
     public bool $address_active = true;
     public bool $location_active = true;
+    public bool $whatsapp_widget_active = true;
 
     public static function group(): string
     {

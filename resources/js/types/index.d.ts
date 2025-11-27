@@ -125,4 +125,5 @@ export interface SocialSettings {
     email_active: boolean;
     address_active: boolean;
     location_active: boolean;
+    whatsapp_widget_active: boolean;
 }

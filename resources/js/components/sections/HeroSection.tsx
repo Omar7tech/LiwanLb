@@ -1,4 +1,5 @@
 import BlurText from "../BlurText";
+import WhatsAppButton from "../WhatsAppButton";
 
 export default function HeroSection() {
     return (
@@ -46,10 +47,8 @@ export default function HeroSection() {
                                 Business
                             </p>
                         </div>
-                        <div className="flex justify-end md:justify-center">
-                            <button className="cursor-pointer mt-6 w-fit rounded-lg bg-[#F2AE1D] px-3 py-2 text-xl font-bold text-white transition-all hover:opacity-95 hover:scale-105 hover:shadow-lg animate-[fadeInUp_0.8s_ease-out_1s_both]">
-                                Meet The Architect
-                            </button>
+                        <div className="flex justify-end md:justify-center animate-[fadeInUp_0.8s_ease-out_1s_both]">
+                            <WhatsAppButton />
                         </div>
                     </div>
                 </div>

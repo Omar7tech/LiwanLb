@@ -6,14 +6,27 @@ use App\Http\Controllers\HomeController;
 use App\Http\Middleware\RoleAuthRedirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Middleware\CheckSiteActive;
 
-Route::get('/', [HomeController::class , 'index'])->name('home');
+use App\Settings\GeneralSettings;
+
+Route::get('/maintenance', function (GeneralSettings $settings) {
+    if ($settings->site_active) {
+        return redirect()->route('home');
+    }
+    return view('maintenance');
+})->name('maintenance');
+
+Route::middleware([CheckSiteActive::class])->group(function () {
+    Route::get('/', [HomeController::class , 'index'])->name('home');
 
 Route::get('/blogs', [BlogController::class , 'index'])->name('blogs');
 Route::get('/blog/{blog}' , [BlogController::class , 'show'] )->name('blogs.show');
 Route::get('/about', function () {
     return Inertia::render('about');
 })->name('about');
+
+
 
 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
@@ -28,5 +41,4 @@ Route::get('/dashboard' , function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-
-
+});

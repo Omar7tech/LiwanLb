@@ -1,14 +1,13 @@
-// Assuming you've installed react-icons
-/* import { SharedData } from '@/types';
-import { usePage } from '@inertiajs/react'; */
-import { FaInstagram, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
+import { SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
+import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 
 
 // Custom class for the prominent body text size based on the image's appearance
 const TEXT_SIZE_CLASS = 'text-2xl  font-light'; // Using text-lg (~18px) for prominent text
 
 const Footer = () => {
-    /* const { name } = usePage<SharedData>().props; */
+    const { socialSettings } = usePage<SharedData>().props;
     const currentYear = 2025;
 
     return (
@@ -27,29 +26,63 @@ const Footer = () => {
                             Architecture that understands you.
                         </p>
 
-                        {/* Social Icons - Tight spacing */}
+                        {/* Social Icons - Dynamic from settings */}
                         <div className="mt-4 flex space-x-3">
-                            <a
-                                href="#"
-                                aria-label="WhatsApp"
-                                className="text-white transition hover:text-gray-400"
-                            >
-                                <FaWhatsapp size={20} />
-                            </a>
-                            <a
-                                href="#"
-                                aria-label="Instagram"
-                                className="text-white transition hover:text-gray-400"
-                            >
-                                <FaInstagram size={20} />
-                            </a>
-                            <a
-                                href="#"
-                                aria-label="LinkedIn"
-                                className="text-white transition hover:text-gray-400"
-                            >
-                                <FaLinkedinIn size={20} />
-                            </a>
+                            {socialSettings.whatsapp_active && socialSettings.whatsapp_number && (
+                                <a
+                                    href={`https://wa.me/${socialSettings.whatsapp_number.replace(/[^0-9]/g, '')}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="WhatsApp"
+                                    className="text-white transition hover:text-gray-400"
+                                >
+                                    <FaWhatsapp size={20} />
+                                </a>
+                            )}
+                            {socialSettings.instagram_active && socialSettings.instagram_url && (
+                                <a
+                                    href={socialSettings.instagram_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Instagram"
+                                    className="text-white transition hover:text-gray-400"
+                                >
+                                    <FaInstagram size={20} />
+                                </a>
+                            )}
+                            {socialSettings.facebook_active && socialSettings.facebook_url && (
+                                <a
+                                    href={socialSettings.facebook_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Facebook"
+                                    className="text-white transition hover:text-gray-400"
+                                >
+                                    <FaFacebook size={20} />
+                                </a>
+                            )}
+                            {socialSettings.twitter_active && socialSettings.twitter_url && (
+                                <a
+                                    href={socialSettings.twitter_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Twitter"
+                                    className="text-white transition hover:text-gray-400"
+                                >
+                                    <FaTwitter size={20} />
+                                </a>
+                            )}
+                            {socialSettings.youtube_active && socialSettings.youtube_url && (
+                                <a
+                                    href={socialSettings.youtube_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="YouTube"
+                                    className="text-white transition hover:text-gray-400"
+                                >
+                                    <FaYoutube size={20} />
+                                </a>
+                            )}
                         </div>
                     </div>
 
@@ -98,30 +131,55 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* === 3. Column: Contact === */}
+                    {/* === 3. Column: Contact - Dynamic from settings === */}
                     <div>
                         <h3 className="mb-4 text-2xl font-extrabold text-white">
                             Contact
                         </h3>
 
-                        {/* Contact details */}
-                        <p className={TEXT_SIZE_CLASS}>Aley-Mount Lebanon</p>
-                        <p className={TEXT_SIZE_CLASS}>
-                            <a
-                                href="mailto:info@liwanlb.com"
-                                className="transition hover:text-white"
-                            >
-                                info@liwanlb.com
-                            </a>
-                        </p>
-                        <p className={TEXT_SIZE_CLASS}>
-                            <a
-                                href="tel:+96170124279"
-                                className="transition hover:text-white"
-                            >
-                                +96170124279
-                            </a>
-                        </p>
+                        {/* Contact details - Dynamic */}
+                        {socialSettings.address_active && socialSettings.address && (
+                            <p className={TEXT_SIZE_CLASS}>
+                                {socialSettings.location_active && socialSettings.location_url ? (
+                                    <a
+                                        href={socialSettings.location_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="transition hover:text-white"
+                                    >
+                                        {socialSettings.address}
+                                    </a>
+                                ) : (
+                                    socialSettings.address
+                                )}
+                            </p>
+                        )}
+                        
+                        {socialSettings.email_active && socialSettings.emails && socialSettings.emails.length > 0 && (
+                            <>
+                                {socialSettings.emails.map((emailObj, index) => (
+                                    <p key={index} className={TEXT_SIZE_CLASS}>
+                                        <a
+                                            href={`mailto:${emailObj.email}`}
+                                            className="transition hover:text-white"
+                                        >
+                                            {emailObj.email}
+                                        </a>
+                                    </p>
+                                ))}
+                            </>
+                        )}
+                        
+                        {socialSettings.phone_active && socialSettings.phone_number && (
+                            <p className={TEXT_SIZE_CLASS}>
+                                <a
+                                    href={`tel:${socialSettings.phone_number}`}
+                                    className="transition hover:text-white"
+                                >
+                                    {socialSettings.phone_number}
+                                </a>
+                            </p>
+                        )}
                     </div>
                 </div>
 

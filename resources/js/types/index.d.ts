@@ -28,6 +28,7 @@ export interface SharedData {
     auth: Auth;
     sidebarOpen: boolean;
     generalSettings: GeneralSettings;
+    socialSettings: SocialSettings;
     [key: string]: unknown;
 }
 
@@ -103,4 +104,25 @@ export interface Testimonials {
 
 export interface GeneralSettings {
     site_active: boolean;
+}
+
+export interface SocialSettings {
+    facebook_url: string | null;
+    twitter_url: string | null;
+    instagram_url: string | null;
+    youtube_url: string | null;
+    whatsapp_number: string | null;
+    phone_number: string | null;
+    emails: Array<{ email: string }> | null;
+    address: string | null;
+    location_url: string | null;
+    facebook_active: boolean;
+    twitter_active: boolean;
+    instagram_active: boolean;
+    youtube_active: boolean;
+    whatsapp_active: boolean;
+    phone_active: boolean;
+    email_active: boolean;
+    address_active: boolean;
+    location_active: boolean;
 }

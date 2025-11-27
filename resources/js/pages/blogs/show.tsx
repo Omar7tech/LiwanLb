@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { Blog } from '@/types';
 import { Head } from '@inertiajs/react';
+import { useFavorites } from '@/hooks/useFavorites';
 
 // Custom utility to format the date for a clean UI
 const formatDate = (dateString: string) => {
@@ -13,6 +14,7 @@ const PRIMARY_COLOR = '#3a3b3a';
 const ACCENT_COLOR = '#f2ae1d';
 
 function show({ blog }: { blog: Blog }) {
+    const { isFavorite, toggleFavorite } = useFavorites();
 
     // Fallback if content is unexpectedly null (though it should be the HTML of the post)
     const postContent = blog.content || '<p>This post is currently empty. Check back soon!</p>';
@@ -59,6 +61,34 @@ function show({ blog }: { blog: Blog }) {
                                     {blog.title}
                                 </h1>
                             )}
+
+                            {/* Like Button */}
+                            <div className="flex justify-center mb-8">
+                                <button
+                                    onClick={() => toggleFavorite(blog)}
+                                    className="group flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+                                >
+                                    <svg
+                                        className={`w-6 h-6 transition-colors duration-300 ${
+                                            isFavorite(blog.id)
+                                                ? "fill-red-500 text-red-500"
+                                                : "fill-transparent text-white group-hover:text-red-500"
+                                        }`}
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                        />
+                                    </svg>
+                                    <span className="font-medium text-lg">
+                                        {isFavorite(blog.id) ? "Saved to Favorites" : "Add to Favorites"}
+                                    </span>
+                                </button>
+                            </div>
 
                             {/* Description/Excerpt */}
                             {blog.description && (

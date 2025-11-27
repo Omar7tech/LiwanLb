@@ -18,6 +18,7 @@ class BlogResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,

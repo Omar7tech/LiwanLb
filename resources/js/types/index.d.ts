@@ -46,6 +46,7 @@ export interface User {
 }
 
 export interface Blog {
+    id: number;
     title: string;
     slug: string;
     content: string;

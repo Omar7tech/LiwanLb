@@ -24,7 +24,7 @@ class SitemapService
         $staticUrls = [
              Url::create(route('home'))
                 ->setPriority(1.0),
-             Url::create(route('about')),
+             Url::create(route('work')),
         ];
 
         foreach ($staticUrls as $url) {

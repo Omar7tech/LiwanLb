@@ -13,6 +13,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use UnitEnum;
 
 class ManageSocial extends SettingsPage
 {
@@ -23,6 +24,8 @@ class ManageSocial extends SettingsPage
     protected static ?string $navigationLabel = 'Social Settings';
 
     protected static ?string $title = 'Social Media & Contact Settings';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Settings';
 
     public function form(Schema $schema): Schema
     {

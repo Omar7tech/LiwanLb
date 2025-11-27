@@ -7,7 +7,9 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Mokhosh\FilamentRating\Columns\RatingColumn;
 
 class TestimonialsTable
 {
@@ -17,14 +19,10 @@ class TestimonialsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('rating')
-                    ->numeric()
+                RatingColumn::make('rating')
                     ->sortable(),
-                IconColumn::make('active')
-                    ->boolean(),
-                TextColumn::make('order')
-                    ->numeric()
-                    ->sortable(),
+                ToggleColumn::make('active')
+                ,
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -37,6 +35,7 @@ class TestimonialsTable
             ->filters([
                 //
             ])
+            ->reorderable('order')->defaultSort('order', 'asc')
             ->recordActions([
                 EditAction::make(),
             ])

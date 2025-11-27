@@ -15,12 +15,15 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class DesignDeliveryStandardResource extends Resource
 {
     protected static ?string $model = DesignDeliveryStandard::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
+
+    protected static UnitEnum|string|null $navigationGroup = 'Content Management';
 
     public static function form(Schema $schema): Schema
     {

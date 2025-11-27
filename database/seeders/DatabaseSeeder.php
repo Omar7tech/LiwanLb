@@ -28,14 +28,19 @@ class DatabaseSeeder extends Seeder
             ['email' => 'yamen@admin.com'],
             [
                 'name' => 'Yamen',
-                'username' => 'yamen' ,
+                'username' => 'yamen',
                 'password' => 'password',
                 'email_verified_at' => now(),
                 'role' => 'admin',
             ]
         );
 
-        $this->call([DesignDeliveryStandardSeeder::class , BlogSeeder::class , TestimonialSeeder::class]);
+        $this->call([
+            DesignDeliveryStandardSeeder::class,
+            BlogSeeder::class,
+            TestimonialSeeder::class,
+            FaqSeeder::class
+        ]);
 
     }
 }

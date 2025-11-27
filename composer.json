@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.10.1",
         "laravel/wayfinder": "^0.1.9",
         "livewire/livewire": "^3.7",
+        "mokhosh/filament-rating": "^2.0",
         "spatie/laravel-medialibrary": "^11.17",
         "spatie/laravel-settings": "^3.5",
         "spatie/laravel-sitemap": "^7.3",

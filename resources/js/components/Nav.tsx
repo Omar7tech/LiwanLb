@@ -23,8 +23,8 @@ export function NavbarDemo() {
             link: '/',
         },
         {
-            name: 'About',
-            link: '/about',
+            name: 'Work',
+            link: '/work',
         },
     ];
     const navItems2 = [

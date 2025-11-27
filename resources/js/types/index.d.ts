@@ -127,3 +127,13 @@ export interface SocialSettings {
     location_active: boolean;
     whatsapp_widget_active: boolean;
 }
+
+export interface FAQ {
+    id: number;
+    question: string;
+    answer: string;
+}
+
+export interface FAQs {
+    data: FAQ[];
+}

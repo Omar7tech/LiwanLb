@@ -1,18 +1,39 @@
 import { SharedData } from "@/types";
 import { usePage } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaWhatsapp, FaTimes, FaPaperPlane } from "react-icons/fa";
 
 export default function WhatsAppWidget() {
     const { socialSettings } = usePage<SharedData>().props;
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState("");
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     // Don't render if WhatsApp is not active or no number or widget is disabled
     if (!socialSettings.whatsapp_active || !socialSettings.whatsapp_number || !socialSettings.whatsapp_widget_active) {
         return null;
     }
+
+    // Handle keyboard appearance on mobile
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleResize = () => {
+            // Small delay to ensure keyboard is visible
+            setTimeout(() => {
+                if (textareaRef.current && document.activeElement === textareaRef.current) {
+                    textareaRef.current.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }
+            }, 300);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isOpen]);
 
     const handleSendMessage = () => {
         if (!message.trim() || !socialSettings.whatsapp_number) return;
@@ -48,7 +69,7 @@ export default function WhatsAppWidget() {
                 {isOpen ? <FaTimes size={28} /> : <FaWhatsapp size={32} />}
             </motion.button>
 
-            {/* Chat Widget */}
+            {/* Chat Widget - Changed positioning strategy */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -56,10 +77,14 @@ export default function WhatsAppWidget() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 rounded-2xl bg-white shadow-2xl overflow-hidden"
+                        className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 rounded-2xl bg-white shadow-2xl overflow-hidden max-h-[calc(100vh-8rem)] flex flex-col"
+                        style={{
+                            // Use viewport units that adjust with keyboard
+                            bottom: 'max(1.5rem, env(safe-area-inset-bottom) + 6rem)'
+                        }}
                     >
                         {/* Header */}
-                        <div className="bg-[#F2AE1D] px-5 py-4 text-white">
+                        <div className="bg-[#F2AE1D] px-5 py-4 text-white flex-shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white overflow-hidden">
                                     <img 
@@ -75,8 +100,8 @@ export default function WhatsAppWidget() {
                             </div>
                         </div>
 
-                        {/* Message from "us" */}
-                        <div className="bg-gray-50 px-5 py-4">
+                        {/* Message from "us" - Made scrollable if needed */}
+                        <div className="bg-gray-50 px-5 py-4 flex-1 overflow-y-auto">
                             <div className="bg-white rounded-lg rounded-tl-none shadow-sm px-4 py-3 max-w-[85%]">
                                 <p className="text-gray-800 text-sm">
                                     👋 Hi there! How can I help you today?
@@ -86,9 +111,10 @@ export default function WhatsAppWidget() {
                         </div>
 
                         {/* Input Area */}
-                        <div className="bg-white px-4 py-4 border-t border-gray-100">
+                        <div className="bg-white px-4 py-4 border-t border-gray-100 flex-shrink-0">
                             <div className="flex items-end gap-2">
                                 <textarea
+                                    ref={textareaRef}
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                     onKeyPress={handleKeyPress}

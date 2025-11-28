@@ -13,11 +13,7 @@ class SitemapService
     public static function generate(): void
     {
         $sitemap = Sitemap::create();
-
-        // Add blog posts
         $sitemap->add(\App\Models\Blog::where('active', true)->get());
-
-        // Add other models as needed:
         // $sitemap->add(\App\Models\Product::all());
         // $sitemap->add(\App\Models\Service::all());
         // $sitemap->add(\App\Models\Category::all());

@@ -68,11 +68,11 @@ function TestimonialsSection({ testimonials }: { testimonials: Testimonials }) {
   if (testimonials.data.length === 0) return null;
 
   return (
-    <div className="py-16 md:py-24 bg-gray-50/50">
+    <div className="py-16 md:py-24 ">
       <div className="max-w-7xl mx-auto px-0 md:px-10">
         {/* Header */}
-        <div className="mb-12 md:mb-16 text-center max-w-3xl mx-auto px-5">
-            <h2 className="text-3xl md:text-5xl font-bold text-[#3a3b3a] mb-6">
+        <div className="mb-12 md:mb-16 text-center   px-5">
+            <h2 className="text-5xl md:text-8xl font-extralight text-[#3a3b3a] mb-6">
             Trusted By Leading Brands
             </h2>
             
@@ -84,11 +84,11 @@ function TestimonialsSection({ testimonials }: { testimonials: Testimonials }) {
             <button 
                 onClick={scrollPrev}
                 disabled={activeIndex === 0}
-                className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#3a3b3a] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#f2ae1d] hover:text-white transition-all duration-300 hidden md:flex"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center text-[#3a3b3a] disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[#f2ae1d] hover:text-white hover:shadow-2xl hover:scale-110 transition-all duration-300 hidden md:flex border-2 border-gray-100"
                 aria-label="Previous testimonial"
             >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
 
@@ -111,11 +111,11 @@ function TestimonialsSection({ testimonials }: { testimonials: Testimonials }) {
             <button 
                 onClick={scrollNext}
                 disabled={activeIndex === maxIndex}
-                className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#3a3b3a] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#f2ae1d] hover:text-white transition-all duration-300 hidden md:flex"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center text-[#3a3b3a] disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[#f2ae1d] hover:text-white hover:shadow-2xl hover:scale-110 transition-all duration-300 hidden md:flex border-2 border-gray-100"
                 aria-label="Next testimonial"
             >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                 </svg>
             </button>
         </div>

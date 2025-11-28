@@ -6,6 +6,8 @@ import { useFavorites } from "@/hooks/useFavorites";
 
 function Card({blog} : {blog : Blog}) {
     const [showShareMenu, setShowShareMenu] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
     const { isFavorite, toggleFavorite } = useFavorites();
     const shareUrl = typeof window !== 'undefined' ? window.location.origin + show(blog.slug).url : '';
 
@@ -23,11 +25,28 @@ function Card({blog} : {blog : Blog}) {
     return (
         <div className="group relative w-full overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl">
             <div className="relative h-48 w-full overflow-hidden">
+                {/* Skeleton Loader with Shimmer Effect */}
+                {isLoading && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse z-10">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+                        
+                        {/* Spinning Loader Icon */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-10 h-10 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin"></div>
+                        </div>
+                    </div>
+                )}
+
                 <img
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
                     loading="lazy"
                     src={blog.image ?? '/images/blognoimage.webp'}
                     alt={blog.slug}
+                    onLoad={() => setIsLoading(false)}
+                    onError={() => {
+                        setHasError(true);
+                        setIsLoading(false);
+                    }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 

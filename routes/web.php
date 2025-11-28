@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CostStudyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WorkController;
 use App\Http\Middleware\RoleAuthRedirect;
@@ -24,6 +25,7 @@ Route::middleware([CheckSiteActive::class])->group(function () {
     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
     Route::get('/blog/{blog}', [BlogController::class, 'show'])->name('blogs.show');
     Route::get('/work', [WorkController::class, 'index'])->name('work');
+    Route::get('/cost-study', [CostStudyController::class, 'index'])->name('cost-study');
 
 
 

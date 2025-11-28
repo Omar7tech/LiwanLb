@@ -33,11 +33,17 @@ export function NavbarDemo() {
             link: '/',
         },
         {
+            name: 'Cost Study',
+            link: '/cost-study',
+        },
+    ];
+    const navItems3 = [
+        {
             name: 'Blogs',
             link: '/blogs',
         },
     ];
-    const navItems3 = [
+    const navItems4 = [
         {
             name: auth.user
                 ? auth.user.role == 'user'
@@ -45,6 +51,7 @@ export function NavbarDemo() {
                     : 'Admin'
                 : 'Login',
             link: auth.user ? '/dashboard' : '/login',
+            
         },
     ];
 
@@ -57,9 +64,10 @@ export function NavbarDemo() {
                     <NavbarLogo />
                     <NavItems items={navItems} />
                     <NavItems items={navItems2} />
+                    <NavItems items={navItems3} />
                     {auth.user?.role === 'user' ? (
                         <NavItems
-                            items={navItems3}
+                            items={navItems4}
                             className="font-bold text-[#f2ae1d]"
                         />
                     ) : auth.user ? (
@@ -71,7 +79,7 @@ export function NavbarDemo() {
                         </a>
                     ) : (
                         <NavItems
-                            items={navItems3}
+                            items={navItems4}
                             className="font-bold text-[#f2ae1d]"
                         />
                     )}
@@ -114,6 +122,16 @@ export function NavbarDemo() {
                             </Link>
                         ))}
                         {navItems3.map((item, idx) => (
+                            <Link
+                                key={`mobile-link-${idx}`}
+                                href={item.link}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="relative text-3xl font-light text-neutral-600"
+                            >
+                                <span className="block">{item.name}</span>
+                            </Link>
+                        ))}
+                        {navItems4.map((item, idx) => (
                             <Link
                                 key={`mobile-link-${idx}`}
                                 href={item.link}

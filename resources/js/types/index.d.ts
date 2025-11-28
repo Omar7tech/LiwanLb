@@ -138,3 +138,15 @@ export interface FAQ {
 export interface FAQs {
     data: FAQ[];
 }
+
+export interface Residency {
+    id: number;
+    name: string;
+    slug: string;
+    image?: string;
+}
+
+export interface Residencies {
+    data: Residency[];
+}
+

@@ -39,7 +39,8 @@ class DatabaseSeeder extends Seeder
             DesignDeliveryStandardSeeder::class,
             BlogSeeder::class,
             TestimonialSeeder::class,
-            FaqSeeder::class
+            FaqSeeder::class,
+            ResidencySeeder::class
         ]);
 
     }

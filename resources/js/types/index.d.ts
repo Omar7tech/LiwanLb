@@ -159,6 +159,6 @@ export interface SharedWork {
 }
 
 export interface SharedWorks {
-    data: Work[];
+    data: SharedWork[];
 }
 

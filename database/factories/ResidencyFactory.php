@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +17,13 @@ class ResidencyFactory extends Factory
      */
     public function definition(): array
     {
+        
         return [
             'name' => $this->faker->company() . ' Residency',
             'active' => true,
             'order' => $this->faker->numberBetween(1, 100),
+            'work_id' => Work::inRandomOrder()->first()->id,
         ];
     }
 }
+

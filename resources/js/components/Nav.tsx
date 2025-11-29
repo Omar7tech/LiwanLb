@@ -7,6 +7,7 @@ import {
     NavbarLogo,
     NavBody,
     NavItems,
+    NavDropdown,
 } from '@/components/ui/resizable-navbar';
 import { dashboard } from '@/routes/filament/admin/pages';
 
@@ -15,16 +16,12 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export function NavbarDemo() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, sharedWorks } = usePage<SharedData>().props;
 
     const navItems = [
         {
             name: 'Home',
             link: '/',
-        },
-        {
-            name: 'Work',
-            link: '/work',
         },
     ];
     const navItems2 = [
@@ -63,6 +60,11 @@ export function NavbarDemo() {
                 <NavBody>
                     <NavbarLogo />
                     <NavItems items={navItems} />
+                    <NavDropdown 
+                        label="Work" 
+                        items={sharedWorks?.data || []}
+                        mainLink="/works"
+                    />
                     <NavItems items={navItems2} />
                     <NavItems items={navItems3} />
                     {auth.user?.role === 'user' ? (
@@ -109,6 +111,23 @@ export function NavbarDemo() {
                                 className="relative text-3xl font-light text-neutral-600"
                             >
                                 <span className="block">{item.name}</span>
+                            </Link>
+                        ))}
+                        <Link
+                            href="/works"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="relative text-3xl font-light text-neutral-600"
+                        >
+                            <span className="block">Work</span>
+                        </Link>
+                        {sharedWorks?.data?.map((work, idx) => (
+                            <Link
+                                key={`mobile-work-${idx}`}
+                                href={`/work/${work.slug}`}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="relative text-2xl font-light text-neutral-500 pl-4"
+                            >
+                                <span className="block">{work.name}</span>
                             </Link>
                         ))}
                         {navItems2.map((item, idx) => (

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class FaqFactory extends Factory
             'answer' => fake()->paragraph(3),
             'order' => fake()->numberBetween(1, 10),
             'active' => fake()->boolean(),
+            'work_id' => Work::inRandomOrder()->first()->id,
         ];
     }
 }

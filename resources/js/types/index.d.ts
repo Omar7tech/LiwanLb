@@ -29,6 +29,7 @@ export interface SharedData {
     sidebarOpen: boolean;
     generalSettings: GeneralSettings;
     socialSettings: SocialSettings;
+    sharedWorks: SharedWorks;
     [key: string]: unknown;
 }
 
@@ -42,7 +43,7 @@ export interface User {
     two_factor_enabled?: boolean;
     created_at: string;
     updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    [key: string]: unknown;
 }
 
 export interface Blog {
@@ -148,5 +149,16 @@ export interface Residency {
 
 export interface Residencies {
     data: Residency[];
+}
+
+export interface SharedWork {
+    id: number;
+    name: string;
+    slug: string;
+    image?: string;
+}
+
+export interface SharedWorks {
+    data: Work[];
 }
 

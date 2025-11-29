@@ -24,7 +24,8 @@ Route::middleware([CheckSiteActive::class])->group(function () {
 
     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
     Route::get('/blog/{blog}', [BlogController::class, 'show'])->name('blogs.show');
-    Route::get('/work', [WorkController::class, 'index'])->name('work');
+    Route::get('/works', [WorkController::class, 'index'])->name('work');
+    Route::get('/work/{work}', [WorkController::class, 'show'])->name('work.show');
     Route::get('/cost-study', [CostStudyController::class, 'index'])->name('cost-study');
 
 

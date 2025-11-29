@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Residency extends Model implements HasMedia
+class Work extends Model
 {
-    /** @use HasFactory<\Database\Factories\ResidencyFactory> */
+    /** @use HasFactory<\Database\Factories\WorkFactory> */
     use HasFactory , HasSlug;
-    use InteractsWithMedia;
+
     protected $guarded = ['id'];
 
     protected function casts(): array
@@ -24,17 +21,6 @@ class Residency extends Model implements HasMedia
             'active' => 'boolean',
         ];
     }
-
-    public $registerMediaConversionsUsingModelInstance = true;
-
-    public function registerMediaConversions(?Media $media = null): void
-    {
-        $this->addMediaConversion('webp')
-            ->format('webp')
-            ->quality(80)
-            ->nonQueued();
-    }
-
 
     public function getSlugOptions(): SlugOptions
     {
@@ -48,19 +34,20 @@ class Residency extends Model implements HasMedia
         return 'slug';
     }
 
-    public function Work()
+    public function Faqs()
     {
-        return $this->belongsTo(Work::class);
+        return $this->hasMany(Faq::class);
     }
 
-     protected static function booted(): void
+    public function Residencies()
     {
-        static::addGlobalScope('ResidencyScope', function (Builder $builder) {
+        return $this->hasMany(Residency::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('WorkScope', function (Builder $builder) {
             $builder->orderBy('order', 'asc')->where('active', true);
         });
     }
-
-    
-
-    
 }

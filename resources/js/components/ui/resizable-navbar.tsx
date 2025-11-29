@@ -137,6 +137,96 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   );
 };
 
+interface NavDropdownProps {
+  label: string;
+  items: Array<{ id: number; name: string; slug: string }>;
+  mainLink: string;
+  className?: string;
+}
+
+export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className={cn(
+        "relative hidden whitespace-nowrap flex-1 flex-row items-center justify-center text-[20px] text-[#3A3B3A] lg:flex",
+        className
+      )}
+      onMouseEnter={() => {
+        setIsOpen(true);
+        setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setIsOpen(false);
+        setHovered(false);
+      }}
+    >
+      <Link
+        prefetch="click"
+        href={mainLink}
+        className="relative px-3 py-2 flex items-center gap-1"
+      >
+        {hovered && (
+          <motion.div
+            layoutId="hovered"
+            className="absolute inset-0 rounded-full bg-yellow-500/20"
+          />
+        )}
+        <span className="relative z-20">{label}</span>
+        <motion.svg
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="relative z-20 w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </motion.svg>
+      </Link>
+
+      <AnimatePresence>
+        {isOpen && items.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute left-0 top-full mt-2 w-56 rounded-xl bg-white/95 backdrop-blur-md shadow-2xl ring-1 ring-black/5 z-[100] overflow-hidden"
+          >
+            <div className="py-2">
+              {items.map((item, index) => (
+                <Link
+                  key={item.id}
+                  href={`/work/${item.slug}`}
+                  className="group block px-5 py-3 text-base text-gray-700 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-yellow-500/5 transition-all duration-200 relative"
+                >
+                  <motion.div
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 4 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/60 group-hover:bg-yellow-500 transition-colors" />
+                    <span className="font-medium group-hover:text-gray-900 transition-colors">
+                      {item.name}
+                    </span>
+                  </motion.div>
+                  {index < items.length - 1 && (
+                    <div className="absolute bottom-0 left-5 right-5 h-px bg-gray-100" />
+                  )}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 /* ---------------------- MOBILE NAV ---------------------- */
 
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {

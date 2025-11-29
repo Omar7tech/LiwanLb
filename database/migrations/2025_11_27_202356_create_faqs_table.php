@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('answer');
             $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
+            $table->foreignId('work_id')->constrained('works')->cascadeOnDelete();
             $table->timestamps();
         });
     }

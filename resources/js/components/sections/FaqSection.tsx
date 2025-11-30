@@ -2,7 +2,9 @@ import { FAQ, FAQs } from "@/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { motion } from "framer-motion";
 
-export default function FaqSection({ faqs }: { faqs: FAQs }) {
+export default function FaqSection({ faqs }: { faqs?: FAQs }) {
+    const faqList = faqs?.data || [];
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -70,14 +72,14 @@ export default function FaqSection({ faqs }: { faqs: FAQs }) {
                     {/* FAQ List - Scrollable on desktop */}
                     <div 
                         className={`
-                            ${faqs.data.length > 5 ? 'lg:max-h-[600px] lg:overflow-y-auto lg:pr-4' : ''}
+                            ${faqList.length > 5 ? 'lg:max-h-[600px] lg:overflow-y-auto lg:pr-4' : ''}
                         `}
                         style={{
                             scrollbarWidth: 'thin',
                             scrollbarColor: '#F2AE1D #f1f1f1'
                         }}
                     >
-                        {faqs.data.length === 0 ? (
+                        {faqList.length === 0 ? (
                             <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
                                 <p className="text-gray-500 text-lg">No FAQs available at the moment.</p>
                             </div>
@@ -86,7 +88,7 @@ export default function FaqSection({ faqs }: { faqs: FAQs }) {
                                 type="single"
                                 collapsible
                                 className="w-full space-y-4"
-                                defaultValue={faqs.data.length > 0 ? `item-${faqs.data[0].id}` : undefined}
+                                defaultValue={faqList.length > 0 ? `item-${faqList[0].id}` : undefined}
                             >
                                 <motion.div
                                     variants={containerVariants}
@@ -94,7 +96,7 @@ export default function FaqSection({ faqs }: { faqs: FAQs }) {
                                     animate="visible"
                                     className="space-y-4"
                                 >
-                                    {faqs.data.map((faq, index) => (
+                                    {faqList.map((faq, index) => (
                                         <motion.div key={faq.id} variants={itemVariants}>
                                             <AccordionItem
                                                 value={`item-${faq.id}`}

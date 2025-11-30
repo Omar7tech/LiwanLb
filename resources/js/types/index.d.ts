@@ -167,8 +167,10 @@ export interface Work {
     name: string;
     slug: string;
     image?: string;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
+    faqs?: FAQs;
+    residencies?: Residencies;
 }
 
 export interface Works {

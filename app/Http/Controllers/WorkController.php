@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FaqListResource;
 use App\Http\Resources\ResidencyListResource;
 use App\Http\Resources\WorkListResource;
+use App\Http\Resources\WorkResource;
 use App\Models\Faq;
 use App\Models\Residency;
 use App\Models\Work;
@@ -22,8 +23,9 @@ class WorkController extends Controller
     }
 
     public function show(Work $work){
+        $work->load(['Residencies', 'Faqs']);
         return Inertia::render('work/show', [
-            'work' => $work
+            'work' => new WorkResource($work)
         ]);
     }
 }

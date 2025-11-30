@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -22,11 +23,9 @@ class FaqsTable
             ->columns([
                 TextColumn::make('question')
                     ->searchable(),
-                TextColumn::make('order')
-                    ->numeric()
-                    ->sortable(),
-                IconColumn::make('active')
-                    ->boolean(),
+                
+                ToggleColumn::make('active')
+,
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

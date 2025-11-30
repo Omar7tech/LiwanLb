@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Works\Resources\Residencies\Schemas;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class ResidencyForm
@@ -13,32 +14,38 @@ class ResidencyForm
     {
         return $schema
             ->components([
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->label('Upload Images')
-                    ->disk('public')
-                    ->visibility('public')
-                    ->directory('blogs')
-                    ->image()
-                    ->downloadable()
-                    ->openable()
-                    ->imageEditor()
-                    ->conversion('webp')
-                    ->collection('images')
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                        '3:4',
-                    ])
-                    ->maxSize(2048)
-                    ->helperText('📸 Upload image (max 2MB)')
-                    ->columnSpanFull()
-                    ->collection('images'),
-                TextInput::make('name')
-                    ->required(),
-                Toggle::make('active')
-                    ->required(),
+               Section::make('Media')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label('Upload Images')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->directory('residencies')
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->imageEditor()
+                            ->conversion('webp')
+                            ->collection('images')
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                                '3:4',
+                            ])
+                            ->maxSize(2048)
+                            ->helperText('📸 Upload image (max 2MB)')
+                            ->columnSpanFull()
+                            ->collection('images'),
+                    ])->columnSpanFull(),
+                Section::make('Details')
+                    ->schema([
+                        TextInput::make('name')
+                            ->required(),
+                        Toggle::make('active')
+                            ->required(),
+                    ])->columnSpanFull(),
             ]);
     }
 }

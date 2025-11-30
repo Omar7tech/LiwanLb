@@ -38,7 +38,7 @@ export interface User {
     name: string;
     email: string;
     avatar?: string;
-    role ?: string;
+    role?: string;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
     created_at: string;
@@ -57,24 +57,24 @@ export interface Blog {
     updated_at: string;
 }
 export interface PaginationLink {
-  url?: string;
-  label: string;
-  active: boolean;
-  page?: number;
+    url?: string;
+    label: string;
+    active: boolean;
+    page?: number;
 }
 
 export interface PaginationMeta {
-  current_page: number;
-  last_page: number;
-  total: number;
-  from: number;
-  to: number;
-  links: PaginationLink[];
+    current_page: number;
+    last_page: number;
+    total: number;
+    from: number;
+    to: number;
+    links: PaginationLink[];
 }
 
 export interface PaginationProps<T> {
-  data: T[];
-  meta: PaginationMeta;
+    data: T[];
+    meta: PaginationMeta;
 }
 
 export interface DesignDeliveryStandard {
@@ -161,4 +161,19 @@ export interface SharedWork {
 export interface SharedWorks {
     data: SharedWork[];
 }
+
+export interface Work {
+    id: number;
+    name: string;
+    slug: string;
+    image?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Works {
+    data: Work[];
+}
+
+
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Works\Resources\Residencies\Schemas;
 
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -12,10 +13,11 @@ class ResidencyInfolist
     {
         return $schema
             ->components([
+                SpatieMediaLibraryImageEntry::make('image')
+                    ->conversion('webp')
+                    ->collection('images')
+                    ->label('Image'),
                 TextEntry::make('name'),
-                TextEntry::make('slug'),
-                TextEntry::make('order')
-                    ->numeric(),
                 IconEntry::make('active')
                     ->boolean(),
                 TextEntry::make('created_at')

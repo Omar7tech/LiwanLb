@@ -2,13 +2,20 @@
 
 namespace App\Filament\Resources\Works\Resources\Residencies\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
+
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ResidenciesTable
 {
@@ -16,15 +23,12 @@ class ResidenciesTable
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('image')
+                    ->conversion('webp')
+                    ->collection('images'),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
-                TextColumn::make('order')
-                    ->numeric()
-                    ->sortable(),
-                IconColumn::make('active')
-                    ->boolean(),
+                ToggleColumn::make('active'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -40,11 +44,33 @@ class ResidenciesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('move')
+                    ->label('Move to another Work')
+                    ->icon('heroicon-o-arrow-right-circle')
+                    ->form(fn (\App\Models\Residency $record) => [
+                        Select::make('work_id')
+                            ->label('Destination Work')
+                            ->relationship('Work', 'name', modifyQueryUsing: fn (Builder $query) => $query->where('id', '!=', $record->work_id))
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                    ])
+                    ->action(function (\App\Models\Residency $record, array $data): void {
+                        $record->update(['work_id' => $data['work_id']]);
+                        Notification::make()
+                            ->title('Residency moved successfully')
+                            ->success()
+                            ->send();
+                    }),
+            ])
+            ->headerActions([
+                
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
+                
             ])
             ->reorderable('order')
             ->defaultSort('order', 'asc');

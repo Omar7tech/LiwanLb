@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ResidencyResource extends Resource
 {
     protected static ?string $model = Residency::class;
-
+    protected static ?string $recordTitleAttribute = 'name';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHomeModern;
 
     protected static ?string $parentResource = WorkResource::class;
@@ -47,11 +47,12 @@ class ResidencyResource extends Resource
             //
         ];
     }
+    
 
     public static function getEloquentQuery(): Builder
-{
-    return parent::getEloquentQuery()->withoutGlobalScopes();
-}
+    {
+        return parent::getEloquentQuery()->withoutGlobalScopes();
+    }
 
     public static function getPages(): array
     {

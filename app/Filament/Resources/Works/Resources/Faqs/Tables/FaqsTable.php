@@ -2,13 +2,17 @@
 
 namespace App\Filament\Resources\Works\Resources\Faqs\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class FaqsTable
 {
@@ -38,6 +42,24 @@ class FaqsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('move')
+                    ->label('Move to another Work')
+                    ->icon('heroicon-o-arrow-right-circle')
+                    ->form(fn (\App\Models\Faq $record) => [
+                        Select::make('work_id')
+                            ->label('Destination Work')
+                            ->relationship('Work', 'name', modifyQueryUsing: fn (Builder $query) => $query->where('id', '!=', $record->work_id))
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                    ])
+                    ->action(function (\App\Models\Faq $record, array $data): void {
+                        $record->update(['work_id' => $data['work_id']]);
+                        Notification::make()
+                            ->title('Faq moved successfully')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

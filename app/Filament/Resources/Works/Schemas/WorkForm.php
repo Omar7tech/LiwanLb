@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\Works\Schemas;
 
+
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class WorkForm
@@ -12,16 +15,37 @@ class WorkForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('slug')
-                    ->required(),
-                TextInput::make('order')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Toggle::make('active')
-                    ->required(),
+                Section::make('Media')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label('Upload Images')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->directory('works')
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->imageEditor()
+                            ->conversion('webp')
+                            ->collection('images')
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                                '3:4',
+                            ])
+                            ->maxSize(2048)
+                            ->helperText('📸 Upload image (max 2MB)')
+                            ->columnSpanFull(),
+                    ])->columnSpanFull(),
+                Section::make('Details')
+                    ->schema([
+                        TextInput::make('name')
+                            ->required(),
+                        Toggle::make('active')
+                            ->required(),
+                    ])->columnSpanFull(),
             ]);
     }
 }

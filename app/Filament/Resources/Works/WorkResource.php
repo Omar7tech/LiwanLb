@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Builder;
 class WorkResource extends Resource
 {
     protected static ?string $model = Work::class;
+    protected static ?string $recordTitleAttribute = 'name';
     protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

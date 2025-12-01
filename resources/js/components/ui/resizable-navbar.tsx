@@ -190,35 +190,73 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
       <AnimatePresence>
         {isOpen && items.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute left-0 top-full mt-2 w-56 rounded-xl bg-white/95 backdrop-blur-md shadow-2xl ring-1 ring-black/5 z-[100] overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 top-full w-[280px] z-[100]"
           >
-            <div className="py-2">
-              {items.map((item, index) => (
-                <Link
-                  key={item.id}
-                  href={`/work/${item.slug}`}
-                  className="group block px-5 py-3 text-base text-gray-700 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-yellow-500/5 transition-all duration-200 relative"
-                >
-                  <motion.div
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 4 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center gap-2"
+            {/* Invisible bridge to prevent gap */}
+            <div className="h-2" />
+            
+            {/* Dropdown Container */}
+            <div className="bg-white rounded-xl shadow-2xl ring-1 ring-black/5 overflow-hidden">
+              
+              {/* Top Golden Accent */}
+              <div className="h-0.5 bg-gradient-to-r from-transparent via-[#F2AE1D] to-transparent" />
+              
+              {/* Items List */}
+              <div className="py-1">
+                {items.map((item, index) => (
+                  <Link
+                    key={item.id}
+                    href={`/work/${item.slug}`}
+                    className="group block relative"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/60 group-hover:bg-yellow-500 transition-colors" />
-                    <span className="font-medium group-hover:text-gray-900 transition-colors">
-                      {item.name}
-                    </span>
-                  </motion.div>
-                  {index < items.length - 1 && (
-                    <div className="absolute bottom-0 left-5 right-5 h-px bg-gray-100" />
-                  )}
-                </Link>
-              ))}
+                    {/* Hover Background */}
+                    <div className="absolute inset-0 bg-[#F2AE1D]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+                    
+                    {/* Content */}
+                    <div className="relative px-5 py-3 flex items-center gap-3">
+                      {/* Left Golden Bar */}
+                      <div className="absolute left-0 top-1.5 bottom-1.5 w-0.5 bg-[#F2AE1D] scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
+                      
+                      {/* Number */}
+                      <span className="text-xs font-mono font-bold text-gray-400 group-hover:text-[#F2AE1D] transition-colors duration-150 min-w-[1.5rem]">
+                        {(index + 1).toString().padStart(2, '0')}
+                      </span>
+                      
+                      {/* Work Name */}
+                      <span className="flex-1 text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-150">
+                        {item.name}
+                      </span>
+                      
+                      {/* Arrow */}
+                      <svg
+                        className="w-3.5 h-3.5 text-[#F2AE1D] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.5}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+
+                    {/* Divider */}
+                    {index < items.length - 1 && (
+                      <div className="mx-5 h-px bg-gray-100" />
+                    )}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Bottom Accent */}
+              <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
             </div>
           </motion.div>
         )}

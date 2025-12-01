@@ -23,9 +23,15 @@ class WorkController extends Controller
     }
 
     public function show(Work $work){
-        $work->load(['Residencies', 'Faqs']);
+        $work->load(['Faqs']);
+        
         return Inertia::render('work/show', [
-            'work' => new WorkResource($work)
+            'work' => new WorkResource($work),
+            'residencies' => Inertia::scroll(
+                fn() => ResidencyListResource::collection(
+                    $work->Residencies()->paginate(6)
+                )
+            )
         ]);
     }
 }

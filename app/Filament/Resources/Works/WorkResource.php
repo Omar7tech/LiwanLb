@@ -19,13 +19,14 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-
+use UnitEnum;
 class WorkResource extends Resource
 {
     protected static ?string $model = Work::class;
     protected static ?string $recordTitleAttribute = 'name';
     protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
+    protected static UnitEnum|string|null $navigationGroup = 'Content Management';
 
     public static function form(Schema $schema): Schema
     {

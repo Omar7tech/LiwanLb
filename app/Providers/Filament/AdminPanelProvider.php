@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filafly\Themes\Brisk\BriskTheme;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -34,7 +35,9 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3rem')
             ->font('Cairo', provider: GoogleFontProvider::class)
-            ->sidebarFullyCollapsibleOnDesktop()
+            ->sidebarCollapsibleOnDesktop()
+            ->profile()
+            ->simpleProfilePage(false)
             ->spa(hasPrefetching: true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -45,6 +48,8 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->plugin(BriskTheme::make()->withoutSuggestedFont())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

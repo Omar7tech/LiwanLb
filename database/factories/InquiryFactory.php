@@ -17,7 +17,12 @@ class InquiryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'full_name' => fake()->name(),
+            'phone' => fake()->e164PhoneNumber(),
+            'email' => fake()->unique()->safeEmail(),
+            'project_type' => fake()->randomElement(['Residential', 'Commercial', 'Industrial', 'Mixed-Use']),
+            'project_location' => fake()->city() . ', ' . fake()->country(),
+            'notes' => fake()->optional()->paragraph(),
         ];
     }
 }

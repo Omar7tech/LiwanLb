@@ -9,4 +9,13 @@ class Inquiry extends Model
 {
     /** @use HasFactory<\Database\Factories\InquiryFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'full_name',
+        'phone',
+        'email',
+        'project_type',
+        'project_location',
+        'notes',
+    ];
 }

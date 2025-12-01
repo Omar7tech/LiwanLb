@@ -25,45 +25,45 @@ const sectionVariants = {
 export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage?: string }) {
     const faqList = faqs?.data || [];
     const hasImage = !!workImage;
-    
+
     const defaultOpenItem = faqList.length > 0 ? `item-${faqList[0].id}` : undefined;
 
     return (
         // Main section is TRANSPARENT, general text is dark
-        <section 
-            className={`text-[${MAIN_TEXT_COLOR}] py-10 `} 
+        <section
+            className={`text-[${MAIN_TEXT_COLOR}] py-10 `}
             style={{ backgroundColor: 'transparent' }}
         >
-            
+
             <motion.div
                 variants={sectionVariants}
                 initial="hidden"
                 animate="visible"
                 className={`max-w-screen-2xl mx-auto px-5 `}
             >
-                
+
                 {/* Responsive Grid Layout (Image Left, FAQs Right) */}
-                <div 
+                <div
                     className={`grid ${hasImage ? 'grid-cols-1 lg:grid-cols-12' : 'grid-cols-1'} gap-12 lg:gap-16 items-start`}
                 >
-                    
+
                     {/* 1. Image Section (Left - 5/12 columns) */}
                     {hasImage && (
                         <div className="lg:col-span-5 lg:sticky lg:top-16 lg:h-full">
-                            <div 
+                            <div
                                 // Image container with rounded corners, hover effect, and border
                                 className="w-full relative overflow-hidden h-full rounded-2xl shadow-xl transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-gray-400/30"
-                                style={{ 
+                                style={{
                                     border: `1px solid ${MAIN_TEXT_COLOR}` // Dark border for the visual
                                 }}
                             >
                                 <img
                                     src={workImage}
                                     alt="Project Visual"
-                                    className="w-full h-full object-cover" 
+                                    className="w-full h-full object-cover"
                                 />
                                 {/* Overlay Text on Image */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
                                     <p className="text-white text-lg font-light italic">
                                         Visualizing clarity in every architectural proposition.
                                     </p>
@@ -74,14 +74,14 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
 
                     {/* 2. FAQs Section (Right - 7/12 columns) */}
                     <div className={`space-y-4 ${hasImage ? 'lg:col-span-7' : 'max-w-4xl mx-auto'}`}>
-                        
+
                         {/* NO HEADER / NO TITLE */}
 
                         {/* FAQ List: Tightly Spaced DARK CARDS */}
                         <Accordion
                             type="single"
                             collapsible
-                            className="w-full space-y-4" 
+                            className="w-full space-y-4"
                             defaultValue={defaultOpenItem}
                         >
                             {faqList.length === 0 ? (
@@ -97,15 +97,15 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
                                         className={`p-4 rounded-lg shadow-xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(242,174,29,0.3)]`}
                                         style={{ backgroundColor: CARD_BACKGROUND_COLOR, border: `1px solid ${LINE_COLOR_DARK}` }}
                                     >
-                                        <AccordionTrigger 
+                                        <AccordionTrigger
                                             // Question Text color is muted light by default
                                             className={`text-left text-lg md:text-xl font-normal py-1 px-2 group`}
                                             style={{ color: TEXT_COLOR_MUTED }}
                                         >
                                             <span className="flex items-center gap-4">
                                                 {/* Index Marker: uses accent color */}
-                                                <span 
-                                                    className={`flex-shrink-0 text-base font-mono transition-colors duration-300 group-hover:text-white`}
+                                                <span
+                                                    className={`shrink-0 text-base font-mono transition-colors duration-300 group-hover:text-white`}
                                                     style={{ color: ACCENT_COLOR }}
                                                 >
                                                     [{(index + 1).toString().padStart(2, '0')}]
@@ -116,7 +116,7 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
                                                 </span>
                                             </span>
                                         </AccordionTrigger>
-                                        <AccordionContent 
+                                        <AccordionContent
                                             // Content text is the primary light color
                                             className={`pt-1 pb-2 pl-10 leading-relaxed text-base border-l-2`}
                                             style={{ borderLeftColor: ACCENT_COLOR, color: TEXT_COLOR_LIGHT }}
@@ -127,7 +127,7 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
                                 ))
                             )}
                         </Accordion>
-                        
+
                     </div>
                 </div>
             </motion.div>

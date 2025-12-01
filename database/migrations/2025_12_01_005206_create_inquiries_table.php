@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('phone');
             $table->string('email');
-            $table->string('project_type');
-            $table->string('project_location');
-            $table->text('notes');
+            $table->string('project_type')->nullable();
+            $table->string('project_location')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

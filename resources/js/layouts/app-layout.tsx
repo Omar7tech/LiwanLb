@@ -8,7 +8,7 @@ interface AppLayoutProps {
 }
 
 export default ({ children }: AppLayoutProps) => (
-    <div className="bg-[#fafafa]">
+    <div className="bg-[#fafafa] max-w-screen-2xl mx-auto">
         <div>
             <NavbarDemo />
             {children}

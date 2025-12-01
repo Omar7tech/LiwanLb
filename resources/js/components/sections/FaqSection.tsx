@@ -39,7 +39,7 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
                 variants={sectionVariants}
                 initial="hidden"
                 animate="visible"
-                className={`max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8`}
+                className={`max-w-screen-2xl mx-auto px-5 `}
             >
                 
                 {/* Responsive Grid Layout (Image Left, FAQs Right) */}

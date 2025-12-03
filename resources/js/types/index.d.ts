@@ -169,6 +169,9 @@ export interface Work {
     title?: string;
     slug: string;
     image?: string;
+    visual_text?: string;
+     process_title?: string;
+     process_steps?: { title: string; description: string }[];
     created_at?: string;
     updated_at?: string;
     faqs?: FAQs;

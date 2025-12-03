@@ -28,8 +28,10 @@ Route::middleware([CheckSiteActive::class])->group(function () {
     Route::get('/works', [WorkController::class, 'index'])->name('work');
     Route::get('/work/{work}', [WorkController::class, 'show'])->name('work.show');
     Route::get('/cost-study', [CostStudyController::class, 'index'])->name('cost-study');
-    Route::post('inquiry' , [InquiryController::class, 'store'])->name('inquiry.store')->middleware('throttle:5,1');
-
+    Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store')->middleware('throttle:5,1');
+    Route::get('/partner-with-us', function () {
+        return Inertia::render('PartnerWithUs');
+    })->name('partner-with-us');
 
 
 

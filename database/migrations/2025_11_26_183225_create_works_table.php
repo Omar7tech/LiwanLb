@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('title')->nullable();
+            $table->string('visual_text')->nullable();
+            $table->string('process_title')->nullable();
+            $table->json('process_steps')->nullable();
             $table->string('slug')->unique();
             $table->integer('order')->default(0);
             $table->boolean('active')->default(true);

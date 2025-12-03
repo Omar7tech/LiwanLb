@@ -21,6 +21,9 @@ class WorkResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'slug' => $this->slug,
+            'visual_text' => $this->visual_text,
+            'process_title' => $this->process_title,
+            'process_steps' => $this->process_steps,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'faqs' => [
                 'data' => FaqListResource::collection($this->whenLoaded('Faqs'))

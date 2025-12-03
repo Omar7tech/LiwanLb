@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Works\Schemas;
 
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -31,10 +33,34 @@ class WorkForm
                             ->placeholder('Leave empty to use name')
                             ->nullable()
                             ->columnSpan(1),
+                        TextInput::make('visual_text')
+                            ->label('Overlay Text')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Textarea::make('process_title')
+                            ->label('Process Title')
+                            ->rows(2)
+                            ->helperText('Main heading above the process steps on the work page.')
+                            ->columnSpanFull(),
+                        Repeater::make('process_steps')
+                            ->label('Process Steps')
+                            ->schema([
+                                TextInput::make('title')
+                                    ->label('Step Title')
+                                    ->required()
+                                    ->maxLength(255),
+                                Textarea::make('description')
+                                    ->label('Step Description')
+                                    ->required()
+                                    ->rows(3),
+                            ])
+                            ->collapsible()
+                            ->defaultItems(0)
+                            ->columnSpanFull(),
                     ])
                     ->columns(2)
                     ->columnSpanFull(),
-                    
+
                 Section::make('Media')
                     ->description('Upload representative image for this work category')
                     ->schema([
@@ -61,7 +87,7 @@ class WorkForm
                             ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
-                    
+
                 Section::make('Settings')
                     ->description('Control visibility and status')
                     ->schema([

@@ -1,6 +1,7 @@
 import { FAQ, FAQs } from "@/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 // --- CUSTOM COLORS DERIVED FROM YOUR CARD ---
 const CARD_BACKGROUND_COLOR = "#3a3b3a"; // Card Background
@@ -9,6 +10,7 @@ const TEXT_COLOR_LIGHT = "#d9d9d9";      // Primary Light Text (Card Content)
 const TEXT_COLOR_MUTED = "#afafaf";      // Muted Gray Text (Question)
 const LINE_COLOR_DARK = "#4a4a4a";        // Darker line/border for structure
 const MAIN_TEXT_COLOR = "#3a3b3a";       // Main Text color for non-card elements (since main section is transparent)
+const DEFAULT_IMAGE = "/images/blognoimage.webp";
 // ------------------------------------------
 
 // Simple container fade-in
@@ -22,9 +24,22 @@ const sectionVariants = {
     }
 };
 
-export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage?: string }) {
+interface FaqSectionProps {
+    faqs?: FAQs;
+    workImage?: string;
+    overlayText?: string;
+}
+
+export default function FaqSection({ faqs, workImage, overlayText }: FaqSectionProps) {
     const faqList = faqs?.data || [];
     const hasImage = !!workImage;
+    const [imageSrc, setImageSrc] = useState(workImage ?? DEFAULT_IMAGE);
+    const [isLoadingImage, setIsLoadingImage] = useState(!!workImage);
+
+    useEffect(() => {
+        setImageSrc(workImage ?? DEFAULT_IMAGE);
+        setIsLoadingImage(!!workImage);
+    }, [workImage]);
 
     const defaultOpenItem = faqList.length > 0 ? `item-${faqList[0].id}` : undefined;
 
@@ -57,17 +72,33 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
                                     border: `1px solid ${MAIN_TEXT_COLOR}` // Dark border for the visual
                                 }}
                             >
+                                {isLoadingImage && (
+                                    <div className="absolute inset-0 z-10 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <div className="w-12 h-12 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin"></div>
+                                        </div>
+                                    </div>
+                                )}
                                 <img
-                                    src={workImage}
+                                    src={imageSrc}
                                     alt="Project Visual"
-                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                    onLoad={() => setIsLoadingImage(false)}
+                                    onError={() => {
+                                        setImageSrc(DEFAULT_IMAGE);
+                                        setIsLoadingImage(false);
+                                    }}
+                                    className={`w-full h-full object-cover transition-opacity duration-500 ${isLoadingImage ? "opacity-0" : "opacity-100"}`}
                                 />
                                 {/* Overlay Text on Image */}
-                                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
-                                    <p className="text-white text-lg font-light italic">
-                                        Visualizing clarity in every architectural proposition.
-                                    </p>
-                                </div>
+                                {overlayText && (
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                        <p className="text-white text-lg font-light italic">
+                                            {overlayText}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
@@ -93,33 +124,23 @@ export default function FaqSection({ faqs, workImage }: { faqs?: FAQs; workImage
                                     <AccordionItem
                                         key={faq.id}
                                         value={`item-${faq.id}`}
-                                        // CARD STYLING: Dark background, light text, gold hover/accent
-                                        className={`p-4 rounded-lg shadow-xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(242,174,29,0.3)]`}
-                                        style={{ backgroundColor: CARD_BACKGROUND_COLOR, border: `1px solid ${LINE_COLOR_DARK}` }}
+                                        className={`p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md border`}
+                                        style={{ 
+                                            backgroundColor: '#FAFAFA',
+                                            borderColor: '#E5E5E5'
+                                        }}
                                     >
                                         <AccordionTrigger
-                                            // Question Text color is muted light by default
-                                            className={`text-left text-lg md:text-xl font-normal py-1 px-2 group`}
-                                            style={{ color: TEXT_COLOR_MUTED }}
+                                            className={`text-left text-lg md:text-xl font-normal py-2 group hover:no-underline`}
+                                            style={{ color: '#2C2C2C' }}
                                         >
-                                            <span className="flex items-center gap-4">
-                                                {/* Index Marker: uses accent color */}
-                                                <span
-                                                    className={`shrink-0 text-base font-mono transition-colors duration-300 group-hover:text-white`}
-                                                    style={{ color: ACCENT_COLOR }}
-                                                >
-                                                    [{(index + 1).toString().padStart(2, '0')}]
-                                                </span>
-                                                {/* Question Text: turns accent color on hover */}
-                                                <span className={`flex-1 pr-4 group-hover:text-[${ACCENT_COLOR}] transition-colors duration-300`}>
-                                                    {faq.question}
-                                                </span>
+                                            <span className={`flex-1 pr-4 transition-colors duration-300 group-hover:text-[${ACCENT_COLOR}]`}>
+                                                {faq.question}
                                             </span>
                                         </AccordionTrigger>
                                         <AccordionContent
-                                            // Content text is the primary light color
-                                            className={`pt-1 pb-2 pl-10 leading-relaxed text-base border-l-2`}
-                                            style={{ borderLeftColor: ACCENT_COLOR, color: TEXT_COLOR_LIGHT }}
+                                            className={`pt-3 pb-1 leading-relaxed text-base`}
+                                            style={{ color: '#666666' }}
                                         >
                                             <p>{faq.answer}</p>
                                         </AccordionContent>

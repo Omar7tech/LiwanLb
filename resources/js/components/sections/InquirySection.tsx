@@ -28,19 +28,21 @@ interface FormErrors {
 }
 
 export default function InquirySection() {
-    const { errors: serverErrors, socialSettings } = usePage<{
+    const { errors: serverErrors, socialSettings, sharedWorks } = usePage<{
         errors: FormErrors;
     } & SharedData>().props;
 
-    const [formData, setFormData] = useState<InquiryFormData>({
+    const createInitialFormData = (): InquiryFormData => ({
         full_name: "",
         phone: "+961",
         email: "",
-        project_type: "",
+        project_type: sharedWorks?.data?.[0]?.name || "",
         project_location: "",
         notes: "",
         timestamp: Math.floor(Date.now() / 1000).toString(),
     });
+
+    const [formData, setFormData] = useState<InquiryFormData>(createInitialFormData);
 
     const [clientErrors, setClientErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,11 +77,14 @@ export default function InquirySection() {
             newErrors.email = "Email address cannot exceed 255 characters.";
         }
 
-        // Optional fields validation
-        if (formData.project_type && formData.project_type.length > 255) {
+        // Project Type validation
+        if (!formData.project_type.trim()) {
+            newErrors.project_type = "Project type is required.";
+        } else if (formData.project_type.length > 255) {
             newErrors.project_type = "Project type cannot exceed 255 characters.";
         }
 
+        // Optional fields validation
         if (formData.project_location && formData.project_location.length > 255) {
             newErrors.project_location = "Project location cannot exceed 255 characters.";
         }
@@ -97,19 +102,19 @@ export default function InquirySection() {
         message += `*Name:* ${formData.full_name}\n`;
         message += `*Phone:* ${formData.phone}\n`;
         message += `*Email:* ${formData.email}\n`;
-        
+
         if (formData.project_type) {
             message += `*Project Type:* ${formData.project_type}\n`;
         }
-        
+
         if (formData.project_location) {
             message += `*Project Location:* ${formData.project_location}\n`;
         }
-        
+
         if (formData.notes) {
             message += `*Notes:* ${formData.notes}\n`;
         }
-        
+
         return encodeURIComponent(message);
     };
 
@@ -164,15 +169,7 @@ export default function InquirySection() {
                 }, 1500);
 
                 // Reset form on success
-                setFormData({
-                    full_name: "",
-                    phone: "+961",
-                    email: "",
-                    project_type: "",
-                    project_location: "",
-                    notes: "",
-                    timestamp: Math.floor(Date.now() / 1000).toString(),
-                });
+                setFormData(createInitialFormData());
                 setClientErrors({});
             },
             onFinish: () => {
@@ -268,8 +265,20 @@ export default function InquirySection() {
                                             </label>
                                             <div dir="ltr">
                                                 <PhoneInput
+                                                    
                                                     international
                                                     defaultCountry="LB"
+                                                    countries={[
+                                                        "LB", // Lebanon
+                                                        "SA", // Saudi Arabia
+                                                        "AE", // United Arab Emirates
+                                                        "QA", // Qatar
+                                                        "KW", // Kuwait
+                                                        "OM", // Oman
+                                                        "BH", // Bahrain
+                                                        "EG", // Egypt
+                                                        "TR", // Turkey
+                                                    ]}
                                                     value={formData.phone}
                                                     onChange={(value) => handleChange("phone", value || "")}
                                                     className={`w-full border-b py-3 focus-within:border-[#F2AE1D] transition-colors bg-transparent flex gap-2 ${
@@ -311,14 +320,19 @@ export default function InquirySection() {
                                                 <span>Project Type</span>
                                                 <span>ﻧﻮع اﻟﻤشروع</span>
                                             </label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 name="project_type"
                                                 value={formData.project_type}
                                                 onChange={(e) => handleChange("project_type", e.target.value)}
                                                 className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_type ? "border-red-500" : "border-gray-300"
                                                     }`}
-                                            />
+                                            >
+                                                {sharedWorks?.data?.map((work) => (
+                                                    <option key={work.id} value={work.name}>
+                                                        {work.name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                             {errors.project_type && (
                                                 <p className="text-red-500 text-sm mt-1">{errors.project_type}</p>
                                             )}
@@ -381,9 +395,9 @@ export default function InquirySection() {
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full md:w-auto px-8 py-3 bg-[#3a3b3a] text-white font-bold rounded-lg hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="w-full md:w-auto px-8 py-3 bg-[#F2AE1D] text-[#3a3b3a] font-bold rounded-lg hover:bg-[#3a3b3a] hover:text-[#F2AE1D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            {isSubmitting ? "Submitting..." : "Submit Request"}
+                                            {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                                         </button>
                                     </div>
                                 </form>

@@ -22,7 +22,7 @@ class WorkInfolist
                             ->collection('images')
                             ->columnSpanFull(),
                     ])->columnSpanFull(),
-                    
+
                 Section::make('Basic Information')
                     ->schema([
                         TextEntry::make('name')
@@ -35,13 +35,16 @@ class WorkInfolist
                             ->weight('bold')
                             ->size('lg')
                             ->color('primary'),
+                        TextEntry::make('visual_text')
+                            ->label('Overlay Text')
+                            ->columnSpanFull(),
                         TextEntry::make('slug')
                             ->color('gray')
                             ->icon('heroicon-o-link'),
                     ])
                     ->columns(2)
                     ->columnSpanFull(),
-                    
+
                 Section::make('Status & Timestamps')
                     ->schema([
                         IconEntry::make('active')

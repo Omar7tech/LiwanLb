@@ -23,6 +23,7 @@ class Work extends Model implements HasMedia
     {
         return [
             'active' => 'boolean',
+            'process_steps' => 'array',
         ];
     }
 

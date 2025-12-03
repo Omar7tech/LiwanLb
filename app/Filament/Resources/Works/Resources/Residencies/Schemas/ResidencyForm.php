@@ -22,11 +22,13 @@ class ResidencyForm
                             ->visibility('public')
                             ->directory('residencies')
                             ->image()
+                            ->multiple()
                             ->downloadable()
                             ->openable()
                             ->imageEditor()
                             ->conversion('webp')
                             ->collection('images')
+
                             ->imageEditorAspectRatios([
                                 null,
                                 '16:9',
@@ -36,7 +38,8 @@ class ResidencyForm
                             ])
                             ->maxSize(2048)
                             ->helperText('📸 Upload image (max 2MB)')
-                            ->columnSpanFull()
+                            ->panelLayout('grid')
+                            ->reorderable()
                             ->collection('images'),
                     ])->columnSpanFull(),
                 Section::make('Details')

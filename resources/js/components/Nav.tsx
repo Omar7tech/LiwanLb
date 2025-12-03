@@ -27,7 +27,7 @@ export function NavbarDemo() {
     const navItems2 = [
         {
             name: 'Partner With Us',
-            link: '/',
+            link: '/partner-with-us',
         },
         {
             name: 'Cost Study',

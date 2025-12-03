@@ -59,7 +59,7 @@ class Work extends Model implements HasMedia
     {
         $this->addMediaConversion('webp')
             ->format('webp')
-            ->quality(80)
+            ->quality(20)
             ->nonQueued();
     }
 }

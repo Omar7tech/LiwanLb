@@ -71,7 +71,7 @@ public $registerMediaConversionsUsingModelInstance = true;
     {
         $this->addMediaConversion('webp')
             ->format('webp')
-            ->quality(80)
+            ->quality(20)
             ->nonQueued();
     }
 }

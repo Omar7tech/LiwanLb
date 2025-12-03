@@ -104,7 +104,7 @@ function TestimonialsSection({ testimonials }: { testimonials: Testimonials }) {
                 ))}
                 
                 {/* Spacer for mobile to allow last item to be fully visible if needed */}
-                <div className="w-1 md:hidden flex-shrink-0"></div>
+                <div className="w-1 md:hidden shrink-0"></div>
             </div>
 
             {/* Next Button (Desktop Only) */}

@@ -3,6 +3,7 @@ import { router, usePage } from "@inertiajs/react";
 import { FormEvent, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
+import { SharedData } from '@/types';
 
 interface InquiryFormData {
     full_name: string;
@@ -25,9 +26,9 @@ interface FormErrors {
 }
 
 export default function InquirySection() {
-    const { errors: serverErrors } = usePage<{
+    const { errors: serverErrors, socialSettings } = usePage<{
         errors: FormErrors;
-    }>().props;
+    } & SharedData>().props;
 
     const [formData, setFormData] = useState<InquiryFormData>({
         full_name: "",
@@ -88,11 +89,54 @@ export default function InquirySection() {
         return Object.keys(newErrors).length === 0;
     };
 
+    const generateWhatsAppMessage = (): string => {
+        let message = `Hello! I just submitted an inquiry through your website.\n\n`;
+        message += `*Name:* ${formData.full_name}\n`;
+        message += `*Phone:* ${formData.phone}\n`;
+        message += `*Email:* ${formData.email}\n`;
+        
+        if (formData.project_type) {
+            message += `*Project Type:* ${formData.project_type}\n`;
+        }
+        
+        if (formData.project_location) {
+            message += `*Project Location:* ${formData.project_location}\n`;
+        }
+        
+        if (formData.notes) {
+            message += `*Notes:* ${formData.notes}\n`;
+        }
+        
+        return encodeURIComponent(message);
+    };
+
+    const redirectToWhatsApp = () => {
+        if (socialSettings?.whatsapp_active && socialSettings?.whatsapp_number) {
+            const cleanNumber = socialSettings.whatsapp_number.replace(/[^0-9]/g, '');
+            const message = generateWhatsAppMessage();
+            const whatsappUrl = `https://wa.me/${cleanNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    };
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
         // Frontend validation before submission
         if (!validateForm()) {
+            return;
+        }
+
+        // Check local storage for rate limiting
+        const MAX_INQUIRIES = 3;
+        const INQUIRY_COUNT_KEY = "liwan_inquiry_count";
+        const currentCount = parseInt(localStorage.getItem(INQUIRY_COUNT_KEY) || "0", 10);
+
+        if (currentCount >= MAX_INQUIRIES) {
+            setClientErrors((prev) => ({
+                ...prev,
+                submit: "You have reached the maximum number of inquiries allowed from this device.",
+            }));
             return;
         }
 
@@ -102,6 +146,20 @@ export default function InquirySection() {
         router.post(store(), formData, {
             preserveScroll: true,
             onSuccess: () => {
+                // Increment submission count
+                const INQUIRY_COUNT_KEY = "liwan_inquiry_count";
+                const currentCount = parseInt(localStorage.getItem(INQUIRY_COUNT_KEY) || "0", 10);
+                const newCount = currentCount + 1;
+                localStorage.setItem(INQUIRY_COUNT_KEY, newCount.toString());
+
+                // Show success message
+                setShowSuccess(true);
+
+                // Redirect to WhatsApp after a short delay
+                setTimeout(() => {
+                    redirectToWhatsApp();
+                }, 1500);
+
                 // Reset form on success
                 setFormData({
                     full_name: "",
@@ -114,7 +172,6 @@ export default function InquirySection() {
                 setCountryCode("+961");
                 setLocalPhone("");
                 setClientErrors({});
-                setShowSuccess(true);
             },
             onFinish: () => {
                 setIsSubmitting(false);
@@ -345,6 +402,9 @@ export default function InquirySection() {
                                     </div>
 
                                     <div className="pt-4">
+                                        {errors.submit && (
+                                            <p className="text-red-500 text-sm mb-4 font-medium">{errors.submit}</p>
+                                        )}
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}

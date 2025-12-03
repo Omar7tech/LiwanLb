@@ -90,7 +90,7 @@ export default function Show({ work, residencies }: { work: Work; residencies: R
                     </>
                 )}
 
-                <InquirySection />
+                <InquirySection preselectedWork={work.name} />
             </AppLayout>
         </>
     );

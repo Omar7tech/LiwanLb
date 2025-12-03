@@ -1,336 +1,296 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-    <loc>http://127.0.0.1:8000/blog/neque</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/ut-7</loc>
+    <lastmod>2025-12-03T14:17:44+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/eum-1</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/cum-1</loc>
+    <lastmod>2025-12-03T14:17:44+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/amet-1</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/libero</loc>
+    <lastmod>2025-12-03T14:17:44+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/eius</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/itaque-1</loc>
+    <lastmod>2025-12-03T14:17:44+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/et-3</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/necessitatibus</loc>
+    <lastmod>2025-12-03T14:17:44+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/aliquam</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/molestiae</loc>
+    <lastmod>2025-12-03T14:17:44+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/rerum-2</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/quo</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/nam-1</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/quo-1</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/voluptatem</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/quae</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/et-4</loc>
-    <lastmod>2025-12-03T12:08:37+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/inventore</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/nam</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/assumenda-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/sed-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/animi</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/exercitationem</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/delectus</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
     <loc>http://127.0.0.1:8000/blog/magni-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/quos</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/eius</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/officiis-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/tenetur</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/et-2</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/autem-1</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/quos-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/sit</loc>
+    <lastmod>2025-12-03T14:17:43+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/quidem</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/tempora</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/rem</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/eligendi-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/animi-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/asperiores</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/distinctio-1</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/illo</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/minus</loc>
-    <lastmod>2025-12-03T12:08:36+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/aperiam</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/eos</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/doloremque</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/recusandae</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/consequatur</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/ut</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/unde</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/eum</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/sed</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/vero</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/dolores</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/vel</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/magni</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/repudiandae</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/odio</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/et-1</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/esse</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/modi</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/sunt</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/voluptatum</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/mollitia</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/assumenda</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/enim</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/ut-1</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/vitae</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/id</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/dolore-1</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/enim-1</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/dolores-1</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/adipisci</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/molestias</loc>
-    <lastmod>2025-12-03T12:08:35+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/rerum</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/rerum-1</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/quasi</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/aut</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/aut-1</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/officiis</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/soluta</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
-            </url>
-    <url>
-    <loc>http://127.0.0.1:8000/blog/amet</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/aliquid</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
     <loc>http://127.0.0.1:8000/blog/tempore</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/alias</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/perferendis-1</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/totam</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/cumque</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/omnis</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/ut-5</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/soluta-1</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/temporibus</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/est</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/nostrum-1</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/earum</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/fugiat</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/aut-2</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/maxime</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/laborum</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/repellendus</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
     <loc>http://127.0.0.1:8000/blog/praesentium</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/non</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/et-1</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/eligendi</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/ipsa</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/sapiente</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/hic</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/iusto</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/aspernatur</loc>
+    <lastmod>2025-12-03T14:17:42+00:00</lastmod>
             </url>
     <url>
-    <loc>http://127.0.0.1:8000/blog/laboriosam</loc>
-    <lastmod>2025-12-03T12:08:34+00:00</lastmod>
+    <loc>http://127.0.0.1:8000/blog/occaecati</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/veniam</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/est-2</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/deserunt</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/impedit</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/ipsum</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/illum</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/nihil-1</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/itaque</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/possimus</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/minus</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/odit</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/consectetur</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/ut-3</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/repellat</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/aut</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/natus</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/ut-4</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/qui-1</loc>
+    <lastmod>2025-12-03T14:17:41+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/excepturi</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/commodi</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/ut</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/optio</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/voluptatum</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/ut-1</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/nostrum</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/quibusdam</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/est</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/optio-1</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/molestias</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/et</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/quia</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/voluptas</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/nihil</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/perferendis</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/dolor</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/magni</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/voluptatem</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/cum</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/autem</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/cupiditate</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
+            </url>
+    <url>
+    <loc>http://127.0.0.1:8000/blog/tempora</loc>
+    <lastmod>2025-12-03T14:17:40+00:00</lastmod>
             </url>
     <url>
     <loc>http://127.0.0.1:8000</loc>

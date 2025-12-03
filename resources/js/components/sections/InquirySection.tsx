@@ -27,7 +27,11 @@ interface FormErrors {
     [key: string]: string | undefined;
 }
 
-export default function InquirySection() {
+interface InquirySectionProps {
+    preselectedWork?: string;
+}
+
+export default function InquirySection({ preselectedWork }: InquirySectionProps) {
     const { errors: serverErrors, socialSettings, sharedWorks } = usePage<{
         errors: FormErrors;
     } & SharedData>().props;
@@ -36,7 +40,7 @@ export default function InquirySection() {
         full_name: "",
         phone: "+961",
         email: "",
-        project_type: sharedWorks?.data?.[0]?.name || "",
+        project_type: preselectedWork || sharedWorks?.data?.[0]?.name || "",
         project_location: "",
         notes: "",
         timestamp: Math.floor(Date.now() / 1000).toString(),
@@ -375,7 +379,7 @@ export default function InquirySection() {
                                         )}
                                     </div>
 
-                                    {/* Honeypot Field - Invisible to humans */}
+                                    
                                     <div className="absolute opacity-0 -z-10 select-none pointer-events-none h-0 w-0 overflow-hidden">
                                         <label htmlFor="fax">Fax Number</label>
                                         <input

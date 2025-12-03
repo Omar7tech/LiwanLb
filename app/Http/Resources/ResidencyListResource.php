@@ -14,11 +14,15 @@ class ResidencyListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // 💡 FIX: Consistently use the 'webp' conversion for the final URL
+        $imageUrl = $this->getLastMediaUrl('images', 'webp');
+        
         return [
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => $this->getFirstMediaUrl('images', 'webp') ? $this->getFirstMediaUrl('images'): null,
+            // Check if the URL exists, if so, use it, otherwise use null
+            'image' => $imageUrl ?: null, 
         ];
     }
 }

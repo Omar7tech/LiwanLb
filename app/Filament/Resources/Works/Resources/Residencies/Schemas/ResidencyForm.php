@@ -28,7 +28,6 @@ class ResidencyForm
                             ->imageEditor()
                             ->conversion('webp')
                             ->collection('images')
-
                             ->imageEditorAspectRatios([
                                 null,
                                 '16:9',
@@ -40,7 +39,6 @@ class ResidencyForm
                             ->helperText('📸 Upload image (max 2MB)')
                             ->panelLayout('grid')
                             ->reorderable()
-                            ->collection('images'),
                     ])->columnSpanFull(),
                 Section::make('Details')
                     ->schema([

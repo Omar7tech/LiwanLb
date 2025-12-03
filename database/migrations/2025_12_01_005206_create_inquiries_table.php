@@ -19,7 +19,11 @@ return new class extends Migration
             $table->string('project_type')->nullable();
             $table->string('project_location')->nullable();
             $table->text('notes')->nullable();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
             $table->timestamps();
+
+            $table->index(['email', 'phone', 'ip_address']);
         });
     }
 

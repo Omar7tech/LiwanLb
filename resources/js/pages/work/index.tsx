@@ -79,7 +79,7 @@ function WorkIndex({ works }: { works: Works }) {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>  
                                     <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6">
                                         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 transform transition-transform duration-500 group-hover:translate-y-[-4px]">
-                                            {work.name}
+                                            {work.title || work.name}
                                         </h2>
                                         <div className="flex items-center gap-2 text-[#F2AE1D] font-semibold text-sm md:text-base opacity-100 md:opacity-0 md:group-hover:opacity-100 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-500">
                                             <span>Explore</span>

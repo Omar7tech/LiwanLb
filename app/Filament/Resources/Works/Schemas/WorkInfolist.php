@@ -22,22 +22,40 @@ class WorkInfolist
                             ->collection('images')
                             ->columnSpanFull(),
                     ])->columnSpanFull(),
-                Section::make('Details')
+                    
+                Section::make('Basic Information')
                     ->schema([
                         TextEntry::make('name')
+                            ->label('Internal Name')
                             ->weight('bold')
                             ->size('lg'),
+                        TextEntry::make('title')
+                            ->label('Display Title')
+                            ->placeholder('Uses name')
+                            ->weight('bold')
+                            ->size('lg')
+                            ->color('primary'),
                         TextEntry::make('slug')
-                            ->color('gray'),
+                            ->color('gray')
+                            ->icon('heroicon-o-link'),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
+                    
+                Section::make('Status & Timestamps')
+                    ->schema([
                         IconEntry::make('active')
-                            ->boolean(),
+                            ->boolean()
+                            ->label('Active Status'),
                         TextEntry::make('created_at')
                             ->dateTime()
                             ->color('gray'),
                         TextEntry::make('updated_at')
                             ->dateTime()
                             ->color('gray'),
-                    ])->columnSpanFull(),
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull(),
             ]);
     }
 }

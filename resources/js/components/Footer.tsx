@@ -96,38 +96,16 @@ const Footer = () => {
                         <ul
                             className={`${TEXT_SIZE_CLASS} space-y-2 leading-[0.9]`}
                         >
-                            <li>
-                                <a
-                                    href="#"
-                                    className="transition hover:text-white"
-                                >
-                                    Liwan For Every Home
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="transition hover:text-white"
-                                >
-                                    Liwan Estate
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="transition hover:text-white"
-                                >
-                                    Liwan Interiors
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="transition hover:text-white"
-                                >
-                                    Liwan Business Space
-                                </a>
-                            </li>
+                            {usePage<SharedData>().props.sharedWorks?.data?.map((work) => (
+                                <li key={work.id}>
+                                    <a
+                                        href={`/work/${work.slug}`}
+                                        className="transition hover:text-white"
+                                    >
+                                        {work.title || work.name}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 

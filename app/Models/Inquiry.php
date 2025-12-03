@@ -17,5 +17,7 @@ class Inquiry extends Model
         'project_type',
         'project_location',
         'notes',
+        'ip_address',
+        'user_agent',
     ];
 }

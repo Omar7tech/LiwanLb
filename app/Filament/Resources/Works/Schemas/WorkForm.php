@@ -15,10 +15,31 @@ class WorkForm
     {
         return $schema
             ->components([
+                Section::make('Basic Information')
+                    ->description('Configure the work category name and display title')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Internal Name')
+                            ->required()
+                            ->maxLength(255)
+                            ->helperText('Used for identification (e.g., "Home", "Estate")')
+                            ->columnSpan(1),
+                        TextInput::make('title')
+                            ->label('Display Title')
+                            ->maxLength(255)
+                            ->helperText('Public-facing title (e.g., "Liwan For Every Home"). Leave empty to use the name.')
+                            ->placeholder('Leave empty to use name')
+                            ->nullable()
+                            ->columnSpan(1),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
+                    
                 Section::make('Media')
+                    ->description('Upload representative image for this work category')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('image')
-                            ->label('Upload Images')
+                            ->label('Category Image')
                             ->disk('public')
                             ->visibility('public')
                             ->directory('works')
@@ -36,16 +57,21 @@ class WorkForm
                                 '3:4',
                             ])
                             ->maxSize(2048)
-                            ->helperText('📸 Upload image (max 2MB)')
+                            ->helperText('📸 Upload image (max 2MB, will be converted to WebP)')
                             ->columnSpanFull(),
-                    ])->columnSpanFull(),
-                Section::make('Details')
+                    ])
+                    ->columnSpanFull(),
+                    
+                Section::make('Settings')
+                    ->description('Control visibility and status')
                     ->schema([
-                        TextInput::make('name')
-                            ->required(),
                         Toggle::make('active')
+                            ->label('Active')
+                            ->helperText('Only active work categories will be displayed on the website')
+                            ->default(true)
                             ->required(),
-                    ])->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

@@ -17,6 +17,7 @@ class WorkListResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'title' => $this->title,
             'slug' => $this->slug,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'created_at' => $this->created_at,

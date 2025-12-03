@@ -154,6 +154,7 @@ export interface Residencies {
 export interface SharedWork {
     id: number;
     name: string;
+    title?: string;
     slug: string;
     image?: string;
 }
@@ -165,6 +166,7 @@ export interface SharedWorks {
 export interface Work {
     id: number;
     name: string;
+    title?: string;
     slug: string;
     image?: string;
     created_at?: string;

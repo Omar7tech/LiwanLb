@@ -23,7 +23,15 @@ class WorksTable
                     ->conversion('webp')
                     ->collection('images'),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->description(fn ($record) => $record->title ? 'Display: ' . $record->title : 'No custom title'),
+                TextColumn::make('title')
+                    ->label('Display Title')
+                    ->searchable()
+                    ->sortable()
+                    ->placeholder('Uses name')
+                    ->toggleable(),
                 ToggleColumn::make('active'),
                 TextColumn::make('created_at')
                     ->dateTime()

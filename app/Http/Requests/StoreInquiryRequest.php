@@ -21,9 +21,16 @@ class StoreInquiryRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        // Honeypot check
         if ($this->input('fax')) {
             abort(403, 'Spam detected.');
+        }
+
+
+        if ($this->has('timestamp')) {
+            $submissionTime = (int) $this->input('timestamp');
+            if (time() - $submissionTime < 4) {
+                abort(403, 'Spam detected.');
+            }
         }
 
         if ($this->has('phone')) {
@@ -32,12 +39,14 @@ class StoreInquiryRequest extends FormRequest
             ]);
         }
 
-        // Sanitize notes to prevent XSS
-        if ($this->has('notes')) {
-            $this->merge([
-                'notes' => strip_tags($this->input('notes')),
-            ]);
-        }
+        $this->merge([
+            'full_name' => strip_tags($this->input('full_name') ?? ''),
+            'project_type' => strip_tags($this->input('project_type') ?? ''),
+            'project_location' => strip_tags($this->input('project_location') ?? ''),
+            'notes' => strip_tags($this->input('notes') ?? ''),
+            'ip_address' => $this->ip(),
+            'user_agent' => $this->userAgent(),
+        ]);
     }
 
     /**
@@ -54,6 +63,9 @@ class StoreInquiryRequest extends FormRequest
             'project_type' => ['nullable', 'string', 'max:255'],
             'project_location' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:1000'],
+            'timestamp' => ['required', 'numeric'],
+            'ip_address' => ['nullable', 'string', 'max:45'],
+            'user_agent' => ['nullable', 'string'],
         ];
     }
 
@@ -65,27 +77,26 @@ class StoreInquiryRequest extends FormRequest
         $validator->after(function (Validator $validator) {
             $phone = $this->input('phone');
             $email = $this->input('email');
-            
+
             // Check phone number limit
             if ($phone) {
                 $phoneInquiryCount = Inquiry::where('phone', $phone)->count();
-                
+
                 if ($phoneInquiryCount >= 3) {
                     $validator->errors()->add(
                         'phone',
-                        'This phone number has already been used for the maximum number of inquiries (3). Please contact us directly for additional requests.'
+                        'Submission limit reached. Please contact us directly.'
                     );
                 }
             }
 
-            // Check email limit
             if ($email) {
                 $emailInquiryCount = Inquiry::where('email', $email)->count();
-                
+
                 if ($emailInquiryCount >= 3) {
                     $validator->errors()->add(
                         'email',
-                        'This email address has already been used for the maximum number of inquiries (3). Please contact us directly for additional requests.'
+                        'Submission limit reached. Please contact us directly.'
                     );
                 }
             }

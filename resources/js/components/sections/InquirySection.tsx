@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { SharedData } from '@/types';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 interface InquiryFormData {
     full_name: string;
@@ -37,6 +39,7 @@ export default function InquirySection() {
         project_type: "",
         project_location: "",
         notes: "",
+        timestamp: Math.floor(Date.now() / 1000).toString(),
     });
 
     const [clientErrors, setClientErrors] = useState<FormErrors>({});
@@ -168,9 +171,8 @@ export default function InquirySection() {
                     project_type: "",
                     project_location: "",
                     notes: "",
+                    timestamp: Math.floor(Date.now() / 1000).toString(),
                 });
-                setCountryCode("+961");
-                setLocalPhone("");
                 setClientErrors({});
             },
             onFinish: () => {
@@ -185,15 +187,6 @@ export default function InquirySection() {
         if (errors[field]) {
             setClientErrors((prev) => ({ ...prev, [field]: undefined }));
         }
-    };
-
-    const [countryCode, setCountryCode] = useState("+961");
-    const [localPhone, setLocalPhone] = useState("");
-
-    const handlePhoneChange = (code: string, number: string) => {
-        setCountryCode(code);
-        setLocalPhone(number);
-        handleChange("phone", `${code}${number}`);
     };
 
     return (
@@ -273,40 +266,20 @@ export default function InquirySection() {
                                                 <span>Phone</span>
                                                 <span>رﻗﻢ اﻟﻬﺎﺗﻒ</span>
                                             </label>
-                                            <div className="flex gap-4">
-                                                <div className="w-1/3">
-                                                    <select
-                                                        className="w-full border-b border-gray-300 py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent text-sm"
-                                                        value={countryCode}
-                                                        onChange={(e) => handlePhoneChange(e.target.value, localPhone)}
-                                                    >
-                                                        <option value="+961">LB (+961)</option>
-                                                        <option value="+966">SA (+966)</option>
-                                                        <option value="+971">AE (+971)</option>
-                                                        <option value="+974">QA (+974)</option>
-                                                        <option value="+965">KW (+965)</option>
-                                                        <option value="+962">JO (+962)</option>
-                                                        <option value="+968">OM (+968)</option>
-                                                        <option value="+973">BH (+973)</option>
-                                                        <option value="+1">US (+1)</option>
-                                                        <option value="+44">UK (+44)</option>
-                                                        <option value="+33">FR (+33)</option>
-                                                    </select>
-                                                </div>
-                                                <div className="w-2/3">
-                                                    <input
-                                                        type="tel"
-                                                        name="phone"
-                                                        placeholder="XXXXXX"
-                                                        value={localPhone}
-                                                        onChange={(e) => {
-                                                            const val = e.target.value.replace(/\D/g, ''); // Remove non-digits
-                                                            handlePhoneChange(countryCode, val);
-                                                        }}
-                                                        className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.phone ? "border-red-500" : "border-gray-300"
-                                                            }`}
-                                                    />
-                                                </div>
+                                            <div dir="ltr">
+                                                <PhoneInput
+                                                    international
+                                                    defaultCountry="LB"
+                                                    value={formData.phone}
+                                                    onChange={(value) => handleChange("phone", value || "")}
+                                                    className={`w-full border-b py-3 focus-within:border-[#F2AE1D] transition-colors bg-transparent flex gap-2 ${
+                                                        errors.phone ? "border-red-500" : "border-gray-300"
+                                                    }`}
+                                                    numberInputProps={{
+                                                        className: "w-full bg-transparent border-none focus:ring-0 focus:outline-none p-0 placeholder-gray-400 text-base",
+                                                        placeholder: "Enter phone number"
+                                                    }}
+                                                />
                                             </div>
                                             {errors.phone && (
                                                 <p className="text-red-500 text-sm mt-1">{errors.phone}</p>

@@ -15,10 +15,10 @@ export default function Show({ work, residencies }: { work: Work; residencies: R
 
     return (
         <>
-            <Head title={work.name} />
+            <Head title={work.title || work.name} />
             <AppLayout>
                 <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold p-5 text-[#3a3b3a]">
-                    Liwan For Every {work.name}
+                    {work.title || `Liwan For Every ${work.name}`}
                 </h1>
                 <FaqSection faqs={faqs} workImage={work.image} />
 

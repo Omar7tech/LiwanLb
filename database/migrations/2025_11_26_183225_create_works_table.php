@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('works', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('title')->nullable();
             $table->string('slug')->unique();
             $table->integer('order')->default(0);
             $table->boolean('active')->default(true);

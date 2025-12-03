@@ -14,15 +14,19 @@ class WorkSeeder extends Seeder
     public function run(): void
     {
          $works = [
-            'Home',
-            'Estate',
-            'Interior',
-            'Business',
+            ['name' => 'Home', 'title' => 'Liwan For Every Home'],
+            ['name' => 'Estate', 'title' => 'Liwan Estate'],
+            ['name' => 'Interior', 'title' => 'Liwan Interiors'],
+            ['name' => 'Business', 'title' => 'Liwan Business Space'],
         ];
 
-        foreach ($works as $work) {
+        foreach ($works as $index => $work) {
             Work::firstOrCreate(
-                ['name' => $work],
+                ['name' => $work['name']],
+                [
+                    'title' => $work['title'],
+                    'order' => $index,
+                ]
             );
         }
     }

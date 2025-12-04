@@ -90,6 +90,7 @@ export default function Show({ work, residencies }: { work: Work; residencies: R
                     </>
                 )}
 
+                <div className="mt-20"/>
                 <InquirySection preselectedWork={work.name} />
             </AppLayout>
         </>

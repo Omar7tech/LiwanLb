@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ResidencyListResource extends JsonResource
+class ResidencyContentListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,14 +14,12 @@ class ResidencyListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // 💡 FIX: Consistently use the 'webp' conversion for the final URL
-        $imageUrl = $this->getFirstMediaUrl('images', 'webp');
-        
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'image' => $imageUrl ?: null, 
+            'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'content' => $this->content,
+            'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
         ];
     }
 }

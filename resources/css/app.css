@@ -474,3 +474,21 @@
 .prose-content > *:last-child {
     @apply mb-0;
 }
+
+/* Custom Scrollbar for Content Sections */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #e5e7eb;
+    border-radius: 20px;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: #f2ae1d;
+}

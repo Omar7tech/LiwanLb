@@ -140,11 +140,22 @@ export interface FAQs {
     data: FAQ[];
 }
 
+export interface ResidencyContent {
+    id: number;
+    title: string;
+    subtitle: string | null;
+    content: any;
+    image: string | null;
+}
+
 export interface Residency {
     id: number;
     name: string;
     slug: string;
-    image?: string;
+    image?: string | null;
+    content?: {
+        data: ResidencyContent[];
+    };
 }
 
 export interface Residencies {

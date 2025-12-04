@@ -19,7 +19,7 @@ class ResidencyFactory extends Factory
     {
         
         return [
-            'name' => $this->faker->company() . ' Residency',
+            'name' => $this->faker->company(),
             'active' => true,
             'order' => $this->faker->numberBetween(1, 100),
             'work_id' => Work::inRandomOrder()->first()->id,

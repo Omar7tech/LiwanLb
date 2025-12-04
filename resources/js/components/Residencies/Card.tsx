@@ -1,3 +1,4 @@
+import { show } from "@/routes/residency";
 import { Residency } from "@/types"
 import { Link } from "@inertiajs/react"
 import { useState } from "react"
@@ -16,7 +17,7 @@ function Card({ residency, onImageClick }: { residency: Residency; onImageClick?
 
   return (
     <Link 
-        href={`/residency/${residency.slug}`}
+        href={show(residency)}
         className="relative group overflow-hidden rounded-2xl h-[250px] md:h-[350px] block transition-transform duration-500 hover:scale-[1.02]"
     >
         {/* Skeleton Loader with Shimmer Effect - Only for Image */}

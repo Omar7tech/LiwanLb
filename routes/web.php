@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CostStudyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ResidencyController;
 use App\Http\Controllers\WorkController;
 use App\Http\Middleware\RoleAuthRedirect;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::middleware([CheckSiteActive::class])->group(function () {
     Route::get('/partner-with-us', function () {
         return Inertia::render('PartnerWithUs');
     })->name('partner-with-us');
+    Route::get('/residency/{residency}', [ResidencyController::class, 'show'])->name('residency.show');
 
 
 

@@ -14,7 +14,7 @@ class ResidencyForm
     {
         return $schema
             ->components([
-               Section::make('Media')
+                Section::make('Media')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('image')
                             ->label('Upload Images')
@@ -22,7 +22,6 @@ class ResidencyForm
                             ->visibility('public')
                             ->directory('residencies')
                             ->image()
-                            ->multiple()
                             ->downloadable()
                             ->openable()
                             ->imageEditor()
@@ -37,8 +36,6 @@ class ResidencyForm
                             ])
                             ->maxSize(2048)
                             ->helperText('📸 Upload image (max 2MB)')
-                            ->panelLayout('grid')
-                            ->reorderable()
                     ])->columnSpanFull(),
                 Section::make('Details')
                     ->schema([

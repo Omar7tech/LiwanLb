@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
-class Residency extends Model implements HasMedia
+class ResidencyContent extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\ResidencyFactory> */
-    use HasFactory , HasSlug;
+    /** @use HasFactory<\Database\Factories\ResidencyContentFactory> */
+    use HasFactory;
     use InteractsWithMedia;
     protected $guarded = ['id'];
 
@@ -36,36 +34,15 @@ class Residency extends Model implements HasMedia
     }
 
 
-    public function getSlugOptions(): SlugOptions
+    public function residency()
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
+        return $this->belongsTo(Residency::class);
     }
 
-    public function getRouteKeyName()
+    protected static function booted(): void
     {
-        return 'slug';
-    }
-
-    public function Work()
-    {
-        return $this->belongsTo(Work::class);
-    }
-
-    public function residencyContents()
-    {
-        return $this->hasMany(ResidencyContent::class);
-    }
-
-     protected static function booted(): void
-    {
-        static::addGlobalScope('ResidencyScope', function (Builder $builder) {
+        static::addGlobalScope('ResidencyContentScope', function (Builder $builder) {
             $builder->orderBy('order', 'asc')->where('active', true);
         });
     }
-
-    
-
-    
 }

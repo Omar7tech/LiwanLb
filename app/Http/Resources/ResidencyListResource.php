@@ -15,7 +15,7 @@ class ResidencyListResource extends JsonResource
     public function toArray(Request $request): array
     {
         // 💡 FIX: Consistently use the 'webp' conversion for the final URL
-        $imageUrl = $this->getLastMediaUrl('images', 'webp');
+        $imageUrl = $this->getFirstMediaUrl('images', 'webp');
         
         return [
             'id' => $this->id,

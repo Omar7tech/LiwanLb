@@ -34,10 +34,9 @@ class AdminPanelProvider extends PanelProvider
             ->broadcasting(false)
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3rem')
+            ->profile()
             ->font('Cairo', provider: GoogleFontProvider::class)
             ->sidebarCollapsibleOnDesktop()
-            ->profile()
-            ->simpleProfilePage(false)
             ->spa(hasPrefetching: true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -50,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugin(BriskTheme::make()->withoutSuggestedFont())
+            ->plugin(\BezhanSalleh\FilamentShield\FilamentShieldPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

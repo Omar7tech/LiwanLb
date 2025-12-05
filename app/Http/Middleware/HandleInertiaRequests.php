@@ -47,7 +47,10 @@ class HandleInertiaRequests extends Middleware
             'socialSettings' => app(\App\Settings\SocialSettings::class),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? [
+                    ...$request->user()->toArray(),
+                    'roles' => $request->user()->roles->pluck('name')->toArray(),
+                ] : null,
             ],
             'sharedWorks' => fn() => sharedWorkListResource::collection(Work::all()),
         ];

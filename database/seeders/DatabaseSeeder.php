@@ -14,28 +14,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::firstOrCreate(
+        $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin']);
+        $clientRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'client']);
+        $formerRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'former']);
+        $bloggerRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'blogger']);
+        
+        $admin = User::firstOrCreate(
             ['email' => 'liwan@admin.com'],
             [
                 'name' => 'Liwan Admin',
-                'password' => 'password',
+                'username' => 'admin',
+                'password' => bcrypt('password'),
                 'email_verified_at' => now(),
-                'role' => 'admin',
             ]
         );
         
-
+        if (!$admin->hasRole('super_admin')) {
+            $admin->assignRole('super_admin');
+        }
         
 
         $this->call([
-            DesignDeliveryStandardSeeder::class,
+            /* DesignDeliveryStandardSeeder::class,
             BlogSeeder::class ,
             TestimonialSeeder::class,
             WorkSeeder::class,
             FaqSeeder::class,
-            ResidencySeeder::class
+            ResidencySeeder::class */
         ]);
 
     }

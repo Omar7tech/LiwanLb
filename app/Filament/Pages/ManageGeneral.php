@@ -11,8 +11,11 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use UnitEnum;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+
 class ManageGeneral extends SettingsPage
 {
+    use HasPageShield;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
     protected static string $settings = GeneralSettings::class;

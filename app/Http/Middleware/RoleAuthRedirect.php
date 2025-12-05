@@ -17,7 +17,7 @@ class RoleAuthRedirect
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->role != 'user') {
+            if (!Auth::user()->hasRole('client')) {
                 return redirect(route('filament.admin.pages.dashboard'));
             } 
         }

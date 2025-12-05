@@ -37,8 +37,8 @@ Route::middleware([CheckSiteActive::class])->group(function () {
 
 
 
-    Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest', 'throttle:5,1');
-    Route::post('/login-store', [AuthController::class, 'store'])->name('login-store')->middleware('throttle:5,1');
+    Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
+    Route::post('/login-store', [AuthController::class, 'store'])->name('login-store');
 
 
 

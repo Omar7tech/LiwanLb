@@ -23,9 +23,21 @@ class AuthController extends Controller
             'password' => 'required|max:255',
         ]);
 
-        if (Auth::attempt($validated , true)) {
-            $request->session()->regenerate();
-            return to_route('dashboard');
+        if (Auth::attempt($validated, true)) {
+            $user = Auth::user();
+            
+            // Only allow clients to log in from the public login page
+            // Admins and super_admins should use /admin/login
+            if ($user->hasRole('client')) {
+                $request->session()->regenerate();
+                return to_route('dashboard');
+            }
+            
+            // If user is admin/super_admin, log them out and show error
+            Auth::logout();
+            return back()->withErrors([
+                'username' => 'Admin users must log in through the admin panel.',
+            ]);
         }
 
         return back()->withErrors([

@@ -27,7 +27,7 @@ export default function Login({ errors }: LoginProps) {
             <AppLayout>
                 <div className="min-h-[calc(100vh-80px)] flex">
                     {/* Left Side - Typography Hero (Desktop Only) */}
-                    <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-[#3a3b3a] to-[#2a2b2a]">
+                    <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-[#3a3b3a] to-[#2a2b2a]">
                         <div className="absolute inset-0 bg-[url('/images/heroimage.jpg')] bg-cover bg-center opacity-10"></div>
                         
                         {/* Large Typography */}

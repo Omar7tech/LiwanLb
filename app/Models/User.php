@@ -7,12 +7,13 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
+    use HasFactory , HasRoles; 
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +26,6 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'username',
         'phoneNumber',
-        'role',
     ];
 
     /**
@@ -56,6 +56,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return !$this->hasRole('client');
     }
 }

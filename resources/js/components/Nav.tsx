@@ -43,7 +43,7 @@ export function NavbarDemo() {
     const navItems4 = [
         {
             name: auth.user
-                ? auth.user.role == 'user'
+                ? auth.user.roles?.includes('client')
                     ? 'Your Account'
                     : 'Admin'
                 : 'Login',
@@ -53,6 +53,9 @@ export function NavbarDemo() {
     ];
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    // Helper function to check if user has a specific role
+    const hasRole = (role: string) => auth.user?.roles?.includes(role);
 
     return (
         <div className="sticky top-0 z-50 w-full">
@@ -67,7 +70,7 @@ export function NavbarDemo() {
                     />
                     <NavItems items={navItems2} />
                     <NavItems items={navItems3} />
-                    {auth.user?.role === 'user' ? (
+                    {hasRole('client') ? (
                         <NavItems
                             items={navItems4}
                             className="font-bold text-[#f2ae1d]"

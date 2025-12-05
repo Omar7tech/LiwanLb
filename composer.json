@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "androsamp/filament-rich-editor-textcolor": "^1.2",
+        "bezhansalleh/filament-shield": "^4.0",
         "filafly/brisk": "^1.0",
         "filament/filament": "~4.0",
         "filament/spatie-laravel-media-library-plugin": "^4.0",

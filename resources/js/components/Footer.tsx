@@ -11,7 +11,7 @@ const Footer = () => {
     const currentYear = 2025;
 
     return (
-        <footer className="mt-10 bg-[#3a3b3a] px-5 py-12 font-sans text-gray-300">
+        <footer className="bg-[#3a3b3a] px-5 py-12 font-sans text-gray-300">
             <div className="mx-auto max-w-6xl">
                 <div className="mb-6 grid grid-cols-1 gap-y-8 pb-8 md:grid-cols-3 md:gap-x-20">
                     <div>

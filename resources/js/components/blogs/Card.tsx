@@ -27,8 +27,8 @@ function Card({blog} : {blog : Blog}) {
             <div className="relative h-48 w-full overflow-hidden">
                 {/* Skeleton Loader with Shimmer Effect */}
                 {isLoading && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse z-10">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+                    <div className="absolute inset-0 bg-linear-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse z-10">
+                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
                         
                         {/* Spinning Loader Icon */}
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -84,12 +84,12 @@ function Card({blog} : {blog : Blog}) {
                     {blog.title}
                 </h3>
                 {/* Description with fade effect */}
-                <div className="relative mb-4 flex-grow overflow-hidden">
+                <div className="relative mb-4 grow overflow-hidden">
                     <p className="text-sm leading-relaxed text-gray-600 line-clamp-4">
                         {blog.description}
                     </p>
                     {/* Fade overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-white to-transparent" />
                 </div>
                 {/* Button Container */}
                 <div className="flex gap-2">
@@ -147,8 +147,8 @@ function Card({blog} : {blog : Blog}) {
                                             onClick={handleCopyLink}
                                             className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
                                         >
-                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                             </svg>
                                             Copy Link
                                         </button>

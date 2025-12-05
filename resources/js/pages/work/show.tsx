@@ -36,7 +36,6 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
     const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
-    // Background decorative elements
     const bgY1 = useTransform(pageScroll, [0, 1], ["0%", "200%"]);
     const bgY2 = useTransform(pageScroll, [0, 1], ["0%", "-100%"]);
     const bgRotate = useTransform(pageScroll, [0, 1], [0, 720]);

@@ -13,13 +13,12 @@ function PartnerWithUs() {
         offset: ["start start", "end start"]
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
     const scrollToInquiry = () => {
         const element = inquiryRef.current;
         if (element) {
-            const yOffset = -100; // Offset for navbar height
+            const yOffset = -100; 
             const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({ top: y, behavior: 'smooth' });
         }
@@ -27,18 +26,22 @@ function PartnerWithUs() {
 
     const features = [
         {
+            number: "01",
             title: "Innovative Projects",
             description: "Work on cutting-edge architectural projects that push boundaries and redefine spaces."
         },
         {
+            number: "02",
             title: "Collaborative Team",
             description: "Join a passionate team of architects, designers, and visionaries dedicated to excellence."
         },
         {
+            number: "03",
             title: "Growth Opportunities",
             description: "Expand your portfolio and expertise with diverse projects across residential and commercial sectors."
         },
         {
+            number: "04",
             title: "Award-Winning Work",
             description: "Be part of a studio recognized for design excellence and architectural innovation."
         }
@@ -48,144 +51,92 @@ function PartnerWithUs() {
         <>
             <Head title="Partner With Us" />
             <AppLayout>
-                {/* Hero Section */}
-                <section ref={heroRef} className="relative overflow-hidden min-h-[80vh] flex items-center">
-                    <motion.div 
-                        style={{ y, opacity }}
-                        className="relative max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 w-full"
+                <div>
+            {/* Hero Section */}
+            <section ref={heroRef} className="pt-16 pb-20 px-5 md:px-16">
+                <motion.div 
+                    style={{ y }}
+                    className="max-w-[1400px]"
+                >
+                    
+
+                    <motion.h1 
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.9, delay: 0.2 }}
+                        className="text-[clamp(3.5rem,12vw,14rem)] font-extralight leading-[0.85] tracking-tight mb-12"
                     >
-                        <motion.div
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, ease: "easeOut" }}
-                            className="text-center max-w-4xl mx-auto"
+                        <span className="block text-[#1a1a1a]">Partner</span>
+                        <span className="block text-[#1a1a1a]">With</span>
+                        <span className="block text-[#F2AE1D] italic font-light">Liwan</span>
+                    </motion.h1>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 max-w-6xl"
+                    >
+                        <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed max-w-xl">
+                            Whether you're a contractor, developer, or fellow designer, we'd love to explore how we can collaborate to bring exceptional architectural visions to life.
+                        </p>
+
+                        <button
+                            onClick={scrollToInquiry}
+                            className="group flex items-center gap-3 text-[#1a1a1a] border-b-2 border-[#F2AE1D] pb-2 hover:gap-4 transition-all duration-300 self-start"
                         >
-                            <motion.h1 
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-5xl md:text-7xl lg:text-8xl font-extralight mb-6 leading-tight text-[#3a3b3a]"
+                            <span className="text-base font-medium uppercase tracking-wider">Send Inquiry</span>
+                            <svg 
+                                className="w-6 h-6 transition-transform group-hover:translate-x-1" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
                             >
-                                Partner With
-                                <motion.span 
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.5 }}
-                                    className="block text-[#F2AE1D] font-light mt-2"
-                                >
-                                    Liwan
-                                </motion.span>
-                            </motion.h1>
-
-                            <motion.p 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.7 }}
-                                className="text-lg md:text-xl text-gray-600 font-light leading-relaxed max-w-2xl mx-auto mb-10"
-                            >
-                                Join forces with Lebanon's premier architectural studio. Together, we'll create spaces that inspire, innovate, and endure.
-                            </motion.p>
-
-                            <motion.button
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.9 }}
-                                onClick={scrollToInquiry}
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-[#F2AE1D] text-white font-semibold rounded-lg hover:bg-[#d99a1a] transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                            >
-                                Send Us an Inquiry
-                                <svg 
-                                    className="w-5 h-5 transition-transform group-hover:translate-y-1" 
-                                    fill="none" 
-                                    stroke="currentColor" 
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                                </svg>
-                            </motion.button>
-                        </motion.div>
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </button>
                     </motion.div>
+                </motion.div>
+            </section>
 
-                    {/* Decorative Elements */}
+
+
+            {/* CTA Section */}
+            <section className="py-20 px-5 md:px-16 lg:px-24">
+                <div className="max-w-[1400px]">
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.05 }}
-                        transition={{ duration: 1.5, delay: 0.5 }}
-                        className="absolute top-20 right-10 w-64 h-64 border-2 border-[#F2AE1D] rounded-full"
-                        style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
-                    />
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.05 }}
-                        transition={{ duration: 1.5, delay: 0.7 }}
-                        className="absolute bottom-20 left-10 w-48 h-48 border-2 border-[#F2AE1D] rounded-full"
-                        style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]) }}
-                    />
-                </section>
-
-                {/* Why Partner Section */}
-                <section className="py-16 md:py-24">
-                    <div className="max-w-7xl mx-auto px-5 md:px-10">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="text-center mb-12 md:mb-16"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.7 }}
+                        className="border-t border-gray-200 pt-20"
+                    >
+                        <h2 className="text-[clamp(2.5rem,8vw,8rem)] font-extralight leading-[0.9] tracking-tight text-[#1a1a1a] mb-12">
+                            Ready to create<br />something amazing?
+                        </h2>
+                        
+                        <button
+                            onClick={scrollToInquiry}
+                            className="group inline-flex items-center gap-4 text-xl text-[#1a1a1a] border-b-2 border-[#F2AE1D] pb-3 hover:gap-6 transition-all duration-300"
                         >
-                            <h2 className="text-4xl md:text-6xl font-extralight text-[#3a3b3a] mb-4">
-                                Why Partner With Us?
-                            </h2>
-                            <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">
-                                We believe in the power of collaboration to create extraordinary architectural experiences.
-                            </p>
-                        </motion.div>
+                            <span className="font-medium uppercase tracking-wider">Let's Talk</span>
+                            <svg 
+                                className="w-7 h-7 transition-transform group-hover:translate-x-2" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </button>
+                    </motion.div>
+                </div>
+            </section>
 
-                        <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
-                            {features.map((feature, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1, duration: 0.6 }}
-                                    className="group border-l-4 border-gray-200 pl-6 py-4 hover:border-[#F2AE1D] transition-all duration-300"
-                                >
-                                    <h3 className="text-xl md:text-2xl font-semibold text-[#3a3b3a] mb-2 group-hover:text-[#F2AE1D] transition-colors duration-300">
-                                        {feature.title}
-                                    </h3>
-
-                                    <p className="text-gray-600 font-light leading-relaxed">
-                                        {feature.description}
-                                    </p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA Section */}
-                <section className="py-16 md:py-20">
-                    <div className="max-w-4xl mx-auto px-5 md:px-10 text-center">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <h2 className="text-4xl md:text-5xl font-light text-[#3a3b3a] mb-6">
-                                Ready to Create Something Amazing?
-                            </h2>
-                            <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">
-                                Whether you're a contractor, developer, or fellow designer, we'd love to explore how we can collaborate to bring exceptional architectural visions to life.
-                            </p>
-                        </motion.div>
-                    </div>
-                </section>
-
-                {/* Inquiry Section */}
-                <div ref={inquiryRef}>
-                    <InquirySection />
+            {/* Inquiry Section */}
+            <div ref={inquiryRef}>
+                <InquirySection />
+            </div>
                 </div>
             </AppLayout>
         </>
@@ -193,4 +144,3 @@ function PartnerWithUs() {
 }
 
 export default PartnerWithUs
-

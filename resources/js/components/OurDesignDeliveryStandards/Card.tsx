@@ -45,7 +45,7 @@ function Card({designDeliveryStandard, index}: {designDeliveryStandard: DesignDe
         >
             
             {/* Animated gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#f2ae1d]/0 via-[#f2ae1d]/0 to-[#f2ae1d]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-linear-to-br from-[#f2ae1d]/0 via-[#f2ae1d]/0 to-[#f2ae1d]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
             {/* Decorative corner accents */}
             <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-[#f2ae1d]/30 rounded-tr-2xl group-hover:border-[#f2ae1d] transition-colors duration-300"></div>

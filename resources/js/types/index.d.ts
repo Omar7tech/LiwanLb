@@ -143,8 +143,7 @@ export interface FAQs {
 
 export interface ResidencyContent {
     id: number;
-    title: string;
-    subtitle: string | null;
+
     content: any;
     image: string | null;
 }

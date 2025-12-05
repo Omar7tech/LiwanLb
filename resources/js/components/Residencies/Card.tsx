@@ -16,24 +16,22 @@ function Card({ residency, onImageClick }: { residency: Residency; onImageClick?
   };
 
   return (
-    <Link 
+    <Link
         href={show(residency)}
         className="relative group overflow-hidden rounded-2xl h-[250px] md:h-[350px] block transition-transform duration-500 hover:scale-[1.02]"
     >
-        {/* Skeleton Loader with Shimmer Effect - Only for Image */}
+        {/* Skeleton Loader */}
         {isLoading && (
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
-                
-                {/* Spinning Loader Icon */}
+            <div className="absolute inset-0 bg-linear-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin"></div>
+                    <div className="w-12 h-12 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin" />
                 </div>
             </div>
         )}
-        
+
         {/* Main Image */}
-        <img 
+        <img
             src={residency.image || '/images/residenceNoImg.webp'}
             alt={residency.name}
             loading="lazy"
@@ -43,31 +41,32 @@ function Card({ residency, onImageClick }: { residency: Residency; onImageClick?
                 setIsLoading(false);
             }}
             onClick={handleImageClick}
-            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'} cursor-pointer`}
+            className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'} cursor-pointer`}
         />
-        
-        {/* Gradient Overlay - Black fade from bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-        
-        {/* Content at Bottom - Always Visible */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 space-y-3">
-            {/* Title */}
-            <h3 className="text-white text-xl md:text-3xl font-bold leading-tight">
-                {residency.name}
-            </h3>
-            
-            {/* Explore Button - Always Visible */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#f2ae1d] text-white rounded-lg font-semibold text-sm md:text-base shadow-lg transition-all duration-200 hover:bg-[#d99a15] hover:scale-105">
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-90 transition-opacity duration-300" />
+
+        {/* Top Right Glassy Explore Button */}
+        <div className="absolute top-4 right-4 z-20">
+             <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-white text-sm font-medium transition-all duration-300 group-hover:bg-[#3a3b3a]/10 group-hover:border-[#3a3b3a]/10">
                 <span>Explore</span>
                 <svg 
-                    className="w-4 h-4" 
+                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
                     fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
                 >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
             </div>
+        </div>
+
+        {/* Content at Bottom */}
+        <div className="absolute bottom-0 left-0 w-full p-6 space-y-1">
+            <h3 className="text-white text-xl md:text-2xl font-bold leading-tight tracking-wide">
+                {residency.name}
+            </h3>
         </div>
     </Link>
   )

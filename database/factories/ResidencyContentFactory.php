@@ -17,7 +17,8 @@ class ResidencyContentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'content' => $this->faker->paragraphs(rand(3, 10), true),
+            'active' => true,
         ];
     }
 }

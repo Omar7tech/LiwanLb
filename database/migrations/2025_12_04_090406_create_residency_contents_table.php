@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('residency_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->string('subtitle')->nullable();
-            $table->text('content')->nullable();
+            $table->longText('content')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
             $table->foreignId('residency_id')->constrained('residencies')->cascadeOnDelete();

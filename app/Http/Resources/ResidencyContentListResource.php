@@ -16,8 +16,7 @@ class ResidencyContentListResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'subtitle' => $this->subtitle,
+
             'content' => $this->content,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
         ];

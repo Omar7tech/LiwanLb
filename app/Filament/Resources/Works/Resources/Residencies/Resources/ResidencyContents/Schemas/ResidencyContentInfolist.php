@@ -17,17 +17,13 @@ class ResidencyContentInfolist
                 Section::make('Content Information')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        TextEntry::make('title')
-                            ->label('Title')
-                            ->placeholder('No title set'),
+
                         
-                        TextEntry::make('subtitle')
-                            ->label('Subtitle')
-                            ->placeholder('No subtitle set'),
+
                         
                         TextEntry::make('content')
                             ->label('Content')
-                            ->markdown()
+                            ->html()
                             ->placeholder('No content set')
                             ->columnSpanFull(),
                     ])

@@ -25,6 +25,8 @@ class DesignDeliveryStandardResource extends Resource
 
     protected static UnitEnum|string|null $navigationGroup = 'Content Management';
 
+    protected static ?string $navigationLabel = 'Features';
+
     public static function form(Schema $schema): Schema
     {
         return DesignDeliveryStandardForm::configure($schema);

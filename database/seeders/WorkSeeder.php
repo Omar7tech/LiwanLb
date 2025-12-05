@@ -20,14 +20,19 @@ class WorkSeeder extends Seeder
             ['name' => 'Business', 'title' => 'Liwan Business Space'],
         ];
 
+        $faker = \Faker\Factory::create();
+
         foreach ($works as $index => $work) {
-            Work::firstOrCreate(
-                ['name' => $work['name']],
-                [
-                    'title' => $work['title'],
-                    'order' => $index,
-                ]
-            );
+            $steps = [];
+            for ($i = 0; $i < rand(4, 8); $i++) {
+                $steps[] = [
+                    'title' => $faker->sentence(3),
+                    'description' => $faker->paragraph(),
+                ];
+            }
+
+            
+
         }
     }
 }

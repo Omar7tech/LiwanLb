@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Works\Resources\Residencies\Resources\ResidencyContents\Schemas;
 
+use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
@@ -19,26 +20,21 @@ class ResidencyContentForm
                     ->description('Add the main content details for this residency section')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Title')
-                            ->maxLength(255)
-                            ->placeholder('Enter section title')
-                            ->helperText('Main heading for this content section'),
-                        
-                        TextInput::make('subtitle')
-                            ->label('Subtitle')
-                            ->maxLength(255)
-                            ->placeholder('Enter section subtitle')
-                            ->helperText('Optional subheading for additional context'),
-                        
-                        Textarea::make('content')
+                        RichEditor::make('content')
                             ->label('Content')
-                            ->rows(5)
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'highlight', 'details', 'strike', 'subscript', 'superscript', 'link'],
+                                ['clearFormatting'],
+                                ['h1', 'h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd', 'lead'],
+                                ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                                ['table'],
+                                ['undo', 'redo'],
+                            ])
                             ->placeholder('Enter the main content text...')
                             ->helperText('Detailed description or information for this section')
                             ->columnSpanFull(),
                     ])
-                    ->columns(2)
+                    ->columnSpanFull()
                     ->collapsible(),
 
                 Section::make('Media')
@@ -67,20 +63,13 @@ class ResidencyContentForm
                             ->helperText('📸 Upload image (max 2MB). Recommended size: 1200x800px')
                             ->columnSpanFull(),
                     ])
+                    ->columnSpanFull()
                     ->collapsible(),
 
                 Section::make('Settings')
                     ->description('Configure display and ordering settings')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->schema([
-                        TextInput::make('order')
-                            ->label('Display Order')
-                            ->numeric()
-                            ->default(0)
-                            ->required()
-                            ->minValue(0)
-                            ->helperText('Lower numbers appear first'),
-                        
                         Toggle::make('active')
                             ->label('Active')
                             ->default(true)
@@ -88,7 +77,7 @@ class ResidencyContentForm
                             ->helperText('Only active content will be displayed on the website')
                             ->inline(false),
                     ])
-                    ->columns(2)
+                    ->columnSpanFull()
                     ->collapsible(),
             ]);
     }

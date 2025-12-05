@@ -25,28 +25,13 @@ class ResidencyContentsTable
                     ->circular()
                     ->defaultImageUrl(url('/images/placeholder.png')),
                 
-                TextColumn::make('title')
-                    ->label('Title')
-                    ->searchable()
-                    ->sortable()
-                    ->limit(30)
-                    ->tooltip(function (TextColumn $column): ?string {
-                        $state = $column->getState();
-                        return strlen($state) > 30 ? $state : null;
-                    }),
+
                 
-                TextColumn::make('subtitle')
-                    ->label('Subtitle')
-                    ->searchable()
-                    ->limit(40)
-                    ->toggleable()
-                    ->tooltip(function (TextColumn $column): ?string {
-                        $state = $column->getState();
-                        return strlen($state) > 40 ? $state : null;
-                    }),
+
                 
                 TextColumn::make('content')
                     ->label('Content')
+                    ->html()
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->wrap(),

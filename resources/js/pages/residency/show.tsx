@@ -26,13 +26,7 @@ function Show({residency}: {residency: Residency}) {
                     {/* ================= MOBILE HERO ================= */}
                     <div className="md:hidden relative min-h-screen w-full overflow-hidden flex flex-col pt-32 pb-0 z-10">
                         
-                        {/* Vertical Accent Line */}
-                        <motion.div 
-                            initial={{ height: 0 }}
-                            animate={{ height: "100%" }}
-                            transition={{ duration: 1.5, ease: "easeInOut" }}
-                            className="absolute top-0 left-8 w-[2px] bg-[#f2ae1d] z-20"
-                        />
+
 
                         {/* Title - Staggered Animation */}
                         <div className="relative z-30 px-12 mb-10">
@@ -101,13 +95,7 @@ function Show({residency}: {residency: Residency}) {
                                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                                         className="space-y-6"
                                     >
-                                        {/* Accent Line */}
-                                        <motion.div
-                                            initial={{ width: 0 }}
-                                            animate={{ width: "60px" }}
-                                            transition={{ duration: 0.8, delay: 0.3 }}
-                                            className="h-[2px] bg-[#f2ae1d]"
-                                        />
+
                                         
                                         <h1 className="text-[#3a3b3a] text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.05] tracking-tight">
                                             {residency.name}

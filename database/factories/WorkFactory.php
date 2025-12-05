@@ -16,28 +16,13 @@ class WorkFactory extends Factory
      */
     public function definition(): array
     {
-        $steps = [
-            [
-                'title' => 'Understanding Your Lifestyle',
-                'description' => 'We begin by exploring your needs, family habits, and long-term plans to shape a home that reflects how you truly live.',
-            ],
-            [
-                'title' => 'Concept & Space Planning',
-                'description' => 'We develop functional layouts, circulation, lighting strategy, and an initial architectural concept aligned with your budget.',
-            ],
-            [
-                'title' => 'Detailed Architectural Design',
-                'description' => 'Full drawings, elevations, materials, and 3D visualizations to help you see your home clearly — before execution begins.',
-            ],
-            [
-                'title' => 'Licensing & Documentation',
-                'description' => 'We manage all approvals, with a clear roadmap covering zoning, regulations, and municipal requirements.',
-            ],
-            [
-                'title' => 'Execution & Supervision',
-                'description' => 'On-site visits, contractor coordination, quality control, and continuous communication until handover.',
-            ],
-        ];
+        $steps = [];
+        for ($i = 0; $i < rand(4, 8); $i++) {
+            $steps[] = [
+                'title' => $this->faker->sentence(3),
+                'description' => $this->faker->paragraph(),
+            ];
+        }
 
         return [
             'name' => $this->faker->unique()->word(),

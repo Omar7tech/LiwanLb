@@ -30,6 +30,8 @@ class ResidencyResource extends Resource
 
     protected static ?string $parentResource = WorkResource::class;
 
+        
+
     public static function form(Schema $schema): Schema
     {
         return ResidencyForm::configure($schema);
@@ -51,7 +53,7 @@ class ResidencyResource extends Resource
             ResidencyContentsRelationManager::class,
         ];
     }
-    
+
 
     public static function getEloquentQuery(): Builder
     {

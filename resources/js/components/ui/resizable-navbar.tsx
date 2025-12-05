@@ -94,7 +94,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       transition={{ type: "spring", stiffness: 200, damping: 50 }}
       style={{ minWidth: "800px" }}
       className={cn(
-        "relative z-[60] mx-auto hidden  flex-row items-center justify-between rounded-full bg-transparent px-4 py-2 lg:flex",
+        "relative z-60 mx-auto hidden  flex-row items-center justify-between rounded-full bg-transparent px-4 py-2 lg:flex",
         visible && "bg-[#fafafa]/80",
         className
       )}
@@ -194,41 +194,34 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute left-0 top-full w-[320px] z-[100]"
+            className="absolute left-0 top-full w-[320px] z-100"
           >
             {/* Invisible bridge to prevent gap */}
             <div className="h-2" />
             
             {/* Dropdown Container */}
-            <div className="bg-white rounded-xl shadow-2xl ring-1 ring-black/5 overflow-hidden">
-              
-              {/* Top Golden Accent */}
-              <div className="h-1 bg-gradient-to-r from-transparent via-[#F2AE1D] to-transparent" />
+            <div className="bg-white rounded-lg shadow-xl ring-1 ring-black/5 overflow-hidden p-2 min-w-[280px]">
               
               {/* Items List */}
-              <div className="py-2">
+              <div className="flex flex-col">
                 {items.map((item, index) => (
                   <Link
                     key={item.id}
                     href={`/work/${item.slug}`}
-                    className="group block relative"
+                    className="group block relative rounded-md hover:bg-neutral-50 transition-colors duration-200"
                   >
-                    {/* Hover Background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#F2AE1D]/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-200" />
                     
                     {/* Content */}
-                    <div className="relative px-6 py-4 flex items-center gap-4">
-                      {/* Left Golden Bar */}
-                      <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#F2AE1D] scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center rounded-r-full" />
+                    <div className="relative px-5 py-3.5 flex items-center justify-between">
                       
                       {/* Work Name - Bigger and cleaner */}
-                      <span className="flex-1 text-base font-medium text-gray-700 group-hover:text-[#F2AE1D] transition-colors duration-200">
+                      <span className="text-lg font-light text-neutral-600 group-hover:text-black transition-colors duration-200 tracking-wide">
                         {item.name}
                       </span>
                       
                       {/* Arrow */}
                       <svg
-                        className="w-4 h-4 text-[#F2AE1D] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                        className="w-4 h-4 text-neutral-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -236,22 +229,14 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2.5}
+                          strokeWidth={1.5}
                           d="M9 5l7 7-7 7"
                         />
                       </svg>
                     </div>
-
-                    {/* Divider */}
-                    {index < items.length - 1 && (
-                      <div className="mx-6 h-px bg-gray-100" />
-                    )}
                   </Link>
                 ))}
               </div>
-
-              {/* Bottom Accent */}
-              <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
             </div>
           </motion.div>
         )}

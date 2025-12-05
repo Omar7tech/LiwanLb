@@ -127,7 +127,7 @@ export function NavbarDemo() {
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="relative text-2xl font-light text-neutral-500 pl-4"
                             >
-                                <span className="block">{work.name}</span>
+                                <span className="block">{work.title || work.name}</span>
                             </Link>
                         ))}
                         {navItems2.map((item, idx) => (

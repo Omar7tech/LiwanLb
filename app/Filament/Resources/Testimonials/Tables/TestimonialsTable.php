@@ -21,6 +21,11 @@ class TestimonialsTable
                     ->searchable(),
                 RatingColumn::make('rating')
                     ->sortable(),
+                TextColumn::make('work.name')
+                    ->label('Related Work')
+                    ->searchable()
+                    ->sortable()
+                    ->placeholder('General'),
                 ToggleColumn::make('active')
                 ,
                 TextColumn::make('created_at')

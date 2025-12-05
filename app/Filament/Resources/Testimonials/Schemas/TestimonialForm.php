@@ -30,6 +30,14 @@ class TestimonialForm
                             ->rows(5)
                             ->columnSpanFull()
                             ->placeholder('Enter the testimonial text...'),
+
+                        \Filament\Forms\Components\Select::make('work_id')
+                            ->label('Related Work (Optional)')
+                            ->relationship('work', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->nullable()
+                            ->helperText('Associate this testimonial with a specific work'),
                     ])
                     ->columnSpan(2),
 

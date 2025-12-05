@@ -24,7 +24,7 @@ function show({ blog }: { blog: Blog }) {
 
     return (
         <>
-            <Head title={pageTitle} />
+            <Head title={'Blog - ' + pageTitle} />
             <AppLayout>
                 <div className="text-gray-800">
 

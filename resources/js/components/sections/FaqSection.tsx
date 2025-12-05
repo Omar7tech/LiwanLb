@@ -2,16 +2,16 @@ import { FAQ, FAQs } from "@/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 // --- CUSTOM COLORS DERIVED FROM YOUR CARD ---
 // Adjusted light theme colors for clean separation and contrast
-const LIGHT_BG = "#FAFAFA";               // Main section background
-const CARD_BACKGROUND_COLOR = "#ffffff";  // Card Background (White)
-const ACCENT_COLOR = "#f2ae1d";          // Accent (Gold/Yellow)
-const QUESTION_COLOR = "#2C2C2C";        // Primary Dark Text (Question)
-const ANSWER_COLOR = "#666666";          // Muted Gray Text (Answer)
-const BORDER_COLOR = "#E5E5E5";          // Light Border/Line
-const MAIN_TEXT_COLOR = "#3a3b3a";        // Main Text color for non-card elements
+const LIGHT_BG = "#FAFAFA";               // Main section background
+const CARD_BACKGROUND_COLOR = "#ffffff";  // Card Background (White)
+const ACCENT_COLOR = "#f2ae1d";          // Accent (Gold/Yellow)
+const QUESTION_COLOR = "#2C2C2C";        // Primary Dark Text (Question)
+const ANSWER_COLOR = "#666666";          // Muted Gray Text (Answer)
+const BORDER_COLOR = "#E5E5E5";          // Light Border/Line
 const DEFAULT_IMAGE = "/images/blognoimage.webp";
 // ------------------------------------------
 
@@ -48,32 +48,29 @@ export default function FaqSection({ faqs, workImage, overlayText }: FaqSectionP
     return (
         // Main section background set to LIGHT_BG for contrast (or keep transparent if needed)
         <section
-            className={`py-10 `}
-            style={{ backgroundColor: LIGHT_BG }}
+            className={`py-3`}
         >
 
             <motion.div
                 variants={sectionVariants}
                 initial="hidden"
                 animate="visible"
-                className={`max-w-screen-2xl mx-auto px-5 `}
+                className={`max-w-screen-2xl mx-auto px-4 md:px-8`}
             >
 
-                {/* Responsive Grid Layout (Image Left, FAQs Right) */}
                 <div
-                    className={`grid ${hasImage ? 'grid-cols-1 lg:grid-cols-12' : 'grid-cols-1'} gap-12 lg:gap-16 items-start`}
+                    className={`grid ${hasImage ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-8 lg:gap-12 items-stretch`}
                 >
 
-                    {/* 1. Image Section (Left - 5/12 columns) - Image styling remains from your last version */}
                     {hasImage && (
-                        <div className="lg:col-span-5 lg:sticky lg:top-16 lg:h-full">
+                        <div className="relative h-full min-h-[400px] lg:min-h-0">
                             <div
-                                className="w-full relative overflow-hidden h-full rounded-2xl shadow-xl transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-gray-400/30"
+                                className="w-full relative overflow-hidden h-full lg:absolute lg:inset-0 rounded-2xl shadow-xl transition-all duration-500 hover:scale-[1.005] hover:shadow-2xl hover:shadow-gray-400/30"
                                 style={{ border: `1px solid ${BORDER_COLOR}` }}
                             >
                                 {isLoadingImage && (
-                                    <div className="absolute inset-0 z-10 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+                                    <div className="absolute inset-0 z-10 bg-linear-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <div className="w-12 h-12 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin"></div>
                                         </div>
@@ -92,8 +89,8 @@ export default function FaqSection({ faqs, workImage, overlayText }: FaqSectionP
                                 />
                                 {/* Overlay Text on Image */}
                                 {overlayText && (
-                                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
-                                        <p className="text-white text-lg font-light italic">
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6 md:p-8">
+                                        <p className="text-white text-xl md:text-2xl font-light italic leading-relaxed">
                                             {overlayText}
                                         </p>
                                     </div>
@@ -102,58 +99,75 @@ export default function FaqSection({ faqs, workImage, overlayText }: FaqSectionP
                         </div>
                     )}
 
-                    {/* 2. FAQs Section (Right - 7/12 columns) */}
-                    <div className={`space-y-4 ${hasImage ? 'lg:col-span-7' : 'max-w-4xl mx-auto'}`}>
+                    <div className={`flex flex-col justify-center ${hasImage ? '' : 'max-w-4xl mx-auto w-full'}`}>
 
-                        {/* FAQ List: Tightly Spaced CARDS */}
-                        <Accordion
-                            type="single"
-                            collapsible
-                            className="w-full space-y-4"
-                            defaultValue={defaultOpenItem}
-                        >
-                            {faqList.length === 0 ? (
-                                <div className="p-6 text-center border rounded-xl shadow-md" style={{ borderColor: BORDER_COLOR, backgroundColor: CARD_BACKGROUND_COLOR }}>
-                                    <p className="text-gray-500">No questions available.</p>
-                                </div>
-                            ) : (
-                                faqList.map((faq, index) => (
-                                    <AccordionItem
-                                        key={faq.id}
-                                        value={`item-${faq.id}`}
-                                        // p-0 here, but the trigger and content will get the padding
-                                        className={`p-0 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border`}
-                                        style={{
-                                            backgroundColor: CARD_BACKGROUND_COLOR,
-                                            borderColor: BORDER_COLOR
-                                        }}
-                                    >
-                                        {/* AccordionTrigger: Receives the p-6 padding to make the entire area clickable */}
-                                        <AccordionTrigger
-                                            className={`text-left text-lg md:text-xl font-medium p-6 group hover:no-underline`}
-                                            style={{ color: QUESTION_COLOR }}
+                        <div className={`w-full ${faqList.length > 3 ? 'lg:max-h-[600px] lg:overflow-y-auto lg:pr-4 custom-scrollbar' : ''}`}>
+                            <Accordion
+                                type="single"
+                                collapsible
+                                className="w-full space-y-3"
+                                defaultValue={defaultOpenItem}
+                            >
+                                {faqList.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center p-10 md:p-16 text-center border rounded-2xl shadow-sm bg-white h-full min-h-[300px]" style={{ borderColor: BORDER_COLOR }}>
+                                        <h3 className="text-2xl font-light text-[#3a3b3a] mb-2">Have Questions?</h3>
+                                        <p className="text-gray-500 mb-6 font-light">We're here to help you with any inquiries you might have.</p>
+                                        <div className="flex gap-4">
+                                            <WhatsAppButton 
+                                                className="bg-[#F2AE1D]! text-white! hover:bg-[#d99a16]! transition-colors duration-300 px-6 py-3 rounded-full font-medium"
+                                            />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    faqList.map((faq, index) => (
+                                        <AccordionItem
+                                            key={faq.id}
+                                            value={`item-${faq.id}`}
+                                            className={`rounded-xl shadow-sm transition-all duration-300 hover:shadow-md border overflow-hidden`}
+                                            style={{
+                                                backgroundColor: CARD_BACKGROUND_COLOR,
+                                                borderColor: BORDER_COLOR
+                                            }}
                                         >
-                                            <span className={`flex-1 pr-6 transition-colors duration-300 group-hover:text-[${ACCENT_COLOR}]`}>
-                                                {faq.question}
-                                            </span>
-                                        </AccordionTrigger>
+                                            <AccordionTrigger
+                                                className={`text-left text-lg md:text-xl font-medium p-5 md:p-6 group hover:no-underline`}
+                                                style={{ color: QUESTION_COLOR }}
+                                            >
+                                                <span className={`flex-1 pr-4 text-xl transition-colors duration-300 text-[#3a3b3a] group-hover:text-[#f2ae1d]`}>
+                                                    {faq.question}
+                                                </span>
+                                            </AccordionTrigger>
 
-                                        <AccordionContent
-                                            // Adjusted padding for the content area: top=0, bottom=p-6, horizontal=p-6.
-                                            // This creates the continuous p-6 margin around the whole element when open.
-                                            className={`pt-0 pb-6 px-6 leading-relaxed text-base`}
-                                            style={{ color: ANSWER_COLOR }}
-                                        >
-                                            <p>{faq.answer}</p>
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                ))
-                            )}
-                        </Accordion>
+                                            <AccordionContent
+                                                className={`pt-0 pb-5 px-5 md:pb-6 md:px-6 leading-relaxed text-base md:text-lg font-light`}
+                                                style={{ color: ANSWER_COLOR }}
+                                            >
+                                                <p>{faq.answer}</p>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    ))
+                                )}
+                            </Accordion>
+                        </div>
 
                     </div>
                 </div>
             </motion.div>
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background-color: #e5e5e5;
+                    border-radius: 20px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background-color: #d4d4d4;
+                }
+            `}</style>
         </section>
     );
 }

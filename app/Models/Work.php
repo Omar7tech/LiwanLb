@@ -49,6 +49,11 @@ class Work extends Model implements HasMedia
         return $this->hasMany(Residency::class);
     }
 
+    public function Testimonials()
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+
     protected static function booted(): void
     {
         static::addGlobalScope('WorkScope', function (Builder $builder) {

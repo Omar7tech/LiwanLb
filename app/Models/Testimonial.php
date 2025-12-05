@@ -17,4 +17,8 @@ class Testimonial extends Model
             'active' => 'boolean',
         ];
     }
+    public function work()
+    {
+        return $this->belongsTo(Work::class);
+    }
 }

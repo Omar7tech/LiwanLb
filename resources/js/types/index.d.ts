@@ -98,6 +98,7 @@ export interface Testimonial {
     name: string;
     testimonial: string;
     rating: number;
+    work_name?: string;
 }
 
 export interface Testimonials {

@@ -45,15 +45,15 @@ function WorkIndex({ works }: { works: Works }) {
 
                 <div className="container mx-auto px-4 md:px-8 py-12 md:py-16">
                     <motion.div
-                        className="text-center space-y-4 max-w-3xl mx-auto mb-12 md:mb-16"
+                        className="space-y-4 mb-12 md:mb-16"
                         initial="hidden"
                         animate="visible"
                         variants={titleVariants}
                     >
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#3a3b3a]">
+                        <h1 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-[#3a3b3a]">
                             Explore Our Work Categories
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-600">
+                        <p className="text-xl md:text-2xl font-light text-[#3a3b3a] ps-0 md:ps-2">
                             Browse through our diverse range of architectural and design services
                         </p>
                     </motion.div>
@@ -117,9 +117,19 @@ function WorkCard({ work }: { work: Work }) {
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"></div>
             <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6">
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 transform transition-transform duration-500 group-hover:translate-y-[-4px]">
+                <h2 className="text-xl md:text-2xl lg:text-4xl font-light text-white mb-1 md:mb-2 transform transition-transform duration-500 group-hover:translate-y-[-4px]">
                     {work.name}
                 </h2>
+
+                {work.title && (
+                    <p className="text-sm md:text-lg text-gray-200 md:text-[#F2AE1D] font-normal md:font-medium mb-3 md:mb-2 
+                        opacity-100 md:opacity-0 md:group-hover:opacity-100 
+                        transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 
+                        transition-all duration-500 delay-75 line-clamp-2">
+                        {work.title}
+                    </p>
+                )}
+
                 <div className="flex items-center gap-2 text-[#F2AE1D] font-semibold text-sm md:text-base opacity-100 md:opacity-0 md:group-hover:opacity-100 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-500">
                     <span>Explore</span>
                     <svg

@@ -20,7 +20,8 @@ class TestimonialFactory extends Factory
         return [
             'name' => fake()->name() ,
             'testimonial' => fake()->paragraphs(1 , true) ,
-            'rating' => fake()->numberBetween(3 , 5)
+            'rating' => fake()->numberBetween(3 , 5),
+            'work_id' => \App\Models\Work::inRandomOrder()->first()?->id,
         ];
     }
 }

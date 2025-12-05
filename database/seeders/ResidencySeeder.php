@@ -12,6 +12,6 @@ class ResidencySeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Residency::factory(20)->create();
+        \App\Models\Residency::factory(100)->create();
     }
 }

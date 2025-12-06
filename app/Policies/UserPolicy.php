@@ -24,19 +24,13 @@ class UserPolicy
         return $authUser->can('Create:User');
     }
 
-    public function update(AuthUser $authUser, AuthUser $user): bool
+    public function update(AuthUser $authUser): bool
     {
-        if ($user->hasRole('super_admin') && !$authUser->hasRole('super_admin')) {
-            return false;
-        }
         return $authUser->can('Update:User');
     }
 
-    public function delete(AuthUser $authUser, AuthUser $user): bool
+    public function delete(AuthUser $authUser): bool
     {
-        if ($user->hasRole('super_admin') && !$authUser->hasRole('super_admin')) {
-            return false;
-        }
         return $authUser->can('Delete:User');
     }
 

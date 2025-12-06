@@ -31,8 +31,13 @@ class WorkSeeder extends Seeder
                 ];
             }
 
-            
-
+            Work::create([
+                'name' => $work['name'],
+                'title' => $work['title'],
+                'visual_text' => $faker->sentence(),
+                'process_title' => $faker->sentence(2),
+                'process_steps' => $steps,
+            ]);
         }
     }
 }

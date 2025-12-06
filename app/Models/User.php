@@ -8,6 +8,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Project;
 
 
 class User extends Authenticatable implements FilamentUser
@@ -57,5 +58,16 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return !$this->hasRole('client');
+    }
+
+    public function clientProjects()
+    {
+        return $this->hasMany(Project::class, 'client_id');
+    }
+
+    public function formerProjects()
+    {
+        return $this->belongsToMany(Project::class, 'project_former', 'former_id', 'project_id')
+            ->withTimestamps();
     }
 }

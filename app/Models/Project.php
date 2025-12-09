@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -36,15 +37,19 @@ class Project extends Model implements HasMedia
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    public function formers()
+    public function foremen()
     {
-        return $this->belongsToMany(User::class, 'project_former', 'project_id', 'former_id')
+        return $this->belongsToMany(User::class, 'project_foreman', 'project_id', 'foreman_id')
             ->withTimestamps();
     }
 
@@ -53,7 +58,6 @@ class Project extends Model implements HasMedia
         return $this->hasMany(ProjectUpdate::class);
     }
     
-    // Alias for backward compatibility
     public function projectSections()
     {
         return $this->projectUpdates();
@@ -65,5 +69,12 @@ class Project extends Model implements HasMedia
             ->format('webp')
             ->quality(20)
             ->nonQueued();
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('projectScope', function (Builder $builder) {
+            $builder->orderBy('order', 'asc')->where('active', true);
+        });
     }
 }

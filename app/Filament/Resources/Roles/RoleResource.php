@@ -108,11 +108,15 @@ class RoleResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()
+                    ->visible(fn ($record) => ! in_array($record->name, ['super_admin', 'client'], true)),
+                DeleteAction::make()
+                    ->visible(fn ($record) => ! in_array($record->name, ['super_admin', 'client'], true)),
             ])
             ->toolbarActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()
+                    ->deselectRecordsAfterCompletion()
+                    ->visible(fn () => true),
             ]);
     }
 

@@ -30,7 +30,7 @@ class AuthController extends Controller
             // Admins and super_admins should use /admin/login
             if ($user->hasRole('client')) {
                 $request->session()->regenerate();
-                return to_route('dashboard');
+                return to_route('dashboard.index');
             }
             
             // If user is admin/super_admin, log them out and show error

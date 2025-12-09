@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CostStudyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResidencyController;
 use App\Http\Controllers\WorkController;
 use App\Http\Middleware\RoleAuthRedirect;
@@ -43,9 +47,19 @@ Route::middleware([CheckSiteActive::class])->group(function () {
 
 
     Route::middleware(['auth', RoleAuthRedirect::class])->group(function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('dashboard');
-        })->name('dashboard');
+        Route::name('dashboard.')->prefix('dashboard')->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('index');
+            Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+            Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+            Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
+            
+            // Comment routes
+            Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store');
+            Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+        });
+
+
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 

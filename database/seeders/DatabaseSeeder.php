@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin']);
         $clientRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'client']);
-        $formerRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'former']);
+        $foremanRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'foreman']);
         $bloggerRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'blogger']);
         
         $admin = User::firstOrCreate(

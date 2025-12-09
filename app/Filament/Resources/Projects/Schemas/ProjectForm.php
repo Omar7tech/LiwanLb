@@ -1,0 +1,119 @@
+<?php
+
+namespace App\Filament\Resources\Projects\Schemas;
+
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
+
+class ProjectForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                // Project main details
+                Section::make('Project Details')
+                    ->description('Basic information about the project.')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Project name')
+                            ->placeholder('Liwan Tower')
+                            ->required(),
+
+                        DatePicker::make('start_date')
+                            ->label('Start date')
+                            ->required(),
+
+                        TextInput::make('status')
+                            ->label('Status')
+                            ->placeholder('Planning, In Progress, Completed...')
+                            ->required(),
+
+                        TextInput::make('location')
+                            ->label('Location')
+                            ->placeholder('Beirut, Lebanon')
+                            ->required(),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
+
+                // Client & foremen assignment
+                Section::make('Client & Foremen')
+                    ->description('Assign the client and optional foremen to this project.')
+                    ->schema([
+                        Select::make('client_id')
+                            ->label('Client')
+                            ->relationship(
+                                name: 'client',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn(Builder $query) => $query->role('client'),
+                            )
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->helperText('Required. Only users with the client role are listed.'),
+
+                        Select::make('foremen')
+                            ->label('Foremen')
+                            ->relationship(
+                                name: 'foremen',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn(Builder $query) => $query->role('foreman'),
+                            )
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->default(null)
+                            ->helperText('Optional: assign one or more foremen to this project.'),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
+
+                // Media section
+                Section::make('Project Media')
+                    ->description('Upload images related to this project.')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label('Project images')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->directory('projects')
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->imageEditor()
+                            ->conversion('webp')
+                            ->collection('images')
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                                '3:4',
+                            ])
+                            ->maxSize(2048)
+                            ->helperText('Upload image (max 2MB).')
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+
+                // Description / notes
+                Section::make('Description & Notes')
+                    ->description('Add an overview or any important notes about this project.')
+                    ->schema([
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->placeholder('Short overview, scope, or any relevant notes...')
+                            ->default(null)
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+            ]);
+    }
+}

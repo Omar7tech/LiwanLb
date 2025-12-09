@@ -27,6 +27,7 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'username',
         'phoneNumber',
+        'credentials_note',
     ];
 
     /**
@@ -65,9 +66,9 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Project::class, 'client_id');
     }
 
-    public function formerProjects()
+    public function foremanProjects()
     {
-        return $this->belongsToMany(Project::class, 'project_former', 'former_id', 'project_id')
+        return $this->belongsToMany(Project::class, 'project_foreman', 'foreman_id', 'project_id')
             ->withTimestamps();
     }
 }

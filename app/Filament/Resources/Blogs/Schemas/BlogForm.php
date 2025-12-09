@@ -48,7 +48,7 @@ class BlogForm
                             ->openable()
                             ->imageEditor()
                             ->conversion('webp')
-                            ->collection('images')
+                            ->collection(collection: 'images')
                             ->imageEditorAspectRatios([
                                 null,
                                 '16:9',

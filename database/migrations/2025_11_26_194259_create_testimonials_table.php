@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('testimonials', function (Blueprint $table) {
+        Schema::create('testimonials', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->text('testimonial')->nullable();
+            $table->integer('rating')->default(5);
+            $table->boolean('active')->default(true);
+            $table->integer('order')->default(0);
             $table->foreignId('work_id')->nullable()->constrained()->nullOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -21,9 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('testimonials', function (Blueprint $table) {
-            $table->dropForeign(['work_id']);
-            $table->dropColumn('work_id');
-        });
+        Schema::dropIfExists('testimonials');
     }
 };

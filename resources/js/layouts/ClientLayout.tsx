@@ -1,13 +1,13 @@
 import Footer from '@/components/Footer';
+import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
     Briefcase,
     ChevronRight,
     Home,
     LogOut,
     Menu,
-    Settings,
     User,
     X,
 } from 'lucide-react';
@@ -17,10 +17,17 @@ interface ClientLayoutProps {
     children: React.ReactNode;
 }
 
+interface NavItem {
+    name: string;
+    href: string;
+    icon: React.ReactNode;
+}
+
 export default function ClientLayout({ children }: ClientLayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(false);
-    const { url } = usePage();
+    const { url, props } = usePage<SharedData>();
+    const userName = props.auth?.user?.name ?? '';
 
     useEffect(() => {
         const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
@@ -29,105 +36,153 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         return () => window.removeEventListener('resize', checkDesktop);
     }, []);
 
-    const navItems = [
-        { name: 'Projects', href: '/dashboard', icon: Briefcase },
-        { name: 'Profile', href: '#', icon: User }, // Placeholder
-        { name: 'Settings', href: '#', icon: Settings }, // Placeholder
+    const navItems: NavItem[] = [
+        { name: 'Dashboard', href: '/dashboard', icon: <Home size={18} /> },
+        { name: 'Projects', href: '/dashboard/projects', icon: <Briefcase size={18} /> },
+        { name: 'Profile', href: '/dashboard/profile', icon: <User size={18} /> },
     ];
 
-    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+    const isActive = (href: string) => {
+        return href === '/dashboard' ? url === '/dashboard' : url.startsWith(href);
+    };
 
     return (
-        <div className="flex h-screen bg-[#fafafa] font-sans text-[#3a3b3a] cairo">
-            <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center justify-between border-b border-neutral-200 bg-white px-4 lg:hidden">
-                <Link href="/">
-                    <img src="/images/logo.png" alt="Liwan Logo" className="h-8 w-auto" />
-                </Link>
-                <button onClick={toggleSidebar} className="p-2 text-[#3a3b3a]">
-                    {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-            </div>
-            <AnimatePresence>
-                {(isSidebarOpen || isDesktop) && (
-                    <motion.aside
-                        initial={{ x: -300 }}
-                        animate={{ x: 0 }}
-                        exit={{ x: -300 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className={`fixed inset-y-0 left-0 z-60 w-72 border-r border-neutral-200 bg-white px-6 py-8 shadow-lg lg:static lg:block lg:shadow-none ${isSidebarOpen ? 'block' : 'hidden'
-                            }`}
-                    >
-                        <div className="mb-12 flex items-center justify-between px-2">
+        <div className="flex h-screen bg-white text-gray-900">
+            {/* Sidebar */}
+            {(isSidebarOpen || isDesktop) && (
+                <>
+                    {/* Desktop Sidebar */}
+                    <div className="hidden lg:flex w-64 flex-col border-r border-gray-200 bg-gray-50">
+                        {/* Logo */}
+                        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200">
                             <Link href="/">
-                                <img src="/images/logo.png" alt="Liwan Logo" className="h-12 w-auto" />
+                                <img src="/images/logo.png" alt="Liwan Logo" className="h-8 w-auto" />
                             </Link>
-                            <button
-                                onClick={toggleSidebar}
-                                className="lg:hidden text-[#3a3b3a]"
-                            >
-                                <X size={24} />
-                            </button>
                         </div>
 
-                        <nav className="flex flex-1 flex-col space-y-2">
-                            {navItems.map((item) => {
-                                const isActive = url.startsWith(item.href) && item.href !== '#';
-                                return (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        className={`group flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200 ${isActive
-                                                ? 'bg-[#f2ae1d] text-white shadow-md'
-                                                : 'text-[#3a3b3a] hover:bg-[#f2ae1d]/10 hover:text-[#f2ae1d]'
-                                            }`}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <item.icon size={20} className={isActive ? 'text-white' : 'text-[#f2ae1d]'} />
-                                            <span>{item.name}</span>
-                                        </div>
-                                        {isActive && <ChevronRight size={16} />}
-                                    </Link>
-                                );
-                            })}
+                        {/* Navigation */}
+                        <nav className="flex-1 overflow-y-auto px-3 py-6 space-y-1">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                                        isActive(item.href)
+                                            ? 'bg-gray-900 text-white'
+                                            : 'text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    {item.icon}
+                                    <span>{item.name}</span>
+                                    {isActive(item.href) && <ChevronRight size={16} className="ml-auto" />}
+                                </Link>
+                            ))}
                         </nav>
 
-                        <div className="mt-auto pt-8 border-t border-neutral-100 space-y-2">
-                            <Link
-                                href="/"
-                                className="flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-[#3a3b3a] transition-all duration-200 hover:bg-neutral-100"
-                            >
-                                <Home size={20} className="text-[#3a3b3a]" />
-                                <span>Return to Website</span>
-                            </Link>
-
+                        {/* Bottom Actions */}
+                        <div className="border-t border-gray-200 p-3 space-y-1">
                             <Link
                                 href="/logout"
                                 method="post"
                                 as="button"
-                                className="flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-50"
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
                             >
-                                <LogOut size={20} />
+                                <LogOut size={18} />
                                 <span>Log Out</span>
                             </Link>
                         </div>
-                    </motion.aside>
-                )}
-            </AnimatePresence>
+                    </div>
+
+                    {/* Mobile Sidebar */}
+                    <div className="lg:hidden fixed inset-y-0 left-0 z-40 w-64 border-r border-gray-200 bg-gray-50 flex flex-col">
+                        {/* Logo */}
+                        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200">
+                            <Link href="/">
+                                <img src="/images/logo.png" alt="Liwan Logo" className="h-8 w-auto" />
+                            </Link>
+                            <button
+                                onClick={() => setIsSidebarOpen(false)}
+                                className="p-1 hover:bg-gray-200 rounded-lg transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        {/* Navigation */}
+                        <nav className="flex-1 overflow-y-auto px-3 py-6 space-y-1">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                                        isActive(item.href)
+                                            ? 'bg-gray-900 text-white'
+                                            : 'text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                    onClick={() => setIsSidebarOpen(false)}
+                                >
+                                    {item.icon}
+                                    <span>{item.name}</span>
+                                    {isActive(item.href) && <ChevronRight size={16} className="ml-auto" />}
+                                </Link>
+                            ))}
+                        </nav>
+
+                        {/* Bottom Actions */}
+                        <div className="border-t border-gray-200 p-3 space-y-1">
+                            <Link
+                                href="/logout"
+                                method="post"
+                                as="button"
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+                            >
+                                <LogOut size={18} />
+                                <span>Log Out</span>
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Mobile Overlay */}
+                    {isSidebarOpen && !isDesktop && (
+                        <div
+                            onClick={() => setIsSidebarOpen(false)}
+                            className="fixed inset-0 z-30 bg-black/20"
+                        />
+                    )}
+                </>
+            )}
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto pt-16 lg:pt-0 bg-[#fafafa]">
-                <div className="container mx-auto max-w-8xl px-4 py-8 lg:px-10 lg:py-12">
-                    {children}
-                </div>
-            </main>
+            <div className="flex-1 flex flex-col overflow-hidden">
+                {/* Header */}
+                <header className="border-b border-gray-200 bg-white px-6 py-4 flex items-center justify-between">
+                    <motion.button
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+                    </motion.button>
+                    <div className="flex-1" />
+                    <div className="text-sm text-gray-600">
+                        Welcome back{userName ? `, ${userName}` : ''}
+                    </div>
+                </header>
 
-            {/* Overlay for mobile */}
-            {isSidebarOpen && (
-                <div
-                    className="fixed inset-0 z-55 bg-black/20 backdrop-blur-sm lg:hidden"
-                    onClick={toggleSidebar}
-                />
-            )}
+                {/* Content Area */}
+                <main className="flex-1 overflow-y-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="p-6 md:p-8"
+                    >
+                        <div className="max-w-7xl mx-auto">
+                            {children}
+                        </div>
+                    </motion.div>
+                </main>
+            </div>
         </div>
     );
 }

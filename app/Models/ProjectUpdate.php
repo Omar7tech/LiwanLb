@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,10 +20,18 @@ class ProjectUpdate extends Model implements HasMedia
         'name',
         'description',
         'date',
+        'updated_by',
     ];
 
     protected $casts = [
         'date' => 'date',
+        'name' => 'string',
+        'description' => 'string',
+    ];
+    
+    protected $attributes = [
+        'name' => null,
+        'description' => null,
     ];
 
     public function project()
@@ -43,4 +52,22 @@ class ProjectUpdate extends Model implements HasMedia
             ->quality(20)
             ->nonQueued();
     }
+    
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(UpdateComment::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('ProjectUpdateScope', function (Builder $builder) {
+            $builder->orderBy('date', 'desc');
+        });
+    }
+
 }

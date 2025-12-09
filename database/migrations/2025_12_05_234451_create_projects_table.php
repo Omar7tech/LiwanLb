@@ -18,6 +18,8 @@ return new class extends Migration
             $table->date('start_date');
             $table->string('status');
             $table->string('location');
+            $table->integer('order')->default(0);
+            $table->boolean('active')->default(true);
             $table->foreignId('client_id')->constrained('users');
             $table->text('description')->nullable();
             $table->timestamps();

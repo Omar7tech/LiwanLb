@@ -26,7 +26,7 @@ class FaqResource extends Resource
 
     protected static ?string $parentResource = WorkResource::class;
 
-    
+
 
     public static function form(Schema $schema): Schema
     {
@@ -51,9 +51,9 @@ class FaqResource extends Resource
     }
 
     public static function getEloquentQuery(): Builder
-{
-    return parent::getEloquentQuery()->withoutGlobalScopes();
-}
+    {
+        return parent::getEloquentQuery()->withoutGlobalScopes();
+    }
 
     public static function getPages(): array
     {

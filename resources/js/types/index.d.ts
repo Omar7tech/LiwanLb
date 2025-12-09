@@ -193,6 +193,81 @@ export interface Works {
     data: Work[];
 }
 
+export interface ProjectClient {
+    id: number;
+    name: string;
+    email: string | null;
+    phoneNumber: string | null;
+}
 
+export interface ProjectForeman {
+    id: number;
+    name: string;
+    email: string | null;
+    phoneNumber: string | null;
+}
+
+export interface ProjectUpdate {
+    id: number;
+    project_id: number;
+    name: string | null;
+    description: string | null;
+    date: string;
+    updated_by: number | null;
+    updater?: {
+        id: number;
+        name: string;
+        email: string;
+    } | null;
+    media: Array<{
+        id: number;
+        original_url: string;
+    }>;
+    comments: Array<{
+        id: number;
+        content: string;
+        created_at: string;
+        user: {
+            id: number;
+            name: string;
+            email: string;
+        };
+    }>;
+    created_at: string;
+}
+
+export interface Project {
+id: number;
+name: string;
+slug: string;
+start_date: string;
+status: string;
+location: string;
+description?: string | null;
+image?: string | null;
+created_at?: string;
+updated_at?: string;
+    description?: string | null;
+    image?: string | null;
+    created_at?: string;
+    updated_at?: string;
+
+    // From ProjectResource relations (all optional on the TS side)
+    client?: ProjectClient | null;
+    foremen?: {
+        data: ProjectForeman[];
+    };
+    project_updates?: {
+        data: ProjectUpdate[];
+    };
+}
+
+export interface Projects {
+    data: Project[];
+}
+
+export interface ProjectUpdates {
+    data: ProjectUpdate[];
+}
 
 

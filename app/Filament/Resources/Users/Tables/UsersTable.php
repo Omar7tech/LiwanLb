@@ -42,14 +42,7 @@ class UsersTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->whereDoesntHave('roles', fn ($q) => $q->where('name', 'super_admin')))
-            ->filters([
-                \Filament\Tables\Filters\SelectFilter::make('roles')
-                    ->relationship('roles', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->default(['client'])
-                    ->visible(fn () => auth()->user()?->hasRole('super_admin')),
-            ])
+            
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),

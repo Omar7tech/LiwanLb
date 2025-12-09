@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,5 +21,12 @@ class Testimonial extends Model
     public function work()
     {
         return $this->belongsTo(Work::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('TestimonialScope', function (Builder $builder) {
+            $builder->orderBy('order', 'asc')->where('active', true);
+        });
     }
 }

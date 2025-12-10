@@ -227,11 +227,7 @@ export interface ProjectUpdate {
         id: number;
         content: string;
         created_at: string;
-        user: {
-            id: number;
-            name: string;
-            email: string;
-        };
+        updated_at: string;
     }>;
     created_at: string;
 }

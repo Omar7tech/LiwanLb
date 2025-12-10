@@ -20,13 +20,28 @@ class CommentController extends Controller
         ]);
 
         $comment = $projectUpdate->comments()->create([
-            'user_id' => auth()->id(),
             'content' => $validated['content'],
         ]);
 
-        // Return back to the project page with success
         return redirect()->back()
             ->with('success', 'Comment added successfully!');
+    }
+
+    /**
+     * Update the specified comment.
+     */
+    public function update(Request $request, UpdateComment $comment)
+    {
+        $validated = $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $comment->update([
+            'content' => $validated['content'],
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Comment updated successfully!');
     }
 
     /**
@@ -34,10 +49,6 @@ class CommentController extends Controller
      */
     public function destroy(UpdateComment $comment)
     {
-        if ($comment->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized');
-        }
-
         $comment->delete();
 
         return redirect()->back()

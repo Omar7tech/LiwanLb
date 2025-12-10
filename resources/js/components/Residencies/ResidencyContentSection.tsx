@@ -74,7 +74,7 @@ export default function ResidencyContentSection({ section, index }: Props) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className={`${!isEven ? 'lg:col-start-2' : ''} sticky top-24`}
+                    className={`${!isEven ? 'lg:col-start-2' : ''} lg:sticky lg:top-24`}
                 >
                     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl group">
                         <img 

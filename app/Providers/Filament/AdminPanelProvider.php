@@ -12,6 +12,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Widgets\AccountWidget;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -26,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('E275OMAR74C2F/admin')
             ->login()
             ->favicon(asset('favicon.ico'))
             ->darkMode(true)
@@ -45,11 +46,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
+                \App\Filament\Widgets\ProjectsOverviewChart::class,
+                \App\Filament\Widgets\UsersByRolesChart::class,
+                \App\Filament\Widgets\WorksResidenciesChart::class,
+                \App\Filament\Widgets\TestimonialsByWorkChart::class,
+                \App\Filament\Widgets\BlogsByMonthChart::class,
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugin(BriskTheme::make()->withoutSuggestedFont())
             ->plugin(\BezhanSalleh\FilamentShield\FilamentShieldPlugin::make())
+            ->plugin(FilamentApexChartsPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

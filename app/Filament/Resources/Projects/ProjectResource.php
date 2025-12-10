@@ -17,6 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectResource extends Resource
 {
@@ -59,7 +60,16 @@ class ProjectResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->withoutGlobalScopes();
+        $user = Auth::user();
+        
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes()
+            ->when($user && $user->roles && in_array('foreman', $user->roles->pluck('name')->toArray()), function (Builder $query) use ($user) {
+                // Foremen can only see projects they are assigned to
+                $query->whereHas('foremen', function (Builder $foremanQuery) use ($user) {
+                    $foremanQuery->where('users.id', $user->id);
+                });
+            });
     }
 
     public static function getRecordSubNavigation(\Filament\Resources\Pages\Page $page): array

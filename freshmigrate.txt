@@ -1,4 +1,5 @@
 php artisan migrate 
 php artisan migrate:fresh --seed
 php artisan shield:super-admin
+php artisan shield:generate --all
 

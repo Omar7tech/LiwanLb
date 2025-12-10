@@ -93,6 +93,7 @@ function WorkCard({ work }: { work: Work }) {
 
     return (
         <Link
+            viewTransition
             href={`/work/${work.slug}`}
             className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 aspect-square bg-white active:scale-95 block"
         >

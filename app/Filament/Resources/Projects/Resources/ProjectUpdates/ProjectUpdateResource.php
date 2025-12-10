@@ -16,6 +16,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectUpdateResource extends Resource
 {
@@ -43,7 +45,7 @@ class ProjectUpdateResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\CommentsRelationManager::class,
         ];
     }
 
@@ -55,5 +57,20 @@ class ProjectUpdateResource extends Resource
             'view' => ViewProjectUpdate::route('/{record}'),
             'edit' => EditProjectUpdate::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+        
+        return parent::getEloquentQuery()
+            ->when($user && $user->roles && in_array('foreman', $user->roles->pluck('name')->toArray()), function (Builder $query) use ($user) {
+                // Foremen can only see project updates for projects they are assigned to
+                $query->whereHas('project', function (Builder $projectQuery) use ($user) {
+                    $projectQuery->whereHas('foremen', function (Builder $foremanQuery) use ($user) {
+                        $foremanQuery->where('users.id', $user->id);
+                    });
+                });
+            });
     }
 }

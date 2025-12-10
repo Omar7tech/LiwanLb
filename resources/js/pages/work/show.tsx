@@ -112,6 +112,7 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
                                 className="w-full md:w-auto"
                             >
                                 <Link
+                                viewTransition
                                     href="/cost-study"
                                     className={`${buttonClass} w-full md:w-auto`}
                                 >

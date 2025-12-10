@@ -69,9 +69,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(
-              child as React.ReactElement<{ visible?: boolean }>,
-              { visible }
-            )
+            child as React.ReactElement<{ visible?: boolean }>,
+            { visible }
+          )
           : child
       )}
     </motion.div>
@@ -117,7 +117,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     >
       {items.map((item, idx) => (
         <Link
-        prefetch="click"
+          viewTransition
+          prefetch="click"
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
           className="relative px-3 py-2"
@@ -164,6 +165,7 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
       }}
     >
       <Link
+      viewTransition
         prefetch="click"
         href={mainLink}
         className="relative px-3 py-2 flex items-center gap-1"
@@ -198,27 +200,28 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
           >
             {/* Invisible bridge to prevent gap */}
             <div className="h-2" />
-            
+
             {/* Dropdown Container */}
             <div className="bg-white rounded-lg shadow-xl ring-1 ring-black/5 overflow-hidden p-2 min-w-[280px]">
-              
+
               {/* Items List */}
               <div className="flex flex-col">
                 {items.map((item, index) => (
                   <Link
+                    viewTransition
                     key={item.id}
                     href={`/work/${item.slug}`}
                     className="group block relative rounded-md hover:bg-neutral-50 transition-colors duration-200"
                   >
-                    
+
                     {/* Content */}
                     <div className="relative px-5 py-3.5 flex items-center justify-between">
-                      
+
                       {/* Work Name - Bigger and cleaner */}
                       <span className="text-lg font-light text-neutral-600 group-hover:text-black transition-colors duration-200 tracking-wide">
                         {item.name}
                       </span>
-                      
+
                       {/* Arrow */}
                       <svg
                         className="w-4 h-4 text-neutral-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
@@ -314,7 +317,7 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX className="text-[#f2ae1d] size-8"  onClick={onClick} />
+    <IconX className="text-[#f2ae1d] size-8" onClick={onClick} />
   ) : (
     <IconMenu2 className="text-[#f2ae1d] size-8" onClick={onClick} />
   );

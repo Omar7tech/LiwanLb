@@ -10,6 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectForm
 {
@@ -30,10 +31,18 @@ class ProjectForm
                             ->label('Start date')
                             ->required(),
 
-                        TextInput::make('status')
+                        Select::make('status')
                             ->label('Status')
-                            ->placeholder('Planning, In Progress, Completed...')
-                            ->required(),
+                            ->options([
+                                'active' => 'Active',
+                                'completed' => 'Completed',
+                                'on_hold' => 'On Hold',
+                                'pending' => 'Pending',
+                            ])
+                            ->native(false)
+                            ->default('pending')
+                            ->required()
+                            ->helperText('Select the current status of this project.'),
 
                         TextInput::make('location')
                             ->label('Location')
@@ -57,6 +66,7 @@ class ProjectForm
                             ->searchable()
                             ->preload()
                             ->required()
+                            ->disabled(fn() => !Auth::user()?->hasRole('foremen'))
                             ->helperText('Required. Only users with the client role are listed.'),
 
                         Select::make('foremen')
@@ -68,6 +78,7 @@ class ProjectForm
                             )
                             ->multiple()
                             ->preload()
+                            ->disabled(fn() => !Auth::user()?->hasRole('foremen'))
                             ->searchable()
                             ->default(null)
                             ->helperText('Optional: assign one or more foremen to this project.'),

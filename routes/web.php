@@ -51,11 +51,13 @@ Route::middleware([CheckSiteActive::class])->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
             Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
             Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
             Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
             
             // Comment routes
             Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store');
+            Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
             Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
         });
 

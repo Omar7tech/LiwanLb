@@ -56,11 +56,7 @@ class ProjectResource extends JsonResource
                                 'id' => $comment->id,
                                 'content' => $comment->content,
                                 'created_at' => $comment->created_at->toISOString(),
-                                'user' => [
-                                    'id' => $comment->user->id,
-                                    'name' => $comment->user->name,
-                                    'email' => $comment->user->email,
-                                ],
+                                'updated_at' => $comment->updated_at->toISOString(),
                             ];
                         }),
                             'created_at' => $update->created_at,

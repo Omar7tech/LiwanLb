@@ -5,16 +5,19 @@ import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, MessageCircle, Send, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, MessageCircle, Send, Trash2, Calendar, MapPin, ExternalLink } from 'lucide-react';
 
 function ProjectShow() {
 	const { project: initialProject, auth } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;
-	const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
+	const [modalImage, setModalImage] = useState<{ images: Array<{ src: string; alt: string }>; currentIndex: number } | null>(null);
 	const [collapsedUpdates, setCollapsedUpdates] = useState<Set<number>>(new Set(
 		initialProject.project_updates?.data.slice(1).map(update => update.id) || []
 	));
-	const [commentInputs, setCommentInputs] = useState<{ [key: number]: string }>({});
-	const [isSubmitting, setIsSubmitting] = useState<{ [key: number]: boolean }>({});
+	const [commentInputs, setCommentInputs] = useState<Record<number, string>>({});
+	const [isSubmitting, setIsSubmitting] = useState<Record<number, boolean>>({});
+	const [editingComment, setEditingComment] = useState<number | null>(null);
+	const [editContent, setEditContent] = useState<string>('');
+	const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; commentId: number | null }>({ isOpen: false, commentId: null });
 	const [project, setProject] = useState(initialProject);
 
 	const handleCommentSubmit = async (updateId: number) => {
@@ -23,16 +26,11 @@ function ProjectShow() {
 
 		setIsSubmitting(prev => ({ ...prev, [updateId]: true }));
 
-		// Add comment locally for immediate UI update
 		const newComment = {
-			id: Date.now(), // Temporary ID
+			id: Date.now(),
 			content: content,
 			created_at: new Date().toISOString(),
-			user: {
-				id: auth.user.id,
-				name: auth.user.name || 'User',
-				email: auth.user.email || '',
-			},
+			updated_at: new Date().toISOString(),
 		};
 
 		// Update local state immediately
@@ -52,14 +50,13 @@ function ProjectShow() {
 			} : prev.project_updates
 		}));
 
-		// Clear input
 		setCommentInputs(prev => ({ ...prev, [updateId]: '' }));
 
-		// Submit to server in background
 		router.post(
 			`/dashboard/project-updates/${updateId}/comments`,
 			{ content },
 			{
+				showProgress: false,
 				preserveState: true,
 				preserveScroll: true,
 				onSuccess: (page: any) => {
@@ -82,7 +79,15 @@ function ProjectShow() {
 	};
 
 	const handleCommentDelete = async (commentId: number) => {
-		if (!confirm('Are you sure you want to delete this comment?')) return;
+		setDeleteModal({ isOpen: true, commentId });
+	};
+
+	const confirmDelete = async () => {
+		const commentId = deleteModal.commentId;
+		if (!commentId) return;
+
+		// Close modal
+		setDeleteModal({ isOpen: false, commentId: null });
 
 		// Remove comment locally for immediate UI update
 		setProject(prev => ({
@@ -100,6 +105,7 @@ function ProjectShow() {
 		router.delete(
 			`/dashboard/comments/${commentId}`,
 			{
+				showProgress: false,
 				preserveState: true,
 				preserveScroll: true,
 				onSuccess: (page: any) => {
@@ -111,6 +117,61 @@ function ProjectShow() {
 				onError: (errors) => {
 					console.error('Delete errors:', errors);
 					alert('Failed to delete comment.');
+					setProject(initialProject);
+				},
+			}
+		);
+	};
+
+	const cancelDelete = () => {
+		setDeleteModal({ isOpen: false, commentId: null });
+	};
+
+	const handleCommentEdit = (commentId: number, content: string) => {
+		setEditingComment(commentId);
+		setEditContent(content);
+	};
+
+	const handleCommentUpdate = async (commentId: number) => {
+		const content = editContent.trim();
+		if (!content) return;
+
+		setProject(prev => ({
+			...prev,
+			project_updates: prev.project_updates ? {
+				...prev.project_updates,
+				data: prev.project_updates.data.map(update => ({
+					...update,
+					comments: update.comments?.map(comment =>
+						comment.id === commentId
+							? { ...comment, content, updated_at: new Date().toISOString() }
+							: comment
+					) || []
+				}))
+			} : prev.project_updates
+		}));
+
+		// Clear edit state
+		setEditingComment(null);
+		setEditContent('');
+
+		// Update on server in background
+		router.put(
+			`/dashboard/comments/${commentId}`,
+			{ content },
+			{
+				showProgress: false,
+				preserveState: true,
+				preserveScroll: true,
+				onSuccess: (page: any) => {
+					// Update with real data from server
+					if (page.props.project) {
+						setProject(page.props.project);
+					}
+				},
+				onError: (errors) => {
+					console.error('Update errors:', errors);
+					alert('Failed to update comment.');
 					// Revert local changes on error
 					setProject(initialProject);
 				},
@@ -118,289 +179,492 @@ function ProjectShow() {
 		);
 	};
 
+	const handleCancelEdit = () => {
+		setEditingComment(null);
+		setEditContent('');
+	};
+
 	return (
 		<ClientLayout>
 			<Head title={project.name} />
-			<div className="space-y-8">
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5 }}
-				>
-					<h1 className="text-3xl font-bold tracking-tight text-[#3a3b3a]">
-						{project.name}
-					</h1>
-					<p className="mt-2 text-[#3a3b3a]/70">
-						Status: {project.status} • Location: {project.location}
-					</p>
-				</motion.div>
+			
+			<div className="min-h-screen bg-gray-50">
+				{/* Header */}
+				<div className="bg-white border-b border-gray-200">
+					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6 }}
+							className="space-y-6"
+						>
+							{/* Breadcrumb */}
+							<nav className="flex items-center space-x-2 text-sm text-gray-500">
+								<a href="/projects" className="hover:text-gray-700 transition-colors">Projects</a>
+								<span>/</span>
+								<span className="text-gray-900 font-medium">{project.name}</span>
+							</nav>
 
-				<div className="space-y-8">
-					{project.image && (
-						<div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-							<ImageWithLoader
-								src={project.image}
-								alt={project.name}
-								className="w-full h-72 object-cover cursor-pointer"
-								onClick={() => project.image && setModalImage({ src: project.image, alt: project.name })}
-							/>
-						</div>
-					)}
+							{/* Project Title and Meta */}
+							<div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+								<div className="flex-1">
+									<h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+										{project.name}
+									</h1>
+									
+									<div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+										<div className="flex items-center gap-2">
+											<Calendar className="h-4 w-4" />
+											<span>
+												{new Date(project.start_date).toLocaleDateString('en-US', { 
+													month: 'long', 
+													day: 'numeric', 
+													year: 'numeric' 
+												})}
+											</span>
+										</div>
+										<div className="flex items-center gap-2">
+											<MapPin className="h-4 w-4" />
+											<span>{project.location}</span>
+										</div>
+										<div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+											{project.status}
+										</div>
+									</div>
+								</div>
 
-					{project.description && (
-						<div className="rounded-2xl border border-neutral-200 bg-white p-6">
-							<h2 className="text-lg font-semibold mb-2">Description</h2>
-							<p className="text-sm text-[#3a3b3a]/80 whitespace-pre-line">{project.description}</p>
-						</div>
-					)}
+								{project.image && (
+									<motion.div
+										initial={{ opacity: 0, scale: 0.95 }}
+										animate={{ opacity: 1, scale: 1 }}
+										transition={{ delay: 0.2 }}
+										className="lg:w-96 h-48 lg:h-64 rounded-xl overflow-hidden border border-gray-200"
+									>
+										<ImageWithLoader
+											src={project.image}
+											alt={project.name}
+											className="w-full h-full object-cover cursor-pointer"
+											onClick={() => project.image && setModalImage({ 
+    images: [{ src: project.image, alt: project.name }], 
+    currentIndex: 0 
+})}
+										/>
+									</motion.div>
+								)}
+							</div>
+						</motion.div>
+					</div>
+				</div>
 
-					{project.project_updates && project.project_updates.data.length > 0 && (
-						<div className="space-y-4">
-							<h2 className="text-lg font-semibold mb-4">Updates</h2>
-								{project.project_updates.data.map((update) => {
-									const isCollapsed = collapsedUpdates.has(update.id);
-									const toggleCollapse = () => {
-										setCollapsedUpdates(prev => {
-											const newSet = new Set(prev);
-											if (newSet.has(update.id)) {
-												newSet.delete(update.id);
-											} else {
-												newSet.add(update.id);
-											}
-											return newSet;
-										});
-									};
+				{/* Main Content */}
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+						{/* Main Content Area */}
+						<div className="lg:col-span-2 space-y-8">
+							{/* Description */}
+							{project.description && (
+								<motion.section
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ delay: 0.3 }}
+									className="bg-white rounded-xl border border-gray-200 p-6 lg:p-8"
+								>
+									<h2 className="text-xl font-semibold text-gray-900 mb-4">Overview</h2>
+									<div className="prose prose-gray max-w-none">
+										<p className="text-gray-700 leading-relaxed whitespace-pre-line">
+											{project.description}
+										</p>
+									</div>
+								</motion.section>
+							)}
 
-									return (
-										<motion.div
-											key={update.id}
-											initial={{ opacity: 0, y: 10 }}
-											animate={{ opacity: 1, y: 0 }}
-											transition={{ duration: 0.3 }}
-											className={`group rounded-xl border transition-all duration-300 ${
-												isCollapsed 
-													? 'border-neutral-200 bg-white hover:border-[#f2ae1d]/30 hover:shadow-sm' 
-													: 'border-[#f2ae1d]/50 bg-white shadow-md'
-											}`}
-										>
-											{/* Header with toggle */}
-											<div 
-												className="flex items-center justify-between p-3 sm:p-4 cursor-pointer select-none"
-												onClick={toggleCollapse}
-											>
-												<div className="flex items-center space-x-3 flex-1">
-													{/* Status indicator */}
-													<div className={`w-2 h-2 rounded-full transition-all duration-300 ${
-														isCollapsed ? 'bg-[#f2ae1d]/50' : 'bg-[#f2ae1d] scale-125'
-													}`} />
-													
-													<div className="flex-1 min-w-0">
-														<div className="flex items-center space-x-2 mb-1">
-															<span className="text-xs font-medium text-[#f2ae1d] bg-[#f2ae1d]/10 px-2 py-1 rounded-full">
-																{new Date(update.date).toLocaleDateString('en-US', { 
-																	month: 'short', 
-																	day: 'numeric', 
-																	year: 'numeric' 
-																})}
-															</span>
-															{update.media && update.media.length > 0 && (
-																<span className="text-xs text-[#3a3b3a]/50 flex items-center">
-																	<svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-																		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-																	</svg>
-																	{update.media.length}
-																</span>
-															)}
-														</div>
-														{update.name && (
-															<h3 className="font-semibold text-[#3a3b3a] truncate group-hover:text-[#f2ae1d] transition-colors">
-																{update.name}
-															</h3>
-														)}
-														{!update.name && (
-															<p className="text-sm text-[#3a3b3a]/60 italic">Project update</p>
-														)}
-													</div>
-												</div>
-												
-												{/* Toggle button */}
-												<motion.div
-													className={`ml-3 p-2 rounded-lg transition-all duration-300 ${
-														isCollapsed 
-															? 'bg-neutral-100 group-hover:bg-[#f2ae1d]/10' 
-															: 'bg-[#f2ae1d]/10'
-													}`}
-													whileHover={{ scale: 1.05 }}
-													whileTap={{ scale: 0.95 }}
+							{/* Updates */}
+							{project.project_updates && project.project_updates.data.length > 0 && (
+								<motion.section
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ delay: 0.4 }}
+									className="space-y-6"
+								>
+									<div className="flex items-center justify-between">
+										<h2 className="text-xl font-semibold text-gray-900">Updates</h2>
+										<span className="text-sm text-gray-500">
+											{project.project_updates.data.length} update{project.project_updates.data.length !== 1 ? 's' : ''}
+										</span>
+									</div>
+
+									<div className="space-y-4">
+										{project.project_updates.data.map((update, index) => {
+											const isCollapsed = collapsedUpdates.has(update.id);
+											const toggleCollapse = () => {
+												setCollapsedUpdates(prev => {
+													const newSet = new Set(prev);
+													if (newSet.has(update.id)) {
+														newSet.delete(update.id);
+													} else {
+														newSet.add(update.id);
+													}
+													return newSet;
+												});
+											};
+
+											return (
+												<motion.article
+													key={update.id}
+													initial={{ opacity: 0, y: 20 }}
+													animate={{ opacity: 1, y: 0 }}
+													transition={{ delay: 0.1 * index }}
+													className="bg-white rounded-xl border border-gray-200 overflow-hidden"
 												>
-													<motion.div
-														animate={{ rotate: isCollapsed ? 0 : 180 }}
-														transition={{ duration: 0.3 }}
+													{/* Header */}
+													<button
+														onClick={toggleCollapse}
+														className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
 													>
-														<ChevronDown className="h-4 w-4 text-[#3a3b3a] group-hover:text-[#f2ae1d]" />
-													</motion.div>
-												</motion.div>
-											</div>
-
-											{/* Collapsible content */}
-											{!isCollapsed && (
-												<motion.div
-													initial={{ opacity: 0, height: 0 }}
-													animate={{ opacity: 1, height: 'auto' }}
-													exit={{ opacity: 0, height: 0 }}
-													transition={{ duration: 0.3, ease: 'easeInOut' }}
-													className="overflow-hidden border-t border-[#f2ae1d]/20"
-												>
-													<div className="p-3 sm:p-4 pt-2 sm:pt-3">
-														{update.description && (
-															<div className="mb-4">
-																<p className="text-sm text-[#3a3b3a]/80 leading-relaxed whitespace-pre-line">
-																	{update.description}
-																</p>
-															</div>
-														)}
-														{update.media && update.media.length > 0 && (
-															<div className="space-y-3">
-																<p className="text-xs font-medium text-[#3a3b3a]/60 uppercase tracking-wide">Media Gallery</p>
-																<div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-																	{update.media.map((media) => (
-																		<motion.div
-																			key={media.id}
-																			whileHover={{ scale: 1.02 }}
-																			transition={{ duration: 0.2 }}
-																			className="relative overflow-hidden rounded-lg border border-neutral-200 shadow-sm hover:shadow-md transition-shadow"
-																		>
-																			<ImageWithLoader
-																				src={media.original_url}
-																				alt={`Update image ${media.id}`}
-																				className="w-full aspect-[4/3] object-cover cursor-pointer"
-																				onClick={() => setModalImage({ src: media.original_url, alt: `Update image ${media.id}` })}
-																			/>
-																		</motion.div>
-																	))}
-																</div>
-															</div>
-														)}
-														{/* Comments Section */}
-														<div className="space-y-3 mt-4 pt-4 border-t border-neutral-200">
-															<div className="flex items-center space-x-2 mb-3">
-																<MessageCircle className="h-4 w-4 text-[#f2ae1d]" />
-																<p className="text-xs font-medium text-[#3a3b3a]/60 uppercase tracking-wide">
-																	Comments ({update.comments?.length || 0})
-																</p>
-															</div>
-
-															{/* Comments List */}
-															<div className="space-y-3 mb-4">
-																{update.comments && update.comments.length > 0 ? (
-																	update.comments.map((comment) => (
-																		<motion.div
-																			key={comment.id}
-																			initial={{ opacity: 0, y: 10 }}
-																			animate={{ opacity: 1, y: 0 }}
-																			className="bg-neutral-50 rounded-lg p-3 border border-neutral-200"
-																		>
-																			<div className="flex items-start justify-between">
-																				<div className="flex-1">
-																					<div className="flex items-center space-x-2 mb-2">
-																						<div className="w-6 h-6 bg-[#f2ae1d]/20 rounded-full flex items-center justify-center">
-																							<span className="text-xs font-medium text-[#f2ae1d]">
-																								{comment.user.name.charAt(0).toUpperCase()}
-																							</span>
-																						</div>
-																						<div className="flex-1 min-w-0">
-																							<p className="text-xs font-medium text-[#3a3b3a] truncate">
-																								{comment.user.name}
-																							</p>
-																							<p className="text-xs text-[#3a3b3a]/50">
-																								{new Date(comment.created_at).toLocaleDateString()}
-																							</p>
-																						</div>
-																					</div>
-																					<p className="text-sm text-[#3a3b3a]/80 whitespace-pre-line">
-																						{comment.content}
-																					</p>
-																				</div>
-																				{/* Delete button for own comments */}
-																				{comment.user.id === auth.user.id && (
-																					<button
-																						onClick={() => handleCommentDelete(comment.id)}
-																						className="ml-2 p-1 text-neutral-400 hover:text-red-500 transition-colors"
-																						title="Delete comment"
-																					>
-																						<Trash2 className="h-3 w-3" />
-																					</button>
-																				)}
-																			</div>
-																		</motion.div>
-																	))
-																) : (
-																	<p className="text-sm text-[#3a3b3a]/50 italic text-center py-2">
-																		No comments yet. Give us your feedback in a comment!
-																	</p>
+														<div className="flex-1 min-w-0">
+															<div className="flex items-center gap-3 mb-2">
+																<time className="text-sm font-medium text-gray-500">
+																	{new Date(update.date).toLocaleDateString('en-US', {
+																		month: 'short',
+																		day: 'numeric',
+																		year: 'numeric'
+																	})}
+																</time>
+																{update.media && update.media.length > 0 && (
+																	<span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+																		<svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																			<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+																		</svg>
+																		{update.media.length}
+																	</span>
 																)}
 															</div>
-
-															{/* Comment Input */}
-															<div className="flex space-x-2">
-																<input
-																	type="text"
-																	value={commentInputs[update.id] || ''}
-																	onChange={(e) => setCommentInputs(prev => ({ ...prev, [update.id]: e.target.value }))}
-																	onKeyPress={(e) => {
-																		if (e.key === 'Enter' && !e.shiftKey) {
-																			e.preventDefault();
-																			handleCommentSubmit(update.id);
-																		}
-																	}}
-																	placeholder="Add a comment..."
-																	className="flex-1 px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f2ae1d]/50 focus:border-[#f2ae1d]"
-																	disabled={isSubmitting[update.id]}
-																/>
-																<button
-																	onClick={() => handleCommentSubmit(update.id)}
-																	disabled={!commentInputs[update.id]?.trim() || isSubmitting[update.id]}
-																	className="p-2 bg-[#f2ae1d] text-white rounded-lg hover:bg-[#f2ae1d]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-																>
-																	{isSubmitting[update.id] ? (
-																		<motion.div
-																			animate={{ rotate: 360 }}
-																			transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-																			className="h-4 w-4 border-2 border-white border-t-transparent rounded-full"
-																		/>
-																	) : (
-																		<Send className="h-4 w-4" />
-																	)}
-																</button>
-															</div>
+															<h3 className="text-lg font-medium text-gray-900 truncate">
+																{update.name || 'Project Update'}
+															</h3>
+															{update.description && (
+																<p className="text-sm text-gray-600 mt-1 line-clamp-2">
+																	{update.description}
+																</p>
+															)}
 														</div>
+														<motion.div
+															animate={{ rotate: isCollapsed ? 0 : 180 }}
+															transition={{ duration: 0.2 }}
+															className="ml-4 text-gray-400"
+														>
+															<ChevronDown className="h-5 w-5" />
+														</motion.div>
+													</button>
 
-														{!update.name && !update.description && (
-															<div className="text-center py-4">
-																<p className="text-sm text-[#3a3b3a]/60 italic">Update details available</p>
+													{/* Expanded Content */}
+													{!isCollapsed && (
+														<motion.div
+															initial={{ opacity: 0, height: 0 }}
+															animate={{ opacity: 1, height: 'auto' }}
+															transition={{ duration: 0.3 }}
+															className="border-t border-gray-200"
+														>
+															<div className="p-6 space-y-6">
+																{update.description && (
+																	<div>
+																		<p className="text-gray-700 leading-relaxed whitespace-pre-line">
+																			{update.description}
+																		</p>
+																	</div>
+																)}
+
+																{update.media && update.media.length > 0 && (
+																	<div>
+																		<h4 className="text-sm font-medium text-gray-900 mb-3">Media</h4>
+																		<div className="grid grid-cols-2 gap-3">
+																			{update.media.map((mediaItem) => (
+																				<motion.div
+																					key={mediaItem.id}
+																					whileHover={{ scale: 1.02 }}
+																					className="rounded-lg overflow-hidden border border-gray-200 cursor-pointer"
+																				>
+																					<ImageWithLoader
+																						src={mediaItem.original_url}
+																						alt={`Update image ${mediaItem.id}`}
+																						className="w-full aspect-[4/3] object-cover"
+																						onClick={() => {
+																							const updateImages = update.media.map((media, index) => ({
+																								src: media.original_url,
+																								alt: `Update image ${media.id}`
+																							}));
+																							const imageIndex = update.media.findIndex(media => media.original_url === mediaItem.original_url);
+																							setModalImage({
+																								images: updateImages,
+																								currentIndex: imageIndex
+																							});
+																						}}
+																					/>
+																				</motion.div>
+																			))}
+																		</div>
+																	</div>
+																)}
+
+																{/* Comments */}
+																<div className="border-t border-gray-100 pt-6">
+																	<div className="flex items-center gap-2 mb-4">
+																		<MessageCircle className="h-4 w-4 text-gray-400" />
+																		<h4 className="text-sm font-medium text-gray-900">
+																			Comments ({update.comments?.length || 0})
+																		</h4>
+																	</div>
+
+																	<div className="space-y-3 mb-4">
+																		{update.comments && update.comments.length > 0 ? (
+																			update.comments.map((comment) => (
+																				<div
+																					key={comment.id}
+																					className="bg-gray-50 rounded-lg p-3"
+																				>
+																					<div className="flex items-start justify-between">
+																						<div className="flex-1">
+																							<div className="flex items-center gap-2 mb-2">
+																								<span className="text-xs text-gray-500">
+																									{new Date(comment.created_at).toLocaleDateString()}
+																									{comment.updated_at !== comment.created_at && (
+																										<span className="ml-2 text-xs text-gray-400 italic">
+																											(edited)
+																										</span>
+																									)}
+																								</span>
+																							</div>
+																							{editingComment === comment.id ? (
+																								<div className="space-y-2">
+																									<textarea
+																										value={editContent}
+																										onChange={(e) => setEditContent(e.target.value)}
+																										className="w-full p-2 text-sm border border-gray-300 rounded-md resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+																										rows={3}
+																										placeholder="Edit your comment..."
+																									/>
+																									<div className="flex gap-2">
+																										<button
+																											onClick={() => handleCommentUpdate(comment.id)}
+																											className="px-3 py-1 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+																										>
+																											Save
+																										</button>
+																										<button
+																											onClick={handleCancelEdit}
+																											className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+																										>
+																											Cancel
+																										</button>
+																									</div>
+																								</div>
+																							) : (
+																								<p className="text-sm text-gray-700 whitespace-pre-line">
+																									{comment.content}
+																								</p>
+																							)}
+																						</div>
+																						{editingComment !== comment.id && (
+																							<div className="flex gap-1 ml-2">
+																								<button
+																									onClick={() => handleCommentEdit(comment.id, comment.content)}
+																									className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+																									title="Edit comment"
+																								>
+																									<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+																									</svg>
+																								</button>
+																								<button
+																									onClick={() => handleCommentDelete(comment.id)}
+																									className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+																									title="Delete comment"
+																								>
+																									<Trash2 className="h-4 w-4" />
+																								</button>
+																							</div>
+																						)}
+																					</div>
+																				</div>
+																			))
+																		) : (
+																			<p className="text-sm text-gray-500 italic text-center py-4">
+																				No comments yet
+																			</p>
+																		)}
+																	</div>
+
+																	{/* Comment Input */}
+																	<div className="flex gap-2">
+																		<input
+																			type="text"
+																			value={commentInputs[update.id] || ''}
+																			onChange={(e) => setCommentInputs(prev => ({ ...prev, [update.id]: e.target.value }))}
+																			onKeyPress={(e) => {
+																				if (e.key === 'Enter' && !e.shiftKey) {
+																					e.preventDefault();
+																					handleCommentSubmit(update.id);
+																				}
+																			}}
+																			placeholder="Add a comment..."
+																			className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+																			disabled={isSubmitting[update.id]}
+																		/>
+																		<button
+																			onClick={() => handleCommentSubmit(update.id)}
+																			disabled={!commentInputs[update.id]?.trim() || isSubmitting[update.id]}
+																			className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+																		>
+																			{isSubmitting[update.id] ? (
+																				<motion.div
+																					animate={{ rotate: 360 }}
+																					transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+																					className="h-4 w-4 border-2 border-white border-t-transparent rounded-full"
+																				/>
+																			) : (
+																				<Send className="h-4 w-4" />
+																			)}
+																		</button>
+																	</div>
+																</div>
 															</div>
-														)}
-													</div>
-												</motion.div>
-											)}
-										</motion.div>
-									);
-								})}
-						</div>
-					)}
-				</div>
+														</motion.div>
+													)}
+												</motion.article>
+											);
+										})}
+									</div>
+								</motion.section>
+							)}
 
-				<div className="space-y-4">
+							{!project.project_updates || project.project_updates.data.length === 0 && (
+								<motion.div
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									className="bg-white rounded-xl border border-gray-200 p-8 text-center"
+								>
+									<div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+										<Calendar className="h-8 w-8 text-gray-400" />
+									</div>
+									<h3 className="text-lg font-medium text-gray-900 mb-2">No Updates Yet</h3>
+									<p className="text-gray-600">Updates will appear here as the project progresses.</p>
+								</motion.div>
+							)}
+						</div>
+
+						{/* Sidebar */}
+						<div className="lg:col-span-1 space-y-6">
+							{/* Project Details - Sticky on desktop */}
+							<motion.aside
+								initial={{ opacity: 0, x: 20 }}
+								animate={{ opacity: 1, x: 0 }}
+								transition={{ delay: 0.4 }}
+								className="hidden lg:block lg:sticky lg:top-24 lg:h-fit"
+							>
+								<h3 className="text-lg font-semibold text-gray-900 mb-4">Project Details</h3>
+								
+								<dl className="space-y-4">
+									<div>
+										<dt className="text-sm font-medium text-gray-500">Status</dt>
+										<dd className="mt-1">
+											<span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+												{project.status}
+											</span>
+										</dd>
+									</div>
+									
+									<div>
+										<dt className="text-sm font-medium text-gray-500">Location</dt>
+										<dd className="mt-1 text-sm text-gray-900">{project.location}</dd>
+									</div>
+									
+									<div>
+										<dt className="text-sm font-medium text-gray-500">Started</dt>
+										<dd className="mt-1 text-sm text-gray-900">
+											{new Date(project.start_date).toLocaleDateString('en-US', { 
+												month: 'long', 
+												day: 'numeric', 
+												year: 'numeric' 
+											})}
+										</dd>
+									</div>
+									
+									{project.project_updates && (
+										<div>
+											<dt className="text-sm font-medium text-gray-500">Updates</dt>
+											<dd className="mt-1 text-sm text-gray-900">
+												{project.project_updates.data.length} update{project.project_updates.data.length !== 1 ? 's' : ''}
+											</dd>
+										</div>
+									)}
+									
+									{project.project_updates && (
+										<div>
+											<dt className="text-sm font-medium text-gray-500">Comments</dt>
+											<dd className="mt-1 text-sm text-gray-900">
+												{project.project_updates.data.reduce((total, update) => total + (update.comments?.length || 0), 0)} comment{project.project_updates.data.reduce((total, update) => total + (update.comments?.length || 0), 0) !== 1 ? 's' : ''}
+											</dd>
+										</div>
+									)}
+								</dl>
+							</motion.aside>
+						</div>
+					</div>
 				</div>
 			</div>
-		
-		<ImageModal
-			isOpen={!!modalImage}
-			imageSrc={modalImage?.src || ''}
-			imageAlt={modalImage?.alt || ''}
-			onClose={() => setModalImage(null)}
-		/>
-	</ClientLayout>
+
+			{/* Image Modal */}
+			<ImageModal
+				isOpen={!!modalImage}
+				images={modalImage?.images || []}
+				currentIndex={modalImage?.currentIndex || 0}
+				onClose={() => setModalImage(null)}
+			/>
+
+			{/* Delete Confirmation Modal */}
+			{deleteModal.isOpen && (
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+					className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+					onClick={cancelDelete}
+				>
+					<motion.div
+						initial={{ opacity: 0, scale: 0.95 }}
+						animate={{ opacity: 1, scale: 1 }}
+						exit={{ opacity: 0, scale: 0.95 }}
+						transition={{ duration: 0.2 }}
+						className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<div className="text-center">
+							<div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+								<Trash2 className="h-6 w-6 text-red-600" />
+							</div>
+							<h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Comment</h3>
+							<p className="text-sm text-gray-500 mb-6">
+								Are you sure you want to delete this comment? This action cannot be undone.
+							</p>
+							<div className="flex gap-3">
+								<button
+									onClick={cancelDelete}
+									className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+								>
+									Cancel
+								</button>
+								<button
+									onClick={confirmDelete}
+									className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
+								>
+									Delete
+								</button>
+							</div>
+						</div>
+					</motion.div>
+				</motion.div>
+			)}
+		</ClientLayout>
 	);
 }
 

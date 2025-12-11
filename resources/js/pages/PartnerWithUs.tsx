@@ -30,7 +30,36 @@ function PartnerWithUs() {
 
     return (
         <>
-            <Head title="Partner With Us" />
+            <Head title="Partner With Us">
+                <meta head-key="description" name="description" content="Partner with Liwan Architecture to bring exceptional architectural visions to life. Whether you're a contractor, developer, or designer, let's collaborate on innovative design projects." />
+                <meta head-key="keywords" name="keywords" content="partner, collaboration, architectural partnership, contractor, developer, designer, Liwan Architecture, design projects, architectural visions" />
+                <meta head-key="og:title" property="og:title" content="Partner With Us - Liwan Architecture" />
+                <meta head-key="og:description" property="og:description" content="Partner with Liwan Architecture to bring exceptional architectural visions to life. Whether you're a contractor, developer, or designer, let's collaborate on innovative design projects." />
+                <meta head-key="og:image" property="og:image" content="/images/logo.png" />
+                <meta head-key="og:url" property="og:url" content={window.location.origin + '/partner-with-us'} />
+                <meta head-key="og:type" property="og:type" content="website" />
+                <meta head-key="og:site_name" property="og:site_name" content="Liwan Architecture" />
+                <meta head-key="twitter:card" name="twitter:card" content="summary_large_image" />
+                <meta head-key="twitter:title" name="twitter:title" content="Partner With Us - Liwan Architecture" />
+                <meta head-key="twitter:description" name="twitter:description" content="Partner with Liwan Architecture to bring exceptional architectural visions to life. Whether you're a contractor, developer, or designer, let's collaborate on innovative design projects." />
+                <meta head-key="twitter:image" name="twitter:image" content="/images/logo.png" />
+                <meta head-key="structured-data" name="structured-data" content="partner-with-us">
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'WebPage',
+                            'name': 'Partner With Us - Liwan Architecture',
+                            'description': 'Partner with Liwan Architecture to bring exceptional architectural visions to life. Whether you\'re a contractor, developer, or designer, let\'s collaborate on innovative design projects.',
+                            'url': window.location.origin + '/partner-with-us',
+                            'image': '/images/logo.png',
+                            'mainEntity': {
+                                '@type': 'Organization',
+                                'name': 'Liwan Architecture'
+                            }
+                        })}
+                    </script>
+                </meta>
+            </Head>
             <AppLayout>
                 <div>
             {/* Hero Section */}

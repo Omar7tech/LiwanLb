@@ -50,20 +50,20 @@ function Card({blog} : {blog : Blog}) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 
-                {/* Like Button - Absolute Positioned on Image */}
+                {/* Like Button - Glassy Apple-style */}
                 <button
                     onClick={(e) => {
                         e.preventDefault();
                         toggleFavorite(blog);
                     }}
-                    className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-110 active:scale-95"
+                    className="absolute top-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full backdrop-blur-sm bg-white/20 border border-white/30 shadow-lg transition-all duration-300 hover:bg-white/30 hover:scale-105 active:scale-95 hover:shadow-xl"
                     aria-label={isFavorite(blog.id) ? "Remove from favorites" : "Add to favorites"}
                 >
                     <svg
-                        className={`h-5 w-5 transition-colors duration-300 ${
+                        className={`h-4 w-4 transition-all duration-300 ${
                             isFavorite(blog.id) 
-                                ? "fill-red-500 text-red-500" 
-                                : "fill-transparent text-gray-600 hover:text-red-500"
+                                ? "fill-red-500 text-red-500 drop-shadow-sm" 
+                                : "fill-transparent text-white/80 hover:text-white hover:fill-white/30"
                         }`}
                         viewBox="0 0 24 24"
                         stroke="currentColor"

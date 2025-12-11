@@ -16,10 +16,47 @@ function Show({residency}: {residency: Residency}) {
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     const nameWords = residency.name.split(' ');
+    
+    const pageTitle = residency.name || "Residency";
+    const description = (residency as any).description || 
+        (residency.content?.data && residency.content.data.length > 0 
+            ? residency.content.data[0].content?.replace(/<[^>]*>/g, '').substring(0, 160) + '...' 
+            : 'Explore our residency programs and discover creative opportunities.');
+    const imageUrl = residency.image || '/images/residenceNoImg.webp';
+    const siteUrl = window.location.origin + '/residency/' + residency.slug;
 
     return (
         <>
-            <Head title={"Residency | " + residency.name} />
+            <Head>
+                <title>{`${pageTitle} - Residency`}</title>
+                <meta head-key="description" name="description" content={description} />
+                <meta head-key="og:title" property="og:title" content={pageTitle} />
+                <meta head-key="og:description" property="og:description" content={description} />
+                <meta head-key="og:image" property="og:image" content={imageUrl} />
+                <meta head-key="og:url" property="og:url" content={siteUrl} />
+                <meta head-key="og:type" property="og:type" content="article" />
+                <meta head-key="og:site_name" property="og:site_name" content="Residency" />
+                <meta head-key="twitter:card" name="twitter:card" content="summary_large_image" />
+                <meta head-key="twitter:title" name="twitter:title" content={pageTitle} />
+                <meta head-key="twitter:description" name="twitter:description" content={description} />
+                <meta head-key="twitter:image" name="twitter:image" content={imageUrl} />
+                <meta head-key="structured-data" name="structured-data" content="residency">
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'Article',
+                            'headline': pageTitle,
+                            'description': description,
+                            'image': imageUrl,
+                            'author': {
+                                '@type': 'Organization',
+                                'name': 'Residency'
+                            },
+                            'url': siteUrl
+                        })}
+                    </script>
+                </meta>
+            </Head>
             <AppLayout>
                 <div ref={containerRef} className="relative bg-[#fafafa]">
 

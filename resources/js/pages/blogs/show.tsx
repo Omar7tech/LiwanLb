@@ -9,22 +9,49 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-// --- Brand Colors ---
 const PRIMARY_COLOR = '#3a3b3a';
 const ACCENT_COLOR = '#f2ae1d';
 
 function show({ blog }: { blog: Blog }) {
     const { isFavorite, toggleFavorite } = useFavorites();
-
-    // Fallback if content is unexpectedly null (though it should be the HTML of the post)
     const postContent = blog.content || '<p>This post is currently empty. Check back soon!</p>';
-
-    // Set a dynamic title for the <Head> component
     const pageTitle = blog.title || "Blog Post";
+    const description = blog.description || (blog.content ? blog.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...' : 'Read our latest blog post for insights and updates.');
+    const imageUrl = blog.image || '/images/blogshowplaceholder.webp';
+    const siteUrl = window.location.origin + '/blog/' + blog.slug;
 
     return (
         <>
-            <Head title={'Blog - ' + pageTitle} />
+            <Head>
+                <title>{`${pageTitle} - Blog`}</title>
+                <meta head-key="description" name="description" content={description} />
+                <meta head-key="og:title" property="og:title" content={pageTitle} />
+                <meta head-key="og:description" property="og:description" content={description} />
+                <meta head-key="og:image" property="og:image" content={imageUrl} />
+                <meta head-key="og:url" property="og:url" content={siteUrl} />
+                <meta head-key="og:type" property="og:type" content="article" />
+                <meta head-key="og:site_name" property="og:site_name" content="Blog" />
+                <meta head-key="twitter:card" name="twitter:card" content="summary_large_image" />
+                <meta head-key="twitter:title" name="twitter:title" content={pageTitle} />
+                <meta head-key="twitter:description" name="twitter:description" content={description} />
+                <meta head-key="twitter:image" name="twitter:image" content={imageUrl} />
+                <meta head-key="structured-data" name="structured-data" content="blog">
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'BlogPosting',
+                            'headline': pageTitle,
+                            'description': description,
+                            'image': imageUrl,
+                            'author': {
+                                '@type': 'Organization',
+                                'name': 'Blog'
+                            },
+                            'url': siteUrl
+                        })}
+                    </script>
+                </meta>
+            </Head>
             <AppLayout>
                 <div className="text-gray-800">
 

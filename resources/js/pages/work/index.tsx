@@ -40,7 +40,36 @@ function WorkIndex({ works }: { works: Works }) {
 
     return (
         <>
-            <Head title="Our Work Categories" />
+            <Head title="Our Work Categories">
+                <meta head-key="description" name="description" content="Explore our diverse range of architectural and design services. Browse through our work categories and discover how Liwan Architecture transforms spaces with purpose and innovation." />
+                <meta head-key="keywords" name="keywords" content="architecture, design, work categories, architectural services, design projects, Liwan Architecture, innovation, spaces" />
+                <meta head-key="og:title" property="og:title" content="Our Work Categories - Liwan Architecture" />
+                <meta head-key="og:description" property="og:description" content="Explore our diverse range of architectural and design services. Browse through our work categories and discover how Liwan Architecture transforms spaces with purpose and innovation." />
+                <meta head-key="og:image" property="og:image" content="/images/logo.png" />
+                <meta head-key="og:url" property="og:url" content={window.location.origin + '/works'} />
+                <meta head-key="og:type" property="og:type" content="website" />
+                <meta head-key="og:site_name" property="og:site_name" content="Liwan Architecture" />
+                <meta head-key="twitter:card" name="twitter:card" content="summary_large_image" />
+                <meta head-key="twitter:title" name="twitter:title" content="Our Work Categories - Liwan Architecture" />
+                <meta head-key="twitter:description" name="twitter:description" content="Explore our diverse range of architectural and design services. Browse through our work categories and discover how Liwan Architecture transforms spaces with purpose and innovation." />
+                <meta head-key="twitter:image" name="twitter:image" content="/images/logo.png" />
+                <meta head-key="structured-data" name="structured-data" content="work-index">
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'CollectionPage',
+                            'name': 'Our Work Categories - Liwan Architecture',
+                            'description': 'Explore our diverse range of architectural and design services. Browse through our work categories and discover how Liwan Architecture transforms spaces with purpose and innovation.',
+                            'url': window.location.origin + '/works',
+                            'image': '/images/logo.png',
+                            'mainEntity': {
+                                '@type': 'Organization',
+                                'name': 'Liwan Architecture'
+                            }
+                        })}
+                    </script>
+                </meta>
+            </Head>
             <AppLayout>
 
                 <div className="container mx-auto px-4 md:px-8 py-12 md:py-16">

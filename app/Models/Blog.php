@@ -18,7 +18,7 @@ class Blog extends Model implements HasMedia, Sitemapable
     /** @use HasFactory<\Database\Factories\BlogFactory> */
     use HasFactory, HasSlug;
     use InteractsWithMedia;
-public $registerMediaConversionsUsingModelInstance = true;
+    public $registerMediaConversionsUsingModelInstance = true;
     protected $guarded = ['id'];
     public function getSlugOptions(): SlugOptions
     {
@@ -74,4 +74,5 @@ public $registerMediaConversionsUsingModelInstance = true;
             ->quality(20)
             ->nonQueued();
     }
+
 }

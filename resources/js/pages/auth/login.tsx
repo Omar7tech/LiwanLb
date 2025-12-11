@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { Head, useForm, Link } from '@inertiajs/react';
 
@@ -6,18 +7,62 @@ interface LoginProps {
 }
 
 export default function Login({ errors }: LoginProps) {
-
+    const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+    
     const { data, setData, post, processing } = useForm({
         username: '',
         password: '',
         remember: true,
     });
 
+    const validateForm = () => {
+        const errors: Record<string, string> = {};
+        
+        // Username/Phone validation (required, max 255)
+        if (!data.username.trim()) {
+            errors.username = 'The username or phone number field is required.';
+        } else if (data.username.length > 255) {
+            errors.username = 'The username or phone number must not be greater than 255 characters.';
+        }
+        
+        // Password validation (required, min 2, max 255)
+        if (!data.password) {
+            errors.password = 'The password field is required.';
+        } else if (data.password.length < 2) {
+            errors.password = 'The password must be at least 2 characters.';
+        } else if (data.password.length > 255) {
+            errors.password = 'The password must not be greater than 255 characters.';
+        }
+        
+        setValidationErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        
+        if (!validateForm()) {
+            return;
+        }
+        
         post('/login-store', {
             onFinish: () => setData('password', ''), 
         });
+    };
+
+    // Clear validation error when user starts typing
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData('username', e.target.value);
+        if (validationErrors.username) {
+            setValidationErrors(prev => ({ ...prev, username: '' }));
+        }
+    };
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData('password', e.target.value);
+        if (validationErrors.password) {
+            setValidationErrors(prev => ({ ...prev, password: '' }));
+        }
     };
 
     return (
@@ -52,21 +97,24 @@ export default function Login({ errors }: LoginProps) {
                                     htmlFor="username"
                                     className="block text-xs font-medium uppercase tracking-[0.2em] text-[#3a3b3a]/70"
                                 >
-                                    Username
+                                    Username or Phone Number
                                 </label>
                                 <input
                                     id="username"
                                     type="text"
                                     name="username"
-                                    placeholder="Enter username"
+                                    placeholder="Enter username or phone number"
                                     required
+                                    maxLength={255}
                                     autoComplete="username"
                                     value={data.username}
-                                    onChange={e => setData('username', e.target.value)}
+                                    onChange={handleUsernameChange}
                                     className="w-full rounded-none border-0 border-b border-[#3a3b3a]/25 bg-transparent px-0 py-2 text-base text-[#3a3b3a] placeholder:text-[#3a3b3a]/35 focus:border-[#3a3b3a] focus:outline-none focus:ring-0 transition-colors"
                                 />
-                                {errors.username && (
-                                    <p className="text-sm text-red-600">{errors.username}</p>
+                                {(validationErrors.username || errors.username) && (
+                                    <p className="text-sm text-red-600">
+                                        {validationErrors.username || errors.username}
+                                    </p>
                                 )}
                             </div>
 
@@ -84,13 +132,17 @@ export default function Login({ errors }: LoginProps) {
                                     name="password"
                                     placeholder="Enter password"
                                     required
+                                    minLength={2}
+                                    maxLength={255}
                                     autoComplete="current-password"
                                     value={data.password}
-                                    onChange={e => setData('password', e.target.value)}
+                                    onChange={handlePasswordChange}
                                     className="w-full rounded-none border-0 border-b border-neutral-300 bg-transparent px-0 py-2 text-base text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors"
                                 />
-                                {errors.password && (
-                                    <p className="text-sm text-red-600">{errors.password}</p>
+                                {(validationErrors.password || errors.password) && (
+                                    <p className="text-sm text-red-600">
+                                        {validationErrors.password || errors.password}
+                                    </p>
                                 )}
                             </div>
 

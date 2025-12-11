@@ -12,7 +12,36 @@ function blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
 
     return (
         <>
-            <Head title="blogs"></Head>
+            <Head title="Articles">
+                <meta head-key="description" name="description" content="Insights and stories from industry leaders. Explore articles by Liwan Architecture covering design innovation, architectural trends, and creative solutions." />
+                <meta head-key="keywords" name="keywords" content="architecture, design, articles, insights, industry leaders, Liwan Architecture, innovation, architectural trends, creative solutions" />
+                <meta head-key="og:title" property="og:title" content="Articles - Liwan Architecture" />
+                <meta head-key="og:description" property="og:description" content="Insights and stories from industry leaders. Explore articles by Liwan Architecture covering design innovation, architectural trends, and creative solutions." />
+                <meta head-key="og:image" property="og:image" content="/images/logo.png" />
+                <meta head-key="og:url" property="og:url" content={window.location.origin + '/blogs'} />
+                <meta head-key="og:type" property="og:type" content="website" />
+                <meta head-key="og:site_name" property="og:site_name" content="Liwan Architecture" />
+                <meta head-key="twitter:card" name="twitter:card" content="summary_large_image" />
+                <meta head-key="twitter:title" name="twitter:title" content="Articles - Liwan Architecture" />
+                <meta head-key="twitter:description" name="twitter:description" content="Insights and stories from industry leaders. Explore articles by Liwan Architecture covering design innovation, architectural trends, and creative solutions." />
+                <meta head-key="twitter:image" name="twitter:image" content="/images/logo.png" />
+                <meta head-key="structured-data" name="structured-data" content="blog-index">
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'CollectionPage',
+                            'name': 'Articles - Liwan Architecture',
+                            'description': 'Insights and stories from industry leaders. Explore articles by Liwan Architecture covering design innovation, architectural trends, and creative solutions.',
+                            'url': window.location.origin + '/blogs',
+                            'image': '/images/logo.png',
+                            'mainEntity': {
+                                '@type': 'Organization',
+                                'name': 'Liwan Architecture'
+                            }
+                        })}
+                    </script>
+                </meta>
+            </Head>
             <AppLayout>
                 <div className="px-6 py-8 md:px-8 lg:px-12 text-[#3a3b3a]">
                     {/* Header Section */}

@@ -19,17 +19,22 @@ class AuthController extends Controller
         Auth::logout();
 
         $validated = $request->validate([
-            'username' => 'required|max:255',
-            'password' => 'required|max:255',
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:2|max:255',
         ]);
 
-        if (Auth::attempt($validated, true)) {
-            $user = Auth::user();
+        // Try to find user by username or phone number
+        $user = \App\Models\User::where('username', $request->username)
+                               ->orWhere('phoneNumber', $request->username)
+                               ->first();
+
+        if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+            Auth::login($user, true);
+            $request->session()->regenerate();
             
             // Only allow clients to log in from the public login page
             // Admins and super_admins should use /admin/login
             if ($user->hasRole('client')) {
-                $request->session()->regenerate();
                 return to_route('dashboard.index');
             }
             

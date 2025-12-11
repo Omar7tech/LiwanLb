@@ -24,6 +24,16 @@ createInertiaApp({
             </StrictMode>,
         );
     },
+    
+    defaults: {
+        future: {
+            useDialogForErrorModal: true,
+        },
+        prefetch: {
+            cacheFor: "1m",
+            hoverDelay: 150,
+        },
+    },
     progress: {
         color: '#f2ae1d',
     },

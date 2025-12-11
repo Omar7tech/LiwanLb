@@ -14,13 +14,15 @@ class SitemapService
     {
         $sitemap = Sitemap::create();
         $sitemap->add(\App\Models\Blog::where('active', true)->get());
-        // $sitemap->add(\App\Models\Product::all());
-        // $sitemap->add(\App\Models\Service::all());
-        // $sitemap->add(\App\Models\Category::all());
+        $sitemap->add(\App\Models\Residency::where('active', true)->get());
+        
         $staticUrls = [
              Url::create(route('home'))
                 ->setPriority(1.0),
              Url::create(route('work')),
+             Url::create(route('cost-study')),
+             Url::create(route('blogs')),
+             Url::create(route('partner-with-us')),
         ];
 
         foreach ($staticUrls as $url) {

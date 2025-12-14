@@ -333,7 +333,7 @@
     .markdown-content,
     .rich-content,
     .prose-content {
-        overflow-x: auto;
+        overflow-x: visible;
     }
     
     .markdown-content table,

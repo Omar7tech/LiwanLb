@@ -149,10 +149,10 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
 
                     {/* Residencies Section */}
                     <motion.div
-                        initial={{ opacity: 0, y: 60 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8 }}
+                        initial={{ opacity: 0, x: -20, y: 20 }}
+                        whileInView={{ opacity: 1, x: 0, y: 0 }}
+                        viewport={{ once: true, margin: "-20px" }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
                     >
                         <ResidenciesSection residencies={residencies} />
                     </motion.div>
@@ -161,20 +161,20 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
                         <>
                             <motion.section 
                                 ref={processRef} 
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
+                                initial={{ opacity: 0, x: -20, y: 20 }}
+                                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                                viewport={{ once: true, margin: "-20px" }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
                                 className="my-16"
                             >
                                 <p className="text-[#3a3b3a] text-2xl md:text-4xl lg:text-7xl font-bold p-5 flex flex-col">
                                     {work.process_title?.split("\n").map((line: string, index: number) => (
                                         <motion.span 
                                             key={index}
-                                            initial={{ opacity: 0, x: -30 }}
+                                            initial={{ opacity: 0, x: -15 }}
                                             whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: index * 0.1, duration: 0.6 }}
+                                            viewport={{ once: true, margin: "-10px" }}
+                                            transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }}
                                         >
                                             {line}
                                         </motion.span>
@@ -187,10 +187,10 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
                                     {work.process_steps?.map((step: { title: string; description: string }, index: number) => (
                                         <motion.div 
                                             key={index} 
-                                            initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
+                                            initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                                             whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: index * 0.1, duration: 0.6 }}
+                                            viewport={{ once: true, margin: "-10px" }}
+                                            transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }}
                                             className="flex flex-col gap-2 pb-10 last:pb-0"
                                         >
                                             <h3 className="text-sm md:text-2xl lg:text-3xl font-bold text-[#3a3b3a]">

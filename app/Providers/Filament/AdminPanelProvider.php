@@ -29,10 +29,12 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('E275OMAR74C2F/admin')
             ->login()
-            ->favicon(asset('favicon.ico'))
+            ->globalSearch(false)
             ->darkMode(true)
             ->unsavedChangesAlerts()
             ->broadcasting(false)
+            ->favicon(asset('favicon.ico'))
+            ->darkModeBrandLogo(asset('images/logodark.png'))
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3rem')
             ->profile()
@@ -46,6 +48,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+                AccountWidget::class,
                 \App\Filament\Widgets\ProjectsOverviewChart::class,
                 \App\Filament\Widgets\UsersByRolesChart::class,
                 \App\Filament\Widgets\WorksResidenciesChart::class,

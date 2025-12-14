@@ -10,7 +10,6 @@ import { Head } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 
 export default function Welcome({ designDeliveryStandards, testimonials }: { designDeliveryStandards: DesignDeliveryStandards, testimonials: Testimonials }) {
-    console.log(designDeliveryStandards);
     return (
         <>
             <Head title="Welcome">

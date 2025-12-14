@@ -1,5 +1,6 @@
 import AppLayout from "@/layouts/app-layout"
 import { Head } from "@inertiajs/react"
+import EngineeringFeeCalculator from "@/components/EngineeringFeeCalculator"
 
 const CostStudy = () => {
   return (
@@ -11,7 +12,11 @@ const CostStudy = () => {
                     rel="stylesheet"
                 />
             </Head>
-            <AppLayout>Cost Study</AppLayout>
+            <AppLayout>
+                <div className="px-6 py-8 md:px-8 lg:px-12 ">
+                    <EngineeringFeeCalculator />
+                </div>
+            </AppLayout>
         </>
   )
 }

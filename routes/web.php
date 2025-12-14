@@ -47,7 +47,7 @@ Route::middleware([CheckSiteActive::class])->group(function () {
 
 
 
-    Route::middleware(['auth', RoleAuthRedirect::class , EncryptHistory::class])->group(function () {
+    Route::middleware(['auth', RoleAuthRedirect::class])->group(function () {
         Route::name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile');

@@ -163,7 +163,7 @@ function Show({residency}: {residency: Residency}) {
                     </div>
 
                     {/* Content Sections */}
-                    <div className="relative z-10 bg-[#fafafa]">
+                    <div className="relative z-10 bg-[#fafafa] overflow-visible">
                         {residency.content?.data.map((section, index) => (
                             <ResidencyContentSection 
                                 key={section.id} 

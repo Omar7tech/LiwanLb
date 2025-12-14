@@ -153,16 +153,31 @@ export function NavbarDemo() {
                                 <span className="block">{item.name}</span>
                             </Link>
                         ))}
-                        {navItems4.map((item, idx) => (
+                        {hasRole('client') ? (
                             <Link
-                                key={`mobile-link-${idx}`}
-                                href={item.link}
+                                href={navItems4[0].link}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="relative text-3xl text-[#f2ae1d]"
                             >
-                                <span className="block">{item.name}</span>
+                                <span className="block">{navItems4[0].name}</span>
                             </Link>
-                        ))}
+                        ) : auth.user ? (
+                            <a
+                                href={dashboard().url}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="relative text-3xl text-[#f2ae1d]"
+                            >
+                                <span className="block">Admin</span>
+                            </a>
+                        ) : (
+                            <Link
+                                href={navItems4[0].link}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="relative text-3xl text-[#f2ae1d]"
+                            >
+                                <span className="block">{navItems4[0].name}</span>
+                            </Link>
+                        )}
                     </MobileNavMenu>
                 </MobileNav>
             </Navbar>

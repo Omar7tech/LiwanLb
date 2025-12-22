@@ -29,7 +29,7 @@ class WorkController extends Controller
             'work' => new WorkResource($work),
             'residencies' => Inertia::scroll(
                 fn() => ResidencyListResource::collection(
-                    $work->Residencies()->paginate(6)
+                    $work->Residencies()->with('media')->paginate(6)
                 )
             ),
             'testimonials' => fn() => \App\Http\Resources\TestimonialListResource::collection($work->Testimonials)

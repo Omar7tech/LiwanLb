@@ -57,7 +57,7 @@ export default function HeroSection() {
 
                             </p>
                         </div>
-                        <div className="flex justify-end md:justify-center animate-[fadeInUp_0.8s_ease-out_1s_both]">
+                        <div className="flex justify-end md:justify-center animate-[fadeInUp_0.8s_ease-out_1s_both] md:mt-0 mt-5">
                             <WhatsAppButton />
                         </div>
                     </div>

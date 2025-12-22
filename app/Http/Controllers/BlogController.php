@@ -13,7 +13,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::paginate(8);
+        $blogs = Blog::with('media')->paginate(8);
         return Inertia::render('blogs/index', ['blogs' => fn() => BlogListResource::collection($blogs)]);
     }
 

@@ -75,7 +75,7 @@ function PartnerWithUs() {
                         transition={{ duration: 0.9, delay: 0.2 }}
                         className="text-[clamp(3.5rem,12vw,14rem)] font-extralight leading-[0.85] tracking-tight mb-12"
                     >
-                        <h1>Partner With Us</h1>
+                        Partner With Us
                     </motion.h1>
 
                     <motion.div

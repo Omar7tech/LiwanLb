@@ -25,6 +25,7 @@ class ResidencyForm
                             ->downloadable()
                             ->openable()
                             ->imageEditor()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/webp'])
                             ->conversion('webp')
                             ->collection('images')
                             ->imageEditorAspectRatios([

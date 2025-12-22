@@ -58,6 +58,7 @@ class ProjectUpdateForm
                             ->downloadable()
                             ->openable()
                             ->imageEditor()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/webp'])
                             ->maxParallelUploads(5)
                             ->conversion('webp')
                             ->collection('project_update_images')

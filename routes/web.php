@@ -40,28 +40,23 @@ Route::middleware([CheckSiteActive::class])->group(function () {
     })->name('partner-with-us');
     Route::get('/residency/{residency}', [ResidencyController::class, 'show'])->name('residency.show');
 
-
-
     Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
-    Route::post('/login-store', [AuthController::class, 'store'])->name('login-store')->middleware('throttle:5,1');
-
-
+    Route::post('/login-store', [AuthController::class, 'store'])->name('login-store')->middleware('throttle:3,1');
 
     Route::middleware(['auth', RoleAuthRedirect::class])->group(function () {
         Route::name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-            Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('throttle:5,1');
             Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
             Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
             Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
-            Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store');
-            Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
-            Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+            Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('throttle:10,1');
+            Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update')->middleware('throttle:20,1');
+            Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('throttle:20,1');
         });
 
-
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('throttle:10,1');
     });
 
 });

@@ -67,6 +67,13 @@ const Results: React.FC<ResultsProps> = ({
     return TRANSLATIONS[key]?.[language] || key;
   };
 
+  // XSS protection function to escape HTML entities
+  const escapeHtml = (text: string): string => {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  };
+
   // Parse markdown bold text (**text**) to HTML
   const parseMarkdownBold = (text: string): string => {
     return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -196,12 +203,12 @@ const Results: React.FC<ResultsProps> = ({
       console.log('Final analysisText:', analysisText.substring(0, 100) + '...');
       console.log('Setting full AI analysis text immediately');
 
-      // Set the full text immediately instead of typing animation
-      setAiAnalysis(analysisText);
+      // Set the full text immediately instead of typing animation (escape HTML to prevent XSS)
+      setAiAnalysis(escapeHtml(analysisText));
 
-      // Add to conversation history
+      // Add to conversation history (escape HTML to prevent XSS)
       setConversationHistory([
-        { role: 'assistant', content: analysisText }
+        { role: 'assistant', content: escapeHtml(analysisText) }
       ]);
 
     } catch (error) {
@@ -241,17 +248,17 @@ const Results: React.FC<ResultsProps> = ({
             fallbackResponse?.data ||
             'Analysis temporarily unavailable';
 
-          // Set the full fallback text immediately instead of typing animation
-          setAiAnalysis(analysisText);
+          // Set the full fallback text immediately instead of typing animation (escape HTML to prevent XSS)
+          setAiAnalysis(escapeHtml(analysisText));
         }
       } catch (fallbackError) {
         console.error('Fallback AI also failed:', fallbackError);
       }
 
-      // Only show error message if both attempts fail
-      setAiAnalysis(language === 'ar'
+      // Only show error message if both attempts fail (escape HTML to prevent XSS)
+      setAiAnalysis(escapeHtml(language === 'ar'
         ? 'عذراً، حدث خطأ في تحليل Liwan AI. يرجى المحاولة مرة أخرى.'
-        : 'Sorry, Liwan AI analysis failed. Please try again.');
+        : 'Sorry, Liwan AI analysis failed. Please try again.'));
     } finally {
       setIsAILoading(false);
     }
@@ -261,7 +268,8 @@ const Results: React.FC<ResultsProps> = ({
   const handleUserMessage = async () => {
     if (!userInput.trim()) return;
 
-    const userMessage = userInput.trim();
+    // Escape HTML to prevent XSS attacks
+    const userMessage = escapeHtml(userInput.trim());
     setUserInput('');
     setIsAILoading(true);
 
@@ -362,8 +370,8 @@ const Results: React.FC<ResultsProps> = ({
           : 'Ask me about design, costs, or construction';
       }
 
-      // Add AI response to history
-      setConversationHistory(prev => [...prev, { role: 'assistant' as const, content: analysisText }]);
+      // Add AI response to history (escape HTML to prevent XSS)
+      setConversationHistory(prev => [...prev, { role: 'assistant' as const, content: escapeHtml(analysisText) }]);
 
     } catch (error) {
       console.error('Conversation AI failed:', error);
@@ -371,7 +379,7 @@ const Results: React.FC<ResultsProps> = ({
         ? 'عذراً، حدث خطأ في معالجة سؤالك. يرجى المحاولة مرة أخرى.'
         : 'Sorry, there was an error processing your question. Please try again.';
 
-      setConversationHistory(prev => [...prev, { role: 'assistant' as const, content: errorMessage }]);
+      setConversationHistory(prev => [...prev, { role: 'assistant' as const, content: escapeHtml(errorMessage) }]);
     } finally {
       setIsAILoading(false);
     }

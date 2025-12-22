@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
 
 class InquiriesTable
 {
@@ -16,6 +17,13 @@ class InquiriesTable
     {
         return $table
             ->columns([
+                TextColumn::make('type')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'client' => 'primary',
+                        'partner' => 'success',
+                    })
+                    ->searchable(),
                 TextColumn::make('full_name')
                     ->searchable(),
                 TextColumn::make('phone')
@@ -28,7 +36,17 @@ class InquiriesTable
                 TextColumn::make('project_location')
                     ->searchable(),
                 TextColumn::make('notes')
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(50),
+                TextColumn::make('ip_address')
+                    ->label('IP Address')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('user_agent')
+                    ->label('User Agent')
+                    ->searchable()
+                    ->limit(50)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -40,7 +58,7 @@ class InquiriesTable
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                // Filters are now handled by tabs in ListInquiries
             ])
             ->recordActions([
                 ViewAction::make(),

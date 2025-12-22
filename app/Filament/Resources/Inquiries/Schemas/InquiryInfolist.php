@@ -18,6 +18,17 @@ class InquiryInfolist
                 TextEntry::make('project_type'),
                 TextEntry::make('project_location'),
                 TextEntry::make('notes'),
+                TextEntry::make('type')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'client' => 'primary',
+                        'partner' => 'success',
+                    }),
+                TextEntry::make('ip_address')
+                    ->label('IP Address'),
+                TextEntry::make('user_agent')
+                    ->label('User Agent')
+                    ->limit(100),
                 TextEntry::make('created_at')
                     ->dateTime(),
                 TextEntry::make('updated_at')

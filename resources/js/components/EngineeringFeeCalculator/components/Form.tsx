@@ -73,7 +73,7 @@ const Form: React.FC<FormProps> = ({
   };
 
   return (
-    <div className="">
+    <div className="space-y-4">
       <div className={`grid md:grid-cols-2 gap-8 ${language === 'ar' ? 'md:grid-flow-col-dense' : ''}`}>
         {/* Step 1: Building Group Selection */}
         <div className={`space-y-2 ${language === 'ar' ? 'md:col-start-2' : ''}`}>
@@ -202,27 +202,42 @@ const Form: React.FC<FormProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
         <button
           onClick={calculateFees}
           disabled={isCalculating || !isAreaEnabled() || area === '' || parseFloat(area) <= 0 || currentSavedResult}
-          className={`flex-1 px-6 py-3 rounded-lg transition-all font-medium ${isAreaEnabled() && area !== '' && parseFloat(area) > 0 && !currentSavedResult
+          className={`w-full sm:flex-1 px-4 sm:px-6 py-3 sm:py-3 rounded-lg transition-all font-medium flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base ${isAreaEnabled() && area !== '' && parseFloat(area) > 0 && !currentSavedResult
             ? 'bg-[#3a3b3a] text-white hover:bg-[#2a2b2a] shadow-lg'
             : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'
             }`}
         >
-          {isCalculating
-            ? (language === 'ar' ? 'جاري الحساب...' : 'Calculating...')
-            : hasCalculated
-              ? (language === 'ar' ? 'احسب مرة أخرى' : 'Calculate Again')
-              : t('calculate')
-          }
+          {isCalculating ? (
+            <>
+              <svg className="animate-spin w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {language === 'ar' ? 'جاري الحساب...' : 'Calculating...'}
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              {hasCalculated
+                ? (language === 'ar' ? 'احسب مرة أخرى' : 'Calculate Again')
+                : t('calculate')
+              }
+            </>
+          )}
         </button>
 
         <button
           onClick={clearForm}
-          className="flex-1 px-6 py-3 bg-white text-[#3a3b3a] border border-gray-300 rounded-lg hover:bg-gray-50 transition-all font-medium"
-        >
+          className="w-full sm:flex-1 px-4 sm:px-6 py-3 sm:py-3 bg-white text-[#3a3b3a] border border-gray-300 rounded-lg hover:bg-gray-50 transition-all font-medium flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
           {t('clear')}
         </button>
       </div>

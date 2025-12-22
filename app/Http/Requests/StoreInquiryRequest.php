@@ -44,6 +44,7 @@ class StoreInquiryRequest extends FormRequest
             'project_type' => strip_tags($this->input('project_type') ?? ''),
             'project_location' => strip_tags($this->input('project_location') ?? ''),
             'notes' => strip_tags($this->input('notes') ?? ''),
+            'type' => $this->input('type', 'client'),
             'ip_address' => $this->ip(),
             'user_agent' => $this->userAgent(),
         ]);
@@ -59,10 +60,11 @@ class StoreInquiryRequest extends FormRequest
         return [
             'full_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:20', 'regex:/^\+[0-9]+$/'],
-            'email' => ['required', 'email', 'max:255'],
-            'project_type' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'project_type' => ['nullable', 'string', 'max:255'],
             'project_location' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:1000'],
+            'type' => ['required', 'string', 'in:client,partner'],
             'timestamp' => ['required', 'numeric'],
             'ip_address' => ['nullable', 'string', 'max:45'],
             'user_agent' => ['nullable', 'string'],

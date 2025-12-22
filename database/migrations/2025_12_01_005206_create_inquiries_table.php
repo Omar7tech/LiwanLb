@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('phone');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('project_type')->nullable();
             $table->string('project_location')->nullable();
             $table->text('notes')->nullable();
+            $table->string('type')->default('client');
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->timestamps();

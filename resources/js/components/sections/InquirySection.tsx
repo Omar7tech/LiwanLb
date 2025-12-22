@@ -14,6 +14,7 @@ interface InquiryFormData {
     project_type: string;
     project_location: string;
     notes: string;
+    type: 'client' | 'partner';
     [key: string]: string;
 }
 
@@ -29,9 +30,10 @@ interface FormErrors {
 
 interface InquirySectionProps {
     preselectedWork?: string;
+    type?: 'client' | 'partner';
 }
 
-export default function InquirySection({ preselectedWork }: InquirySectionProps) {
+export default function InquirySection({ preselectedWork, type = 'client' }: InquirySectionProps) {
     const { errors: serverErrors, socialSettings, sharedWorks } = usePage<{
         errors: FormErrors;
     } & SharedData>().props;
@@ -40,9 +42,10 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
         full_name: "",
         phone: "+961",
         email: "",
-        project_type: preselectedWork || sharedWorks?.data?.[0]?.name || "",
+        project_type: type === 'client' ? (preselectedWork || sharedWorks?.data?.[0]?.name || "") : "",
         project_location: "",
         notes: "",
+        type,
         timestamp: Math.floor(Date.now() / 1000).toString(),
     });
 
@@ -72,20 +75,22 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
             newErrors.phone = "Phone number cannot exceed 20 characters.";
         }
 
-        // Email validation
-        if (!formData.email.trim()) {
-            newErrors.email = "Email address is required.";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = "Please provide a valid email address.";
-        } else if (formData.email.length > 255) {
-            newErrors.email = "Email address cannot exceed 255 characters.";
+        // Email validation (optional)
+        if (formData.email && formData.email.trim()) {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                newErrors.email = "Please provide a valid email address.";
+            } else if (formData.email.length > 255) {
+                newErrors.email = "Email address cannot exceed 255 characters.";
+            }
         }
 
-        // Project Type validation
-        if (!formData.project_type.trim()) {
-            newErrors.project_type = "Project type is required.";
-        } else if (formData.project_type.length > 255) {
-            newErrors.project_type = "Project type cannot exceed 255 characters.";
+        // Project Type validation (only for client inquiries)
+        if (formData.type === 'client') {
+            if (!formData.project_type.trim()) {
+                newErrors.project_type = "Project type is required.";
+            } else if (formData.project_type.length > 255) {
+                newErrors.project_type = "Project type cannot exceed 255 characters.";
+            }
         }
 
         // Optional fields validation
@@ -102,22 +107,32 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
     };
 
     const generateWhatsAppMessage = (): string => {
-        let message = `Hello! I just submitted an inquiry through your website.\n\n`;
+        const inquiryType = formData.type === 'partner' ? 'Partnership' : 'Project';
+        let message = `*New ${inquiryType} Inquiry*\n\n`;
+        
         message += `*Name:* ${formData.full_name}\n`;
         message += `*Phone:* ${formData.phone}\n`;
-        message += `*Email:* ${formData.email}\n`;
-
-        if (formData.project_type) {
-            message += `*Project Type:* ${formData.project_type}\n`;
+        
+        if (formData.email) {
+            message += `*Email:* ${formData.email}\n`;
         }
 
-        if (formData.project_location) {
-            message += `*Project Location:* ${formData.project_location}\n`;
+        if (formData.type === 'client') {
+            if (formData.project_type) {
+                message += `*Project Type:* ${formData.project_type}\n`;
+            }
+            if (formData.project_location) {
+                message += `*Project Location:* ${formData.project_location}\n`;
+            }
+        } else {
+            message += `*Inquiry Type:* Partnership\n`;
         }
 
         if (formData.notes) {
-            message += `*Notes:* ${formData.notes}\n`;
+            message += `\n*Additional Notes:*\n${formData.notes}\n`;
         }
+
+        message += `\n*Submitted at:* ${new Date().toLocaleString()}`;
 
         return encodeURIComponent(message);
     };
@@ -134,12 +149,10 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        // Frontend validation before submission
         if (!validateForm()) {
             return;
         }
 
-        // Check local storage for rate limiting
         const MAX_INQUIRIES = 3;
         const INQUIRY_COUNT_KEY = "liwan_inquiry_count";
         const currentCount = parseInt(localStorage.getItem(INQUIRY_COUNT_KEY) || "0", 10);
@@ -240,7 +253,10 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <h2 className="text-3xl font-bold text-[#3a3b3a] mb-8">Start Your Project With Liwan</h2>
+                                <h2 className="text-3xl font-bold text-[#3a3b3a] mb-8">
+                                    {type === 'client' ? 'Start Your Project With Liwan' : 'Partner With Us'}
+                                </h2>
+                                
 
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -303,8 +319,8 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="flex justify-between text-sm font-medium text-gray-700">
-                                                <span>Email</span>
-                                                <span>اﻟبرﻳﺪ اﻹﻟﻜتروﻧﻲ</span>
+                                                <span>Email (Optional)</span>
+                                                <span>اﻟبرﻳﺪ اﻹﻟﻜتروﻧﻲ (اختياري)</span>
                                             </label>
                                             <input
                                                 type="email"
@@ -319,47 +335,51 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
                                             )}
                                         </div>
 
-                                        <div className="space-y-2">
-                                            <label className="flex justify-between text-sm font-medium text-gray-700">
-                                                <span>Project Type</span>
-                                                <span>ﻧﻮع اﻟﻤشروع</span>
-                                            </label>
-                                            <select
-                                                name="project_type"
-                                                value={formData.project_type}
-                                                onChange={(e) => handleChange("project_type", e.target.value)}
-                                                className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_type ? "border-red-500" : "border-gray-300"
-                                                    }`}
-                                            >
-                                                {sharedWorks?.data?.map((work) => (
-                                                    <option key={work.id} value={work.name}>
-                                                        {work.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.project_type && (
-                                                <p className="text-red-500 text-sm mt-1">{errors.project_type}</p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="flex justify-between text-sm font-medium text-gray-700">
-                                            <span>Project Location</span>
-                                            <span>ﻣﻮﻗﻊ اﻟﻤشروع</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="project_location"
-                                            value={formData.project_location}
-                                            onChange={(e) => handleChange("project_location", e.target.value)}
-                                            className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_location ? "border-red-500" : "border-gray-300"
-                                                }`}
-                                        />
-                                        {errors.project_location && (
-                                            <p className="text-red-500 text-sm mt-1">{errors.project_location}</p>
+                                        {type === 'client' && (
+                                            <div className="space-y-2">
+                                                <label className="flex justify-between text-sm font-medium text-gray-700">
+                                                    <span>Project Type</span>
+                                                    <span>ﻧﻮع اﻟﻤشروع</span>
+                                                </label>
+                                                <select
+                                                    name="project_type"
+                                                    value={formData.project_type}
+                                                    onChange={(e) => handleChange("project_type", e.target.value)}
+                                                    className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_type ? "border-red-500" : "border-gray-300"
+                                                        }`}
+                                                >
+                                                    {sharedWorks?.data?.map((work) => (
+                                                        <option key={work.id} value={work.name}>
+                                                            {work.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {errors.project_type && (
+                                                    <p className="text-red-500 text-sm mt-1">{errors.project_type}</p>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
+
+                                    {type === 'client' && (
+                                        <div className="space-y-2">
+                                            <label className="flex justify-between text-sm font-medium text-gray-700">
+                                                <span>Project Location</span>
+                                                <span>ﻣﻮﻗﻊ اﻟﻤشروع</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="project_location"
+                                                value={formData.project_location}
+                                                onChange={(e) => handleChange("project_location", e.target.value)}
+                                                className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_location ? "border-red-500" : "border-gray-300"
+                                                    }`}
+                                            />
+                                            {errors.project_location && (
+                                                <p className="text-red-500 text-sm mt-1">{errors.project_location}</p>
+                                            )}
+                                        </div>
+                                    )}
 
                                     <div className="space-y-2">
                                         <label className="flex justify-between text-sm font-medium text-gray-700">
@@ -411,12 +431,28 @@ export default function InquirySection({ preselectedWork }: InquirySectionProps)
                 </div>
 
                 <div className="hidden lg:flex lg:col-span-2 flex-col justify-center sticky top-32">
-                    <h2 className="text-3xl font-bold text-[#3a3b3a] mb-6 leading-tight">
-                        Share your project details with us and we'll guide you through the next steps with clarity and confidence.
-                    </h2>
-                    <p className="text-gray-500 text-lg leading-relaxed">
-                        Whether you're building a home, developing land, designing interiors, or launching a business space, our team will review your request and provide direction, expectations, and a clear plan forward with no pressure and no obligations.
-                    </p>
+                    {type === 'client' ? (
+                        <>
+                            <h2 className="text-3xl font-bold text-[#3a3b3a] mb-6 leading-tight">
+                                Share your project details with us and we'll guide you through the next steps with clarity and confidence.
+                            </h2>
+                            <p className="text-gray-500 text-lg leading-relaxed">
+                                Whether you're building a home, developing land, designing interiors, or launching a business space, our team will review your request and provide direction, expectations, and a clear plan forward with no pressure and no obligations.
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <h2 className="text-3xl font-bold text-[#3a3b3a] mb-6 leading-tight">
+                                Partner with Liwan for Mutual Growth
+                            </h2>
+                            <p className="text-gray-500 text-lg leading-relaxed mb-4">
+                                Whether you're a supplier, contractor, or service provider, our team will review your partnership request and explore potential collaboration opportunities.
+                            </p>
+                            <p className="text-gray-500 text-lg leading-relaxed">
+                                We'll get back to you with more information about how we can work together to achieve mutual success.
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
         </section>

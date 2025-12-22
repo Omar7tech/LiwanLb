@@ -97,7 +97,7 @@ export default function Login({ errors }: LoginProps) {
                                     htmlFor="username"
                                     className="block text-xs font-medium uppercase tracking-[0.2em] text-[#3a3b3a]/70"
                                 >
-                                    Username or Phone Number
+                                    Username or Phone Numbers
                                 </label>
                                 <input
                                     id="username"

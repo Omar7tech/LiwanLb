@@ -66,7 +66,7 @@ class ProjectForm
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->disabled(fn() => !Auth::user()?->hasRole('foremen'))
+                            ->disabled(fn() => !Auth::user()?->hasRole(['foremen', 'super_admin']))
                             ->helperText('Required. Only users with the client role are listed.'),
 
                         Select::make('foremen')
@@ -78,7 +78,7 @@ class ProjectForm
                             )
                             ->multiple()
                             ->preload()
-                            ->disabled(fn() => !Auth::user()?->hasRole('foremen'))
+                            ->disabled(fn() => !Auth::user()?->hasRole(['foremen', 'super_admin']))
                             ->searchable()
                             ->default(null)
                             ->helperText('Optional: assign one or more foremen to this project.'),

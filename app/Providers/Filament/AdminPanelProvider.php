@@ -10,6 +10,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
+use Filament\Support\Colors\Color;
 use Filament\PanelProvider;
 use Filament\Widgets\AccountWidget;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
@@ -29,11 +30,15 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('E275OMAR74C2F/admin')
             ->login()
+            ->colors([
+                'gray' => Color::Gray,
+                'primary' => Color::Yellow,
+            ])
             ->globalSearch(false)
             ->darkMode(true)
             ->unsavedChangesAlerts()
             ->broadcasting(false)
-            ->favicon(asset('favicon.ico'))
+            ->favicon(asset('images/lock.png'))
             ->darkModeBrandLogo(asset('images/logodark.png'))
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3rem')

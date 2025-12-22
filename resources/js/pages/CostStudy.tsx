@@ -13,7 +13,7 @@ const CostStudy = () => {
                 />
             </Head>
             <AppLayout>
-                <div className="px-6 py-8 md:px-8 lg:px-12 ">
+                <div className="px-3 py-8 md:px-8 lg:px-12 ">
                     <EngineeringFeeCalculator />
                 </div>
             </AppLayout>

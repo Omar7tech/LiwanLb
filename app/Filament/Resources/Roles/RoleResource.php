@@ -111,7 +111,7 @@ class RoleResource extends Resource
                 EditAction::make()
                     ->visible(fn ($record) => ! in_array($record->name, ['super_admin', 'client'], true)),
                 DeleteAction::make()
-                    ->visible(fn ($record) => ! in_array($record->name, ['super_admin', 'client'], true)),
+                    ->visible(fn ($record) => ! in_array($record->name, ['super_admin', 'client' , 'foreman'], true)),
             ])
             ->toolbarActions([
                 DeleteBulkAction::make()

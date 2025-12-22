@@ -111,7 +111,7 @@ function PartnerWithUs() {
 
             {/* Inquiry Section */}
             <div ref={inquiryRef}>
-                <InquirySection />
+                <InquirySection type="partner" />
             </div>
                 </div>
             </AppLayout>

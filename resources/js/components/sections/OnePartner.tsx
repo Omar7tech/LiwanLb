@@ -11,7 +11,7 @@ function OnePartner() {
         >
             <h1>
 
-                <span className="font-extrabold">One Partner</span>, One Process, And Designs That Make Emotional And Financial Sense.
+                <span className="font-extrabold hover:text-[#f2ae1d] transition-colors duration-300">One Partner</span>, One Process, And Designs That Make Emotional And Financial Sense.
             </h1>
         </motion.div>
     );

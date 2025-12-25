@@ -11,8 +11,8 @@ class SocialSettings extends Settings
     public ?string $twitter_url = 'https://twitter.com/liwan_lb';
     public ?string $instagram_url = 'https://www.instagram.com/liwan.lb';
     public ?string $youtube_url = 'https://www.youtube.com/@liwanlb';
-    public ?string $whatsapp_number = '+96170123456';
-    public ?string $phone_number = '+96170123456';
+    public ?string $whatsapp_number = '+96170124279';
+    public ?string $phone_number = '+96170124279';
     public ?array $emails ;
     public ?string $address = '123 Main Street, Anytown, USA';
     public ?string $location_url = 'https://www.google.com/maps/place/123+Main+Street,+Anytown,+USA';

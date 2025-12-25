@@ -31,7 +31,7 @@ export default function HeroSection() {
                                 text="You."
                                 delay={50}
                                 animateBy="letters"
-                                direction="top"
+                                direction="bottom"
                                 className="inline"
                             />
                         </span>

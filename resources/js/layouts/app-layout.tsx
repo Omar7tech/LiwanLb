@@ -28,6 +28,7 @@ export default ({ children }: AppLayoutProps) => (
                 {children}
                 <Footer />
                 <WhatsAppWidget />
+                
             </div>
         </div>
     </>

@@ -53,14 +53,11 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
     return (
         <div className="flex h-screen bg-white text-gray-900">
-            {/* Sidebar */}
             {(isSidebarOpen || isDesktop) && (
                 <>
-                    {/* Desktop Sidebar */}
                     <div className={`hidden lg:flex flex-col border-r border-gray-200 bg-gray-50 transition-all duration-300 ${
                         isDesktopSidebarCollapsed ? 'w-20' : 'w-64'
                     }`}>
-                        {/* Logo */}
                         <div className={`flex items-center justify-center px-6 py-5 border-b border-gray-200 ${
                             isDesktopSidebarCollapsed ? 'px-1' : 'px-6'
                         }`}>

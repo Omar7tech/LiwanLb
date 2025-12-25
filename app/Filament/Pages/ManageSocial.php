@@ -140,7 +140,7 @@ class ManageSocial extends SettingsPage
                                         Toggle::make('whatsapp_widget_active')
                                             ->label('Enable Floating WhatsApp Widget')
                                             ->inline(false)
-                                            ->helperText('Show the floating WhatsApp chat button on all pages'),
+                                            ->helperText('Show the floating WhatsApp chat button on all pages. Note: If Tawk.to chat is enabled in General Settings, this WhatsApp widget will be hidden to avoid conflicts.'),
                                     ])
                                     ->columns(2)
                                     ->collapsible(),

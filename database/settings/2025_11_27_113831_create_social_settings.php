@@ -10,8 +10,8 @@ return new class extends SettingsMigration
         $this->migrator->add('social.twitter_url', 'https://twitter.com/liwan_lb');
         $this->migrator->add('social.instagram_url', 'https://www.instagram.com/liwan.lb');
         $this->migrator->add('social.youtube_url', 'https://www.youtube.com/@liwanlb');
-        $this->migrator->add('social.whatsapp_number', '+96170123456');
-        $this->migrator->add('social.phone_number', '+96170123456');
+        $this->migrator->add('social.whatsapp_number', '+96170124279');
+        $this->migrator->add('social.phone_number', '+96170124279');
         $this->migrator->add('social.emails', []);
         $this->migrator->add('social.address', '123 Main Street, Anytown, USA');
         $this->migrator->add('social.location_url', 'https://www.google.com/maps/place/123+Main+Street,+Anytown,+USA');

@@ -138,7 +138,7 @@ function BuiltFor() {
                     {cards.map((card, index) => (
                         <div
                             key={index}
-                            className="flex-shrink-0 w-full h-[300px] md:h-[500px] rounded-2xl md:rounded-[40px] overflow-hidden
+                            className="shrink-0 w-full h-[300px] md:h-[500px] rounded-2xl md:rounded-[40px] overflow-hidden
                                        flex items-end justify-center cursor-grab active:cursor-grabbing
                                        transition-transform duration-300 ease-out"
                             style={{
@@ -151,7 +151,7 @@ function BuiltFor() {
                                 transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 1.25}rem))`
                             }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-0"></div>
+                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent z-0"></div>
                             <div className="absolute bottom-0 left-0 right-0 z-10 p-6 md:p-8 text-white">
                                 <h3 className="font-bold text-xl md:text-2xl mb-2">
                                     {card.title}
@@ -205,7 +205,7 @@ function BuiltFor() {
 
                 {/* --- CARD 1: Home Owners --- (UNCHANGED) */}
                 <div
-                    className="group relative flex-[1] hover:flex-[2] transition-[flex] duration-500 flex h-[300px] md:h-[500px]
+                    className="group relative flex-1 hover:flex-2 transition-[flex] duration-500 flex h-[300px] md:h-[500px]
                                 cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
                                 bg-cover bg-center text-white"
                     style={{
@@ -231,7 +231,7 @@ function BuiltFor() {
 
                 {/* --- CARD 2: Developers --- (UNCHANGED) */}
                 <div
-                    className="group relative flex-[2] hover:flex-[2] transition-[flex] duration-500 flex h-[300px] md:h-[500px]
+                    className="group relative flex-2 hover:flex-2 transition-[flex] duration-500 flex h-[300px] md:h-[500px]
                                 cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
                                 bg-cover bg-center text-white"
                     style={{
@@ -257,7 +257,7 @@ function BuiltFor() {
 
                 {/* --- CARD 3: Business Owners --- (UNCHANGED) */}
                 <div
-                    className="group relative flex-[1] hover:flex-[2] transition-[flex] duration-500 flex h-[300px] md:h-[500px]
+                    className="group relative flex-1 hover:flex-2 transition-[flex] duration-500 flex h-[300px] md:h-[500px]
                                 cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
                                 bg-cover bg-center text-white"
                     style={{

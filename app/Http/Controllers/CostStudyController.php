@@ -8,6 +8,8 @@ use Inertia\Inertia;
 class CostStudyController extends Controller
 {
     public function index(){
-        return Inertia::render('CostStudy');
+        return Inertia::render('CostStudy', [
+            'generalSettings' => app(\App\Settings\GeneralSettings::class),
+        ]);
     }
 }

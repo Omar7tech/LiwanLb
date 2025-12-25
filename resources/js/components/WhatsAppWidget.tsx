@@ -5,13 +5,14 @@ import { useState, useEffect, useRef } from "react";
 import { FaWhatsapp, FaTimes, FaPaperPlane } from "react-icons/fa";
 
 export default function WhatsAppWidget() {
-    const { socialSettings } = usePage<SharedData>().props;
+    const { socialSettings, generalSettings } = usePage<SharedData>().props;
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     // Don't render if WhatsApp is not active or no number or widget is disabled
-    if (!socialSettings.whatsapp_active || !socialSettings.whatsapp_number || !socialSettings.whatsapp_widget_active) {
+    // Also don't render if Tawk.to is enabled to avoid conflicts
+    if (!socialSettings.whatsapp_active || !socialSettings.whatsapp_number || !socialSettings.whatsapp_widget_active || (generalSettings?.tawk_active && generalSettings?.tawk_script)) {
         return null;
     }
 
@@ -84,7 +85,7 @@ export default function WhatsAppWidget() {
                         }}
                     >
                         {/* Header */}
-                        <div className="bg-[#F2AE1D] px-5 py-4 text-white flex-shrink-0">
+                        <div className="bg-[#F2AE1D] px-5 py-4 text-white shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white overflow-hidden">
                                     <img 
@@ -111,7 +112,7 @@ export default function WhatsAppWidget() {
                         </div>
 
                         {/* Input Area */}
-                        <div className="bg-white px-4 py-4 border-t border-gray-100 flex-shrink-0">
+                        <div className="bg-white px-4 py-4 border-t border-gray-100 shrink-0">
                             <div className="flex items-end gap-2">
                                 <textarea
                                     ref={textareaRef}

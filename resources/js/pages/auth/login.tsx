@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
-import { Head, useForm, Link } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 interface LoginProps {
     errors: Record<string, string>;
@@ -164,28 +165,10 @@ export default function Login({ errors }: LoginProps) {
                             <p className="mb-3 font-medium uppercase tracking-[0.2em] text-[#3a3b3a]">
                                 No account?
                             </p>
-                            <p className="mb-4 leading-relaxed">
+                            <p className="mb-6 leading-relaxed">
                                 Partner with us to receive your credentials and access real-time project tracking.
                             </p>
-                            <Link
-                                href="/partner-with-us"
-                                className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[#3a3b3a] hover:text-[#f2ae1d] transition-colors"
-                            >
-                                <span>Become a partner</span>
-                                <svg
-                                    className="h-3.5 w-3.5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                                    />
-                                </svg>
-                            </Link>
+                            <WhatsAppButton fullWidth={true} />
                         </div>
                     </div>
                 </div>

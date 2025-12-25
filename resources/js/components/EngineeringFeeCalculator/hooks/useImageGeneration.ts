@@ -122,9 +122,7 @@ export const useImageGeneration = (language: Language) => {
 
         const financialData = [
           { label: TRANSLATIONS.baseCost[language], value: `$${baseCost.toLocaleString()}/m²`, color: '#3a3b3a' },
-          { label: TRANSLATIONS.estimatedCost[language], value: `$${estCost.toLocaleString()}`, color: '#16a34a', bold: true },
-          { label: TRANSLATIONS.applicableFee[language], value: `${percentage.toFixed(1)}%`, color: '#ca8a04' },
-          { label: TRANSLATIONS.minimumFee[language], value: `$${fee.toLocaleString()}`, color: '#16a34a', bold: true }
+          { label: TRANSLATIONS.estimatedCost[language], value: `$${estCost.toLocaleString()}`, color: '#16a34a', bold: true }
         ];
 
         financialData.forEach((item, index) => {

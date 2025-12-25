@@ -107,6 +107,9 @@ export interface Testimonials {
 
 export interface GeneralSettings {
     site_active: boolean;
+    cost_study_ai_enabled: boolean;
+    tawk_active: boolean;
+    tawk_script: string;
 }
 
 export interface SocialSettings {

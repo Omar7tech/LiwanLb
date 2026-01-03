@@ -113,7 +113,7 @@ export const ImageModal = ({ isOpen, images, currentIndex, onClose }: ImageModal
                             >
                                 <ZoomOut className="h-4 w-4" />
                             </button>
-                            <div className="px-2 text-white text-sm font-medium min-w-[3rem] text-center">
+                            <div className="px-2 text-white text-sm font-medium min-w-12 text-center">
                                 {Math.round(zoomLevel * 100)}%
                             </div>
                             <button
@@ -203,7 +203,7 @@ export const ImageModal = ({ isOpen, images, currentIndex, onClose }: ImageModal
                                     setCurrentImageIndex(index);
                                     setZoomLevel(1);
                                 }}
-                                className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                                className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                                     index === currentImageIndex 
                                         ? 'border-white scale-110 shadow-lg' 
                                         : 'border-white/30 hover:border-white/60 hover:scale-105'

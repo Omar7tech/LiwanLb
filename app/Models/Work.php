@@ -60,7 +60,6 @@ class Work extends Model implements HasMedia
             $builder->orderBy('order', 'asc')->where('active', true);
         });
     }
-
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('webp')

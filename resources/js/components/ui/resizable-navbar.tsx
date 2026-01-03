@@ -7,7 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -120,8 +120,12 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           viewTransition
           prefetch="click"
           onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-3 py-2"
+          onTouchStart={() => setHovered(idx)}
+          onClick={() => {
+            setHovered(null);
+            onItemClick?.();
+          }}
+          className="relative px-3 py-2 cursor-pointer"
           key={`link-${idx}`}
           href={item.link}
         >
@@ -129,6 +133,9 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
             <motion.div
               layoutId="hovered"
               className="absolute inset-0 rounded-full bg-yellow-500/20"
+              initial={false}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             />
           )}
           <span className="relative z-20">{item.name}</span>
@@ -148,9 +155,24 @@ interface NavDropdownProps {
 export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setHovered(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div
+      ref={dropdownRef}
       className={cn(
         "relative hidden whitespace-nowrap flex-1 flex-row items-center justify-center text-[20px] text-[#3A3B3A] lg:flex",
         className
@@ -158,6 +180,10 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
       onMouseEnter={() => {
         setIsOpen(true);
         setHovered(true);
+      }}
+      onTouchStart={() => {
+        setIsOpen(!isOpen);
+        setHovered(!hovered);
       }}
       onMouseLeave={() => {
         setIsOpen(false);

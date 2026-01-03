@@ -15,6 +15,8 @@ interface InquiryFormData {
     project_location: string;
     notes: string;
     type: 'client' | 'partner';
+    building_type: string;
+    project_category: string;
     [key: string]: string;
 }
 
@@ -46,6 +48,8 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
         project_location: "",
         notes: "",
         type,
+        building_type: "",
+        project_category: "",
         timestamp: Math.floor(Date.now() / 1000).toString(),
     });
 
@@ -124,6 +128,37 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
             if (formData.project_location) {
                 message += `*Project Location:* ${formData.project_location}\n`;
             }
+            
+            // Add client options if they exist
+            if (formData.building_type && formData.building_type !== '' || formData.project_category && formData.project_category !== '') {
+                let clientOptions = '';
+                
+                if (formData.building_type && formData.building_type !== '') {
+                    const buildingText = formData.building_type === 'existing_building' ? 'Existing Building' : 'Empty Land';
+                    clientOptions += `Building Type: ${buildingText}`;
+                }
+                
+                if (formData.project_category && formData.project_category !== '') {
+                    const categoryTexts: Record<string, string> = {
+                        'residential': 'Residential Apartments',
+                        'commercial': 'Commercial Shops', 
+                        'offices': 'Offices',
+                        'private_project': 'Private Project',
+                        'investment_project': 'Investment Project',
+                        'sale': 'Sale',
+                        'rent': 'Rent',
+                        'investment': 'Investment'
+                    };
+                    const categoryText = categoryTexts[formData.project_category] || formData.project_category;
+                    
+                    if (clientOptions) clientOptions += ', ';
+                    clientOptions += `Project Category: ${categoryText}`;
+                }
+                
+                if (clientOptions) {
+                    message += `*Client Options:* ${clientOptions}\n`;
+                }
+            }
         } else {
             message += `*Inquiry Type:* Partnership\n`;
         }
@@ -167,8 +202,44 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
 
         setIsSubmitting(true);
 
+        // Prepare submission data with building/project info appended to notes for client inquiries
+        const submissionData = { ...formData };
+        
+        if (formData.type === 'client' && (formData.building_type && formData.building_type !== '' || formData.project_category && formData.project_category !== '')) {
+            let additionalInfo = '';
+            
+            if (formData.building_type && formData.building_type !== '') {
+                const buildingText = formData.building_type === 'existing_building' ? 'Existing Building' : 'Empty Land';
+                additionalInfo += `Building Type: ${buildingText}`;
+            }
+            
+            if (formData.project_category && formData.project_category !== '') {
+                const categoryTexts: Record<string, string> = {
+                    'residential': 'Residential Apartments',
+                    'commercial': 'Commercial Shops', 
+                    'offices': 'Offices',
+                    'private_project': 'Private Project',
+                    'investment_project': 'Investment Project',
+                    'sale': 'Sale',
+                    'rent': 'Rent',
+                    'investment': 'Investment'
+                };
+                const categoryText = categoryTexts[formData.project_category] || formData.project_category;
+                
+                if (additionalInfo) additionalInfo += ', ';
+                additionalInfo += `Project Category: ${categoryText}`;
+            }
+            
+            // Append to notes only if there's additional info
+            if (additionalInfo) {
+                submissionData.notes = formData.notes 
+                    ? `${formData.notes}. Client Options: ${additionalInfo}`
+                    : `Client Options: ${additionalInfo}`;
+            }
+        }
+
         // Submit to backend
-        router.post(store(), formData, {
+        router.post(store(), submissionData, {
             preserveScroll: true,
             onSuccess: () => {
                 // Increment submission count
@@ -381,6 +452,200 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                         </div>
                                     )}
 
+                                    {type === 'client' && (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-4">
+                                                <label className="flex justify-between text-sm font-medium text-gray-700">
+                                                    <span>Building Type (Optional)</span>
+                                                    <span>ﻧﻮع اﻟﻤبﻨﻰ (اختياري)</span>
+                                                </label>
+                                                <div className="space-y-3">
+                                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                                        <input
+                                                            type="radio"
+                                                            name="building_type"
+                                                            value="existing_building"
+                                                            checked={formData.building_type === 'existing_building'}
+                                                            onChange={(e) => {
+                                                                handleChange("building_type", e.target.value);
+                                                                // Reset project category when building type changes
+                                                                handleChange("project_category", "");
+                                                            }}
+                                                            className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D]"
+                                                        />
+                                                        <span className="text-gray-700">مبنى موجود | Existing Building</span>
+                                                    </label>
+                                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                                        <input
+                                                            type="radio"
+                                                            name="building_type"
+                                                            value="empty_land"
+                                                            checked={formData.building_type === 'empty_land'}
+                                                            onChange={(e) => {
+                                                                handleChange("building_type", e.target.value);
+                                                                // Reset project category when building type changes
+                                                                handleChange("project_category", "");
+                                                            }}
+                                                            className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D]"
+                                                        />
+                                                        <span className="text-gray-700">أرض خالية | Empty Land</span>
+                                                    </label>
+                                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                                        <input
+                                                            type="radio"
+                                                            name="building_type"
+                                                            value=""
+                                                            checked={formData.building_type === ""}
+                                                            onChange={(e) => {
+                                                                handleChange("building_type", "");
+                                                                // Reset project category when building type changes
+                                                                handleChange("project_category", "");
+                                                            }}
+                                                            className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D]"
+                                                        />
+                                                        <span className="text-gray-500">Skip | تخطي</span>
+                                                    </label>
+                                                </div>
+                                                {errors.building_type && (
+                                                    <p className="text-red-500 text-sm mt-1">{errors.building_type}</p>
+                                                )}
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <label className="flex justify-between text-sm font-medium text-gray-700">
+                                                    <span>Project Category (Optional)</span>
+                                                    <span>ﻓﺌﺔ اﻟﻤشروع (اختياري)</span>
+                                                </label>
+                                                <div className={`space-y-3 ${!formData.building_type ? "opacity-50" : ""}`}>
+                                                    {formData.building_type === 'existing_building' && (
+                                                        <>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="residential"
+                                                                    checked={formData.project_category === 'residential'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">شقق سكنية | Residential Apartments</span>
+                                                            </label>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="commercial"
+                                                                    checked={formData.project_category === 'commercial'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">محلات تجارية | Commercial Shops</span>
+                                                            </label>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="offices"
+                                                                    checked={formData.project_category === 'offices'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">مكاتب | Offices</span>
+                                                            </label>
+                                                        </>
+                                                    )}
+                                                    {formData.building_type === 'empty_land' && (
+                                                        <>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="private_project"
+                                                                    checked={formData.project_category === 'private_project'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">مشروع خاص | Private Project</span>
+                                                            </label>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="investment_project"
+                                                                    checked={formData.project_category === 'investment_project'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">مشروع استثمار | Investment Project</span>
+                                                            </label>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="sale"
+                                                                    checked={formData.project_category === 'sale'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">بيع | Sale</span>
+                                                            </label>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="rent"
+                                                                    checked={formData.project_category === 'rent'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">إيجار | Rent</span>
+                                                            </label>
+                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="project_category"
+                                                                    value="investment"
+                                                                    checked={formData.project_category === 'investment'}
+                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
+                                                                    disabled={!formData.building_type}
+                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                />
+                                                                <span className="text-gray-700">إستثمار | Investment</span>
+                                                            </label>
+                                                        </>
+                                                    )}
+                                                    {(formData.building_type || !formData.building_type) && (
+                                                        <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <input
+                                                                type="radio"
+                                                                name="project_category"
+                                                                value=""
+                                                                checked={formData.project_category === ""}
+                                                                onChange={(e) => handleChange("project_category", "")}
+                                                                disabled={!formData.building_type}
+                                                                className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                            />
+                                                            <span className="text-gray-500">Skip | تخطي</span>
+                                                        </label>
+                                                    )}
+                                                    {!formData.building_type && (
+                                                        <p className="text-gray-500 text-sm">Please select building type first or skip | الرجاء اختيار نوع المبنى أولاً أو التخطي</p>
+                                                    )}
+                                                </div>
+                                                {errors.project_category && (
+                                                    <p className="text-red-500 text-sm mt-1">{errors.project_category}</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="space-y-2">
                                         <label className="flex justify-between text-sm font-medium text-gray-700">
                                             <span>Notes</span>
@@ -419,7 +684,7 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full md:w-auto px-8 py-3 bg-[#F2AE1D] text-[#3a3b3a] font-bold rounded-lg hover:bg-[#3a3b3a] hover:text-[#F2AE1D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="w-full md:w-auto px-8 py-3 bg-[#F2AE1D] text-white font-bold rounded-lg hover:bg-[#3a3b3a] hover:text-[#F2AE1D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                                         </button>

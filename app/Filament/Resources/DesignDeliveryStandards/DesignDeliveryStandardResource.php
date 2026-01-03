@@ -27,6 +27,15 @@ class DesignDeliveryStandardResource extends Resource
 
     protected static ?string $navigationLabel = 'Features';
 
+    protected static ?string $modelLabel = 'Feature';
+
+    protected static ?string $pluralModelLabel = 'Features';
+
+    public static function getSlug(\Filament\Panel|null $panel = null): string
+    {
+        return 'features';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return DesignDeliveryStandardForm::configure($schema);

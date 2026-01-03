@@ -31,16 +31,15 @@ function BuiltFor() {
 
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleScroll);
-        
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleScroll);
         }
     }, []);
 
-    // 1. Title Text Parallax (Slightly slower movement, upward direction when scrolling down)
-    // Divisor 15 = slow movement, simulates background layer.
-    const titleParallaxTransform = `translateY(${scrollOffset / 15}px)`;
+    // 1. Title Text Parallax (DISABLED - No parallax effect on text)
+    const titleParallaxTransform = 'none';
 
     // 2. Cards Parallax (Noticeable movement in the opposite direction: moves DOWN when scrolling DOWN)
     // By multiplying by -1 (or using a negative division), the element moves against the scroll.
@@ -52,17 +51,17 @@ function BuiltFor() {
         {
             title: 'Home Owners',
             description: 'We help homeowners build, renovate, and maintain their dream spaces.',
-            image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&auto=format&fit=crop&q=60'
+            image: '/images/homeowners.webp'
         },
         {
             title: 'Developers',
             description: 'Tools and services tailored for modern developers and tech teams.',
-            image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&auto=format&fit=crop&q=60'
+            image: '/images/developers.webp'
         },
         {
             title: 'Business Owners',
             description: 'Solutions that help business owners scale efficiently and securely.',
-            image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=900&auto=format&fit=crop&q=60'
+            image: '/images/businessowner.webp'
         }
     ];
 
@@ -110,19 +109,20 @@ function BuiltFor() {
 
 
     return (
-        <div 
-            ref={componentRef} 
-            className="w-full items-center justify-between space-y-5 p-5 lg:space-x-16 lg:flex overflow-hidden relative" 
+        <div
+            ref={componentRef}
+            className="w-full items-center justify-between space-y-5 p-5 lg:space-x-16 lg:flex overflow-hidden relative"
         >
             {/* LEFT TEXT (TITLE) - Parallax 1: Moves slightly UP on scroll */}
-            <div 
-                className="flex flex-col pe-8 leading-[1.1] font-bold whitespace-nowrap text-[#3a3b3a] lg:relative lg:z-10 transition-[transform] duration-50"
-                style={{ transform: titleParallaxTransform }} 
+            <div
+                className="flex pe-8 leading-[1.1] font-bold whitespace-nowrap text-[#3a3b3a] lg:flex-col lg:relative lg:z-10 transition-[transform] duration-50"
+                style={{ transform: titleParallaxTransform }}
             >
                 {/* Hover effect remains: changes color to accent yellow */}
-                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block transition-all duration-300 hover:text-[#f2ae1d] cursor-default">Built For</span>
-                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block transition-all duration-300 hover:text-[#f2ae1d] cursor-default">People</span>
-                <span className="text-4xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] block transition-all duration-300 hover:text-[#f2ae1d] cursor-default">Like You</span>
+
+                <span className="text-2xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] inline transition-all duration-300 hover:text-[#f2ae1d] cursor-default">We Build</span>
+                <span className="text-2xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] inline transition-all duration-300 hover:text-[#f2ae1d] cursor-default ml-2">For People</span>
+                <span className="text-2xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] inline transition-all duration-300 hover:text-[#f2ae1d] cursor-default ml-2">Like You</span>
             </div>
 
             {/* CAROUSEL WRAPPER - MOBILE (UNCHANGED) */}
@@ -188,9 +188,8 @@ function BuiltFor() {
                         <button
                             key={index}
                             onClick={() => setCurrentIndex(index)}
-                            className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentIndex ? 'bg-[#f2ae1d] w-8' : 'bg-gray-400'
-                            }`}
+                            className={`w-2 h-2 rounded-full transition-all ${index === currentIndex ? 'bg-[#f2ae1d] w-8' : 'bg-gray-400'
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}
@@ -198,9 +197,9 @@ function BuiltFor() {
             </div>
 
             {/* ALL CARDS - DESKTOP - Parallax 2: Moves significantly DOWN on scroll (Counter-Directional) */}
-            <div 
+            <div
                 className="hidden w-full gap-5 lg:flex lg:relative lg:z-10 transition-[transform] duration-50"
-                style={{ transform: cardsParallaxTransform }} 
+                style={{ transform: cardsParallaxTransform }}
             >
 
                 {/* --- CARD 1: Home Owners --- (UNCHANGED) */}
@@ -215,7 +214,7 @@ function BuiltFor() {
                         `
                     }}
                 >
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/80 transition-all duration-500 z-0"></div>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500 z-0"></div>
                     <span className="relative z-10 font-bold text-center px-4 pb-10
                                      text-lg sm:text-xl md:text-2xl transition-all duration-500
                                      group-hover:translate-y-[-50px] group-hover:opacity-0">
@@ -241,7 +240,7 @@ function BuiltFor() {
                         `
                     }}
                 >
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/80 transition-all duration-500 z-0"></div>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500 z-0"></div>
                     <span className="relative z-10 font-extrabold text-center px-4 pb-10
                                      text-xl sm:text-2xl md:text-4xl transition-all duration-500
                                      group-hover:translate-y-[-50px] group-hover:opacity-0">
@@ -267,7 +266,7 @@ function BuiltFor() {
                         `
                     }}
                 >
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/80 transition-all duration-500 z-0"></div>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500 z-0"></div>
                     <span className="relative z-10 font-bold text-center px-4 pb-10
                                      text-lg sm:text-xl md:text-2xl transition-all duration-500
                                      group-hover:translate-y-[-50px] group-hover:opacity-0">

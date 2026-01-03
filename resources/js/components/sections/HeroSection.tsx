@@ -3,9 +3,39 @@ import BlurText from "../BlurText";
 import WhatsAppButton from "../WhatsAppButton";
 import { type SharedData } from '@/types';
 import { Home } from "lucide-react";
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 export default function HeroSection() {
     const { sharedWorks } = usePage<SharedData>().props;
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !isVideoLoaded) {
+                        const video = entry.target as HTMLVideoElement;
+                        video.src = "/videos/HomePagevid.mp4";
+                        video.load();
+                        setIsVideoLoaded(true);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        };
+    }, [isVideoLoaded]);
     return (
         <section className="w-full px-5 pt-10">
             <div className="mx-auto space-y-10">
@@ -64,17 +94,23 @@ export default function HeroSection() {
                 </div>
                 
                 <div className="w-full">
-                    <div className="overflow-hidden rounded-2xl shadow-md animate-[fadeInScale_1.2s_ease-out_1.2s_both]">
-                        {/* <video
-                            src="/videos/video.webm"
-                            className="max-h-[calc(100vh-150px)] w-full object-cover"
+                    <div className="relative overflow-hidden rounded-2xl shadow-md animate-[fadeInScale_1.2s_ease-out_1.2s_both]">
+                        <video
+                            ref={videoRef}
+                            className="max-h-[calc(100vh-50px)] w-full object-cover"
                             autoPlay
                             loop
                             muted
                             playsInline
-                        /> */}
-
-                        <img className="max-h-[calc(100vh-150px)] w-full object-cover" src="/images/heroimage.jpg" alt="" />
+                            preload="none"
+                        />
+                        
+                        {/* Loading placeholder */}
+                        {!isVideoLoaded && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3a3b3a]"></div>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <motion.div

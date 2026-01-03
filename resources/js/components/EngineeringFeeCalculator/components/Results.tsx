@@ -5,7 +5,6 @@ import { Language } from '../types';
 import { TRANSLATIONS } from '../constants';
 import { usePage } from '@inertiajs/react';
 
-// Type declaration for Puter.js
 declare global {
   interface Window {
     puter?: {

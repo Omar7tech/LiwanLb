@@ -1,7 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
 import { Blog } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useFavorites } from '@/hooks/useFavorites';
+import { motion, Variants } from 'framer-motion';
+import { Calendar, Clock, ArrowLeft, Share2, Bookmark, Heart } from 'lucide-react';
 
 // Custom utility to format the date for a clean UI
 const formatDate = (dateString: string) => {
@@ -11,6 +13,32 @@ const formatDate = (dateString: string) => {
 
 const PRIMARY_COLOR = '#3a3b3a';
 const ACCENT_COLOR = '#f2ae1d';
+const LIGHT_GRAY = '#f8f9fa';
+const TEXT_GRAY = '#6b7280';
+
+// Animation variants
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2
+        }
+    }
+};
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.6,
+            ease: [0.25, 0.46, 0.45, 0.94] as const
+        }
+    }
+};
 
 function show({ blog }: { blog: Blog }) {
     const { isFavorite, toggleFavorite } = useFavorites();
@@ -53,81 +81,94 @@ function show({ blog }: { blog: Blog }) {
                 </meta>
             </Head>
             <AppLayout>
-                <div className="text-gray-800">
+                <div className="min-h-screen bg-linear-to-b from-white to-gray-50">
 
-                    {/* --- 1. HEADER SECTION: Image and Title --- */}
-                    <header
-                        className="relative pt-12 pb-24 md:pt-16 md:pb-32 overflow-hidden"
-                        style={{ backgroundColor: PRIMARY_COLOR }}
+                    {/* Hero Section */}
+                    <motion.header
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="relative overflow-hidden"
                     >
-                        {/* Conditional Full-Width Image (if available) */}
-
-                            <div className="absolute inset-0 z-0">
+                        {/* Background Image with Overlay */}
+                        <div className="relative h-96 md:h-[500px] lg:h-[600px]">
+                            <div className="absolute inset-0">
                                 <img
                                     src={blog.image ?? '/images/blogshowplaceholder.webp'}
                                     alt={blog.title}
-                                    className="w-full h-full object-cover opacity-30 transition-opacity duration-500"
+                                    className="w-full h-full object-cover"
                                 />
-                                <div className="absolute inset-0 bg-black/50" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
                             </div>
-
-
-                        {/* Header Content Wrapper */}
-                        <div className="relative z-10 max-w-4xl mx-auto px-6 text-white text-center">
-
-                            {/* Metadata */}
-                            {blog.created_at && (
-                                <p className="text-sm font-medium tracking-widest uppercase mb-4" style={{ color: ACCENT_COLOR }}>
-                                    Posted on {formatDate(blog.created_at)}
-                                </p>
-                            )}
-
-                            {/* Main Title */}
-                            {blog.title && (
-                                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-                                    {blog.title}
-                                </h1>
-                            )}
-
-                            {/* Like Button */}
-                            <div className="flex justify-center mb-8">
-                                <button
-                                    onClick={() => toggleFavorite(blog)}
-                                    className="group flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
-                                >
-                                    <svg
-                                        className={`w-6 h-6 transition-colors duration-300 ${
-                                            isFavorite(blog.id)
-                                                ? "fill-red-500 text-red-500"
-                                                : "fill-transparent text-white group-hover:text-red-500"
-                                        }`}
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                        />
-                                    </svg>
-                                    <span className="font-medium text-lg">
-                                        {isFavorite(blog.id) ? "Saved to Favorites" : "Add to Favorites"}
-                                    </span>
-                                </button>
+                            
+                            {/* Floating Decorative Elements */}
+                            <div className="absolute top-10 right-10 w-20 h-20 bg-[#f2ae1d]/20 rounded-full blur-xl animate-pulse" />
+                            <div className="absolute bottom-10 left-10 w-32 h-32 bg-[#3a3b3a]/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
+                            
+                            {/* Content Overlay */}
+                            <div className="absolute inset-0 flex items-end">
+                                <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-6 sm:pb-12 w-full">
+                                    <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
+                                        {/* Date Badge */}
+                                        {blog.created_at && (
+                                            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+                                                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                                                <span className="text-xs sm:text-sm font-medium text-white">
+                                                    {formatDate(blog.created_at)}
+                                                </span>
+                                            </div>
+                                        )}
+                                        
+                                        {/* Title */}
+                                        {blog.title && (
+                                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                                                {blog.title}
+                                            </h1>
+                                        )}
+                                        
+                                        {/* Description */}
+                                        {blog.description && (
+                                            <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl">
+                                                {blog.description}
+                                            </p>
+                                        )}
+                                        
+                                        {/* Action Buttons */}
+                                        <div className="flex flex-wrap gap-3 sm:gap-4 pt-2 sm:pt-4">
+                                            <motion.button
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => toggleFavorite(blog)}
+                                                className="flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 bg-white/10 backdrop-blur-md text-white rounded-full font-medium border border-white/20 hover:bg-white/20 transition-colors duration-200 shadow-lg"
+                                            >
+                                                <Heart
+                                                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
+                                                        isFavorite(blog.id)
+                                                            ? "fill-red-500 text-red-500"
+                                                            : "text-white"
+                                                    }`}
+                                                />
+                                                <span className="text-sm sm:text-base">{isFavorite(blog.id) ? "Saved" : "Save"}</span>
+                                            </motion.button>
+                                            
+                                            <motion.button
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => navigator.share?.({ title: blog.title, url: siteUrl })}
+                                                className="flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 bg-white/10 backdrop-blur-md text-white rounded-full font-medium border border-white/20 hover:bg-white/20 transition-colors duration-200"
+                                            >
+                                                <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                <span className="text-sm sm:text-base">Share</span>
+                                            </motion.button>
+                                        </div>
+                                    </motion.div>
+                                </div>
                             </div>
-
-                            {/* Description/Excerpt */}
-                            {blog.description && (
-                                <p className="text-lg opacity-80 max-w-3xl mx-auto">
-                                    {blog.description}
-                                </p>
-                            )}
                         </div>
-                    </header>
+                    </motion.header>
 
                     {/* --- 2. MAIN CONTENT BODY --- */}
-                    <main className="max-w-4xl mx-auto px-6 py-12 md:py-20">
+                    <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 overflow-auto">
 
                         {/* Conditional Content Rendering */}
                         {postContent && (

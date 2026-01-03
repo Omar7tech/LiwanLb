@@ -1,166 +1,188 @@
-import { show } from "@/routes/blogs";
-import { Blog } from "@/types";
-import { Link } from "@inertiajs/react";
 import { useState } from "react";
+import { Link } from "@inertiajs/react";
 import { useFavorites } from "@/hooks/useFavorites";
 
-function Card({blog} : {blog : Blog}) {
-    const [showShareMenu, setShowShareMenu] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setHasError] = useState(false);
-    const { isFavorite, toggleFavorite } = useFavorites();
-    const shareUrl = typeof window !== 'undefined' ? window.location.origin + show(blog.slug).url : '';
+// Helper function for blog route
+const show = (slug: string) => `/blog/${slug}`;
 
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(shareUrl);
-        alert('Link copied to clipboard!');
-        setShowShareMenu(false);
-    };
+function Card({ blog = { 
+  id: 1,
+  slug: "automotive",
+  title: "Automotive",
+  description: "Superchat for car dealerships, workshops and rental companies.",
+  image: "https://images.unsplash.com/photo-1493195671595-30a332807d62?w=500&h=400&fit=crop"
+} }) {
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
-    const shareToWhatsApp = () => {
-        window.open(`https://wa.me/?text=${encodeURIComponent(blog.title + ' ' + shareUrl)}`, '_blank');
-        setShowShareMenu(false);
-    };
+  const handleCopyLink = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/blog/${blog.slug}`;
+    navigator.clipboard.writeText(shareUrl);
+    alert('Link copied to clipboard!');
+    setShowShareMenu(false);
+  };
 
-    return (
-        <div className="group relative w-full overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl">
-            <div className="relative h-48 w-full overflow-hidden">
-                {/* Skeleton Loader with Shimmer Effect */}
-                {isLoading && (
-                    <div className="absolute inset-0 bg-linear-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse z-10">
-                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
-                        
-                        {/* Spinning Loader Icon */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-10 h-10 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin"></div>
-                        </div>
-                    </div>
-                )}
+  const shareToWhatsApp = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/blog/${blog.slug}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(blog.title + ' ' + shareUrl)}`, '_blank');
+    setShowShareMenu(false);
+  };
 
-                <img
-                    className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-                    loading="lazy"
-                    src={blog.image ?? '/images/blognoimage.webp'}
-                    alt={blog.slug}
-                    onLoad={() => setIsLoading(false)}
-                    onError={() => {
-                        setHasError(true);
-                        setIsLoading(false);
-                    }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                
-                {/* Like Button - Glassy Apple-style */}
-                <button
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite(blog);
+  };
+
+  return (
+    <Link
+      href={show(blog.slug)}
+      className="relative w-full h-96 rounded-2xl overflow-hidden group cursor-pointer block"
+    >
+      {/* Image Background */}
+      <img
+        className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+          isLoading ? 'blur-sm' : ''
+        }`}
+        loading="lazy"
+        src={blog.image ?? '/images/blognoimage.webp'}
+        alt={blog.slug}
+        onLoad={() => setIsLoading(false)}
+        onError={() => setIsLoading(false)}
+      />
+
+      {/* Dark Gradient Overlay - stronger at bottom */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/70" />
+
+      {/* Favorite & Share Buttons - Top Right */}
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        {/* Favorite Button */}
+        <button
+          onClick={handleFavoriteClick}
+          className="flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md bg-white/20 border border-white/40 transition-all duration-300 hover:bg-white/30 hover:scale-110 active:scale-95"
+          aria-label={isFavorite(blog.id) ? "Remove from favorites" : "Add to favorites"}
+        >
+          <svg
+            className={`h-5 w-5 transition-all duration-300 ${
+              isFavorite(blog.id) 
+                ? "fill-red-500 text-red-500 drop-shadow-lg" 
+                : "fill-transparent text-white hover:fill-white/40"
+            }`}
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            />
+          </svg>
+        </button>
+
+        {/* Share Button */}
+        <div className="relative">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowShareMenu(!showShareMenu);
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md bg-white/20 border border-white/40 text-white transition-all duration-300 hover:bg-white/30 hover:scale-110"
+            aria-label="Share blog"
+          >
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+          </button>
+
+          {/* Share Menu Dropdown */}
+          {showShareMenu && (
+            <>
+              <div
+                className="fixed inset-0 z-10"
+                onClick={() => setShowShareMenu(false)}
+              />
+              <div className="absolute top-full right-0 z-20 mt-2 w-48 rounded-lg bg-white shadow-2xl border border-gray-200 overflow-hidden">
+                <div className="p-2">
+                  <button
                     onClick={(e) => {
-                        e.preventDefault();
-                        toggleFavorite(blog);
+                      e.preventDefault();
+                      e.stopPropagation();
+                      shareToWhatsApp(e);
                     }}
-                    className="absolute top-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full backdrop-blur-sm bg-white/20 border border-white/30 shadow-lg transition-all duration-300 hover:bg-white/30 hover:scale-105 active:scale-95 hover:shadow-xl"
-                    aria-label={isFavorite(blog.id) ? "Remove from favorites" : "Add to favorites"}
-                >
-                    <svg
-                        className={`h-4 w-4 transition-all duration-300 ${
-                            isFavorite(blog.id) 
-                                ? "fill-red-500 text-red-500 drop-shadow-sm" 
-                                : "fill-transparent text-white/80 hover:text-white hover:fill-white/30"
-                        }`}
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                        />
+                    className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 transition-colors hover:bg-green-50 hover:text-green-600"
+                  >
+                    <svg className="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                     </svg>
-                </button>
-            </div>
-            {/* Content Container */}
-            <div className="flex h-56 flex-col px-6 py-5">
-                {/* Title */}
-                <h3 className="mb-3 text-xl font-bold text-[#3a3b3a] line-clamp-2">
-                    {blog.title}
-                </h3>
-                {/* Description with fade effect */}
-                <div className="relative mb-4 grow overflow-hidden">
-                    <p className="text-sm leading-relaxed text-gray-600 line-clamp-4">
-                        {blog.description}
-                    </p>
-                    {/* Fade overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-white to-transparent" />
+                    WhatsApp
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleCopyLink(e);
+                    }}
+                    className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+                  >
+                    <svg className="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    Copy Link
+                  </button>
                 </div>
-                {/* Button Container */}
-                <div className="flex gap-2">
-                    {/* Read More Button */}
-                    <Link
-                        href={show(blog.slug)}
-                        className="group/btn flex flex-1 items-center justify-center gap-2 rounded-md bg-[#f2ae1d] px-4 py-2.5 font-medium text-[#3a3b3a] transition-all duration-300 hover:bg-[#3a3b3a] hover:text-white"
-                    >
-                        <span>Read More</span>
-                        <svg
-                            className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                    </Link>
-                    {/* Share Button */}
-                    <div className="relative">
-                        <button
-                            onClick={() => setShowShareMenu(!showShareMenu)}
-                            className="cursor-pointer h-full group/share flex items-center justify-center rounded-md bg-gray-100 px-3 py-2.5 text-gray-600 transition-all duration-300 hover:bg-[#3a3b3a] hover:text-white"
-                            aria-label="Share blog"
-                        >
-                            <svg
-                                className="h-5 w-5 transition-transform duration-300 group-hover/share:scale-110"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                            </svg>
-                        </button>
-
-                        {/* Share Menu Dropdown */}
-                        {showShareMenu && (
-                            <>
-                                <div
-                                    className="fixed inset-0 z-10"
-                                    onClick={() => setShowShareMenu(false)}
-                                />
-                                <div className="absolute bottom-full right-0 z-20 mb-2 w-48 rounded-lg bg-white shadow-xl border border-gray-200">
-                                    <div className="p-2">
-                                        <button
-                                            onClick={shareToWhatsApp}
-                                            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-green-50 hover:text-green-600"
-                                        >
-                                            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                                            </svg>
-                                            WhatsApp
-                                        </button>
-                                        <button
-                                            onClick={handleCopyLink}
-                                            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
-                                        >
-                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                            </svg>
-                                            Copy Link
-                                        </button>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
+              </div>
+            </>
+          )}
         </div>
-    );
+      </div>
+
+      {/* Content - Bottom Left with Text Overlay */}
+      <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
+        {/* Top Section - Empty for spacing */}
+        <div />
+
+        {/* Bottom Section - Content */}
+        <div className="space-y-3">
+          {/* Title */}
+          <h3 className="text-3xl font-bold leading-tight max-w-xs">
+            {blog.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-sm text-white/90 max-w-xs leading-relaxed line-clamp-2">
+            {blog.description}
+          </p>
+
+          {/* Read More Link */}
+          <div className="flex items-center gap-2 text-white/90 hover:text-white transition-colors pt-2 group/link">
+            <span className="text-sm font-medium">Read more</span>
+            <svg
+              className="h-4 w-4 transition-transform group-hover/link:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
 }
 
-export default Card;
+export default Card;    

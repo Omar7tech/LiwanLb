@@ -11,12 +11,10 @@ class InquiryController extends Controller
 {
     public function store(StoreInquiryRequest $request)
     {
-        // CSRF protection is automatically handled by Laravel's web middleware group
         
         try {
             $validated = $request->validated();
             
-            // Additional security checks
             if ($this->isSuspiciousSubmission($validated, $request)) {
                 Log::warning('Suspicious inquiry submission blocked', [
                     'ip' => $request->ip(),
@@ -25,10 +23,8 @@ class InquiryController extends Controller
                 abort(403, 'Suspicious activity detected.');
             }
 
-            // Final data sanitization before database insertion
             $sanitizedData = $this->sanitizeInquiryData($validated);
 
-            // Log the inquiry for security monitoring
             Log::info('New inquiry submission', [
                 'ip' => $request->ip(),
                 'user_agent' => substr($request->userAgent(), 0, 100),
@@ -37,17 +33,14 @@ class InquiryController extends Controller
                 'type' => $sanitizedData['type']
             ]);
 
-            // Create the inquiry with sanitized data using DB transaction
             DB::transaction(function () use ($sanitizedData) {
                 Inquiry::create($sanitizedData);
             });
 
-            // Redirect back with success message
             return redirect()->back()
                 ->with('success', 'Your inquiry has been submitted successfully! We will contact you soon.');
 
         } catch (\Exception $e) {
-            // Log the error for security monitoring
             Log::error('Inquiry submission failed', [
                 'error' => $e->getMessage(),
                 'ip' => $request->ip(),
@@ -74,13 +67,11 @@ class InquiryController extends Controller
             return true;
         }
 
-        // Check for blocked IPs (you can implement this in a separate service)
-        $blockedIps = []; // Add your blocked IPs here
+        $blockedIps = [];
         if (in_array($request->ip(), $blockedIps)) {
             return true;
         }
 
-        // Check for suspicious content patterns
         $suspiciousPatterns = [
             '/test/i',
             '/spam/i',
@@ -103,9 +94,7 @@ class InquiryController extends Controller
         return false;
     }
 
-    /**
-     * Sanitize inquiry data before database insertion
-     */
+
     private function sanitizeInquiryData(array $data): array
     {
         return [

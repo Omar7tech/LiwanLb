@@ -8,7 +8,7 @@ const TEXT_SIZE_CLASS = 'text-2xl  font-light'; // Using text-lg (~18px) for pro
 
 const Footer = () => {
     const { socialSettings } = usePage<SharedData>().props;
-    const currentYear = 2025;
+    const currentYear = new Date().getFullYear();
 
     return (
         <footer className="bg-[#3a3b3a] px-5 py-12 font-sans text-gray-300">
@@ -20,7 +20,7 @@ const Footer = () => {
                         </h3>
 
                         <p className={TEXT_SIZE_CLASS}>
-                            Design · Build · Supervision
+                            Design · Build · Supervise 
                         </p>
                         <p className={`${TEXT_SIZE_CLASS} mb-6`}>
                             Architecture that understands you.

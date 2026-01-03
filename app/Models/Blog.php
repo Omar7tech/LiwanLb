@@ -55,7 +55,6 @@ class Blog extends Model implements HasMedia, Sitemapable
             \App\Services\SitemapService::generate();
         });
 
-        // Generate sitemap on delete
         static::deleted(function () {
             \App\Services\SitemapService::generate();
         });

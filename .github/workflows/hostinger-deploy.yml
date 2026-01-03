@@ -17,7 +17,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '{{PHP_VERSION}}'
+          php-version: '8.3'
           extensions: mbstring, xml, bcmath, pdo_mysql, pdo_sqlite, gd, zip
           coverage: none
 
@@ -68,7 +68,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '{{PHP_VERSION}}'
+          php-version: '8.3'
           extensions: mbstring, xml, bcmath, pdo_mysql, pdo_sqlite, gd, zip
           coverage: none
 
@@ -147,7 +147,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '{{PHP_VERSION}}'
+          php-version: '8.3'
           extensions: mbstring, xml, bcmath, pdo_mysql
 
       - name: Download Built Assets
@@ -217,8 +217,8 @@ jobs:
             
             # Ensure we're on the correct branch
             git fetch origin
-            git checkout {{BRANCH}}
-            git reset --hard origin/{{BRANCH}}
+            git checkout main
+            git reset --hard origin/main
             
             echo "📦 Installing Composer dependencies..."
             composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
@@ -272,6 +272,6 @@ jobs:
             # Show deployment info
             echo ""
             echo "📊 Deployment Information:"
-            echo "   Branch: {{BRANCH}}"
+            echo "   Branch: main"
             echo "   Commit: $(git rev-parse --short HEAD)"
             echo "   Date: $(date)"

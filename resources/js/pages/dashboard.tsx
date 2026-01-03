@@ -2,21 +2,21 @@ import ClientLayout from '@/layouts/ClientLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { 
-    BarChart3, 
     Briefcase, 
-    TrendingUp, 
-    Calendar, 
-    MessageCircle, 
-    Activity,
-    Users,
-    Clock,
-    ArrowUp,
-    ArrowDown,
-    Minus
+    Activity
 } from 'lucide-react';
 
 // Simple chart components
-const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText }: any) => (
+interface SimpleStatsCardProps {
+    title: string;
+    value: string | number;
+    icon: React.ReactNode;
+    showButton?: boolean;
+    buttonHref?: string;
+    buttonText?: string;
+}
+
+const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText }: SimpleStatsCardProps) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -40,9 +40,19 @@ const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonTex
     </motion.div>
 );
 
-const CombinedBarChart = ({ projectData, updateData }: any) => {
-    const projectMax = Math.max(...projectData.map((d: any) => d.value), 1);
-    const updateMax = Math.max(...updateData.map((d: any) => d.value), 1);
+interface ChartDataPoint {
+    label: string;
+    value: number;
+}
+
+interface CombinedBarChartProps {
+    projectData: ChartDataPoint[];
+    updateData: ChartDataPoint[];
+}
+
+const CombinedBarChart = ({ projectData, updateData }: CombinedBarChartProps) => {
+    const projectMax = Math.max(...projectData.map((d: ChartDataPoint) => d.value), 1);
+    const updateMax = Math.max(...updateData.map((d: ChartDataPoint) => d.value), 1);
     
     return (
         <motion.div
@@ -57,7 +67,7 @@ const CombinedBarChart = ({ projectData, updateData }: any) => {
                 <div className="mb-6">
                     <h4 className="text-sm font-medium text-gray-700 mb-3">Projects by Status</h4>
                     <div className="space-y-2">
-                        {projectData.map((item: any, index: number) => (
+                        {projectData.map((item: ChartDataPoint, index: number) => (
                             <div key={`project-${index}`} className="flex items-center gap-3">
                                 <div className="w-16 text-sm text-gray-600">{item.label}</div>
                                 <div className="flex-1 bg-gray-100 rounded h-6 relative overflow-hidden">
@@ -82,7 +92,7 @@ const CombinedBarChart = ({ projectData, updateData }: any) => {
                 <div>
                     <h4 className="text-sm font-medium text-gray-700 mb-3">Updates by Month</h4>
                     <div className="space-y-2">
-                        {updateData.map((item: any, index: number) => (
+                        {updateData.map((item: ChartDataPoint, index: number) => (
                             <div key={`update-${index}`} className="flex items-center gap-3">
                                 <div className="w-16 text-sm text-gray-600">{item.label}</div>
                                 <div className="flex-1 bg-gray-100 rounded h-6 relative overflow-hidden">
@@ -121,8 +131,35 @@ const CombinedBarChart = ({ projectData, updateData }: any) => {
     );
 };
 
+interface DashboardProps {
+    auth: {
+        user: {
+            name: string;
+            email?: string;
+        };
+    };
+    projectStats: {
+        updatesByMonth: Record<string, number>;
+        total: number;
+        totalUpdates: number;
+        byStatus: {
+            pending: number;
+            active: number;
+            completed: number;
+            on_hold: number;
+            planning: number;
+        };
+        byMonth: {
+            month: string;
+            projects: number;
+            updates: number;
+        }[];
+    };
+}
+
 export default function Dashboard() {
-    const { auth, projects, projectStats } = usePage().props as any;
+    const pageProps = usePage().props;
+    const { auth, projectStats } = pageProps as unknown as DashboardProps;
 
     // Get real data from API
     const totalProjects = projectStats?.total ?? 0;

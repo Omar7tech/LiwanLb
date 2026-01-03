@@ -1,5 +1,5 @@
 import React from 'react';
-import { Language, InputState } from '../types';
+import { Language, SavedResult, InputState } from '../types';
 import { BUILDING_GROUPS, COMPLEXITY_LEVELS, TRANSLATIONS } from '../constants';
 
 interface FormProps {
@@ -35,7 +35,7 @@ interface FormProps {
   clearForm: () => void;
   isCalculating: boolean;
   hasCalculated: boolean;
-  currentSavedResult: any;
+  currentSavedResult: SavedResult | null;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -205,7 +205,7 @@ const Form: React.FC<FormProps> = ({
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
         <button
           onClick={calculateFees}
-          disabled={isCalculating || !isAreaEnabled() || area === '' || parseFloat(area) <= 0 || currentSavedResult}
+          disabled={isCalculating || !isAreaEnabled() || area === '' || parseFloat(area) <= 0 || !!currentSavedResult}
           className={`w-full sm:flex-1 px-4 sm:px-6 py-3 sm:py-3 rounded-lg transition-all font-medium flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base ${isAreaEnabled() && area !== '' && parseFloat(area) > 0 && !currentSavedResult
             ? 'bg-[#3a3b3a] text-white hover:bg-[#2a2b2a] shadow-lg'
             : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'

@@ -1,4 +1,3 @@
-import Footer from '@/components/Footer';
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
@@ -9,10 +8,10 @@ import {
     Home,
     LogOut,
     Menu,
-    Phone,
-    User,
     X,
     ChevronLeft,
+    Phone,
+    User,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

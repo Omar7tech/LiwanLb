@@ -2,46 +2,50 @@ import ClientLayout from '@/layouts/ClientLayout';
 import { SharedData } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { validatePhoneNumber, formatPhoneInput, getPhoneExamples } from '@/utils/phoneValidation';
 
 function Profile() {
 	const { auth } = usePage<SharedData>().props;
 	const [success, setSuccess] = useState<string | null>(null);
 	const [phoneError, setPhoneError] = useState<string | null>(null);
-	const [phoneInput, setPhoneInput] = useState<string>((auth.user as any).phoneNumber || '');
+	const [phoneInput, setPhoneInput] = useState<string>((auth.user?.phoneNumber as string) || '');
 	const [isPhoneValid, setIsPhoneValid] = useState<boolean>(true);
 
-	const { data, setData, put, processing, errors } = useForm({
+	const { data, setData, put, processing, errors } = useForm<{
+		name: string;
+		username: string;
+		phoneNumber: string;
+		password: string;
+		password_confirmation: string;
+	}>({
 		name: auth.user.name ?? '',
-		username: (auth.user as any).username ?? '',
-		phoneNumber: (auth.user as any).phoneNumber || '',
+		username: (auth.user?.username as string) ?? '',
+		phoneNumber: (auth.user.phoneNumber as string) || '',
 		password: '',
 		password_confirmation: '',
 	});
-
-	// Validate phone number on input change
-	useEffect(() => {
-		if (phoneInput.trim()) {
-			const validation = validatePhoneNumber(phoneInput);
-			setIsPhoneValid(validation.isValid);
-			setPhoneError(validation.isValid ? null : validation.error || null);
-			if (validation.isValid && validation.formatted) {
-				setData('phoneNumber', validation.formatted);
-			} else {
-				setData('phoneNumber', phoneInput || '');
-			}
-		} else {
-			setIsPhoneValid(true);
-			setPhoneError(null);
-			setData('phoneNumber', '');
-		}
-	}, [phoneInput]);
 
 	const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
 		const formatted = formatPhoneInput(value, phoneInput);
 		setPhoneInput(formatted);
+		
+		// Validate phone number immediately on change
+		if (formatted.trim()) {
+			const validation = validatePhoneNumber(formatted);
+			setIsPhoneValid(validation.isValid);
+			setPhoneError(validation.isValid ? null : validation.error || null);
+			if (validation.isValid && validation.formatted) {
+				setData('phoneNumber', validation.formatted);
+			} else {
+				setData('phoneNumber', formatted || '');
+			}
+		} else {
+			setIsPhoneValid(false);
+			setPhoneError(null);
+			setData('phoneNumber', '');
+		}
 	};
 
 	const handleSubmit = (e: React.FormEvent) => {

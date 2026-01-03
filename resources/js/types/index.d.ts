@@ -146,8 +146,7 @@ export interface FAQs {
 
 export interface ResidencyContent {
     id: number;
-
-    content: any;
+    content: string;
     image: string | null;
 }
 

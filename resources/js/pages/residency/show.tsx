@@ -18,9 +18,9 @@ function Show({residency}: {residency: Residency}) {
     const nameWords = residency.name.split(' ');
     
     const pageTitle = residency.name || "Residency";
-    const description = (residency as any).description || 
+    const description = (residency as Residency & { description?: string }).description || 
         (residency.content?.data && residency.content.data.length > 0 
-            ? residency.content.data[0].content?.replace(/<[^>]*>/g, '').substring(0, 160) + '...' 
+            ? residency.content?.data[0]?.content?.replace(/<[^>]*>/g, '').substring(0, 160) + '...' 
             : 'Explore our residency programs and discover creative opportunities.');
     const imageUrl = residency.image || '/images/residenceNoImg.webp';
     const siteUrl = window.location.origin + '/residency/' + residency.slug;

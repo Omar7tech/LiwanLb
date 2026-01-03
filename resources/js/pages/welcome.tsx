@@ -7,7 +7,6 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import AppLayout from '@/layouts/app-layout';
 import { DesignDeliveryStandards, Testimonials } from '@/types';
 import { Head } from '@inertiajs/react';
-import { motion } from 'framer-motion';
 
 export default function Welcome({ designDeliveryStandards, testimonials }: { designDeliveryStandards: DesignDeliveryStandards, testimonials: Testimonials }) {
     return (

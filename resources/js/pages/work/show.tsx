@@ -2,8 +2,8 @@ import TestimonialsSection from "@/components/sections/Testimonials";
 import FaqSection from "@/components/sections/FaqSection";
 import ResidenciesSection from "@/components/sections/ResidenciesSection";
 import AppLayout from "@/layouts/app-layout";
-import { Head, Link, usePage } from "@inertiajs/react";
-import { Work, Residencies, SharedData, Testimonials } from '@/types'
+import { Head, Link } from "@inertiajs/react";
+import { Work, Residencies, Testimonials } from '@/types'
 import WhatsAppButton from "@/components/WhatsAppButton";
 import InquirySection from "@/components/sections/InquirySection";
 import { useRef } from "react";
@@ -12,7 +12,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 
 export default function Show({ work, residencies, testimonials }: { work: Work; residencies: Residencies; testimonials: Testimonials }) {
-    const { auth } = usePage<SharedData>().props;
     const faqs = work.faqs;
 
     // Only show process section if there's actual data
@@ -34,7 +33,6 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
     const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
     const bgY1 = useTransform(pageScroll, [0, 1], ["0%", "200%"]);
     const bgY2 = useTransform(pageScroll, [0, 1], ["0%", "-100%"]);

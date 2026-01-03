@@ -17,10 +17,10 @@ export const LayoutTextFlip = ({
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, duration);
-
+    }, duration || 3000);
+    
     return () => clearInterval(interval);
-  }, []);
+  }, [duration, words.length]);
 
   return (
     <>

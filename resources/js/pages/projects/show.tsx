@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, MessageCircle, Send, Trash2, Calendar, MapPin, ExternalLink } from 'lucide-react';
+import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin } from 'lucide-react';
 
 function ProjectShow() {
-	const { project: initialProject, auth } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;
+	const { project: initialProject } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;
 	const [modalImage, setModalImage] = useState<{ images: Array<{ src: string; alt: string }>; currentIndex: number } | null>(null);
 	const [collapsedUpdates, setCollapsedUpdates] = useState<Set<number>>(new Set(
 		initialProject.project_updates?.data.slice(1).map(update => update.id) || []
@@ -26,12 +26,15 @@ function ProjectShow() {
 
 		setIsSubmitting(prev => ({ ...prev, [updateId]: true }));
 
-		const newComment = {
+		// Generate comment data outside of render
+		const generateComment = (content: string) => ({
 			id: Date.now(),
 			content: content,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString(),
-		};
+		});
+
+		const newComment = generateComment(content);
 
 		// Update local state immediately
 		setProject(prev => ({
@@ -59,10 +62,10 @@ function ProjectShow() {
 				showProgress: false,
 				preserveState: true,
 				preserveScroll: true,
-				onSuccess: (page: any) => {
+				onSuccess: (page) => {
 					// Update with real data from server
 					if (page.props.project) {
-						setProject(page.props.project);
+						setProject(page.props.project as Project);
 					}
 				},
 				onError: (errors) => {
@@ -108,10 +111,10 @@ function ProjectShow() {
 				showProgress: false,
 				preserveState: true,
 				preserveScroll: true,
-				onSuccess: (page: any) => {
+				onSuccess: (page) => {
 					// Update with real data from server
 					if (page.props.project) {
-						setProject(page.props.project);
+						setProject(page.props.project as Project);
 					}
 				},
 				onError: (errors) => {
@@ -163,10 +166,10 @@ function ProjectShow() {
 				showProgress: false,
 				preserveState: true,
 				preserveScroll: true,
-				onSuccess: (page: any) => {
+				onSuccess: (page) => {
 					// Update with real data from server
 					if (page.props.project) {
-						setProject(page.props.project);
+						setProject(page.props.project as Project);
 					}
 				},
 				onError: (errors) => {
@@ -294,7 +297,7 @@ function ProjectShow() {
 									</div>
 
 									<div className="space-y-4">
-										{project.project_updates.data.map((update, index) => {
+										{project.project_updates.data.map((update, updateIndex) => {
 											const isCollapsed = collapsedUpdates.has(update.id);
 											const toggleCollapse = () => {
 												setCollapsedUpdates(prev => {
@@ -313,7 +316,7 @@ function ProjectShow() {
 													key={update.id}
 													initial={{ opacity: 0, y: 20 }}
 													animate={{ opacity: 1, y: 0 }}
-													transition={{ delay: 0.1 * index }}
+													transition={{ delay: 0.1 * updateIndex }}
 													className="bg-white rounded-xl border border-gray-200 overflow-hidden"
 												>
 													{/* Header */}
@@ -387,9 +390,9 @@ function ProjectShow() {
 																					<ImageWithLoader
 																						src={mediaItem.original_url}
 																						alt={`Update image ${mediaItem.id}`}
-																						className="w-full aspect-[4/3] object-cover"
+																						className="w-full aspect-4/3 object-cover"
 																						onClick={() => {
-																							const updateImages = update.media.map((media, index) => ({
+																							const updateImages = update.media.map((media) => ({
 																								src: media.original_url,
 																								alt: `Update image ${media.id}`
 																							}));

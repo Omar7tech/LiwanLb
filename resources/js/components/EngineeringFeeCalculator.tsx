@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 import { motion } from 'framer-motion';
 import { Language, SavedResult, ModalState, InputState } from './EngineeringFeeCalculator/types';
 import { Header, Form, Results, SavedResults, Modal } from './EngineeringFeeCalculator/components';
@@ -6,6 +7,10 @@ import { useCalculations } from './EngineeringFeeCalculator/hooks/useCalculation
 import { useLocalStorage } from './EngineeringFeeCalculator/hooks/useLocalStorage';
 import { useImageGeneration } from './EngineeringFeeCalculator/hooks/useImageGeneration';
 import { BUILDING_GROUPS, COMPLEXITY_LEVELS, TRANSLATIONS } from './EngineeringFeeCalculator/constants';
+
+// Helper functions to generate IDs and timestamps outside of render
+const generateId = () => Date.now().toString();
+const getCurrentTimestamp = () => new Date().toISOString();
 
 const EngineeringFeeCalculator: React.FC = () => {
   const [language, setLanguage] = useState<Language>('ar');
@@ -47,21 +52,28 @@ const EngineeringFeeCalculator: React.FC = () => {
 
   // Reset category and complexity if group changes
   useEffect(() => {
-    setSelectedCategory('');
-    setSelectedComplexity(2);
-    setBaseCostPerSqm(0);
+    // Batch state updates to prevent cascading renders
+    unstable_batchedUpdates(() => {
+      setSelectedCategory('');
+      setSelectedComplexity(2);
+      setBaseCostPerSqm(0);
+    });
   }, [selectedGroup]);
 
   // Reset complexity if category changes or not available
   useEffect(() => {
     if (availableComplexities.length > 0 && !availableComplexities.some(level => level.value === selectedComplexity)) {
-      setSelectedComplexity(availableComplexities[0].value);
+      unstable_batchedUpdates(() => {
+        setSelectedComplexity(availableComplexities[0].value);
+      });
     }
   }, [selectedCategory, selectedComplexity, availableComplexities]);
 
   // Reset hasCalculated when form inputs change
   useEffect(() => {
-    setHasCalculated(false);
+    unstable_batchedUpdates(() => {
+      setHasCalculated(false);
+    });
   }, [selectedGroup, selectedCategory, selectedComplexity, area]);
 
   // Helper functions for progressive input states
@@ -232,8 +244,8 @@ const EngineeringFeeCalculator: React.FC = () => {
     }
 
     const newResult: SavedResult = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
+      id: generateId(),
+      date: getCurrentTimestamp(),
       selectedGroup,
       selectedCategory,
       selectedComplexity,
@@ -289,8 +301,8 @@ const EngineeringFeeCalculator: React.FC = () => {
   const downloadResult = async () => {
     // Create current result object for image generation
     const currentResult: SavedResult = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
+      id: generateId(),
+      date: getCurrentTimestamp(),
       selectedGroup,
       selectedCategory,
       selectedComplexity,

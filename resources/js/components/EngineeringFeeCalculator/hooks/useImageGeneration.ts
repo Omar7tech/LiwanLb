@@ -1,5 +1,5 @@
 import { Language, SavedResult } from '../types';
-import { BUILDING_GROUPS, COMPLEXITY_LEVELS, TRANSLATIONS } from '../constants';
+import {  TRANSLATIONS } from '../constants';
 
 export const useImageGeneration = (language: Language) => {
   const generateUniqueFilename = (): string => {
@@ -117,8 +117,6 @@ export const useImageGeneration = (language: Language) => {
         // Financial data rows
         const baseCost = result?.baseCostPerSqm || 0;
         const estCost = result?.estimatedCost || 0;
-        const fee = result?.minimumFee || 0;
-        const percentage = result?.applicablePercentage || 0;
 
         const financialData = [
           { label: TRANSLATIONS.baseCost[language], value: `$${baseCost.toLocaleString()}/m²`, color: '#3a3b3a' },

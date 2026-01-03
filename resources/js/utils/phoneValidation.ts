@@ -139,29 +139,23 @@ export const formatPhoneNumber = (phone: string, country: string = 'INTL'): stri
     // Country-specific formatting
     const match = sanitized.match(config.pattern);
     if (match) {
+        const baseNumber = match[1];
         switch (country) {
             case 'US':
             case 'CA':
-                const number = match[1];
-                return `+1 (${number.slice(0, 3)}) ${number.slice(3, 6)}-${number.slice(6)}`;
+                return `+1 (${baseNumber.slice(0, 3)}) ${baseNumber.slice(3, 6)}-${baseNumber.slice(6)}`;
             case 'GB':
-                const gbNumber = match[1];
-                return `+44 ${gbNumber.slice(0, 4)} ${gbNumber.slice(4)}`;
+                return `+44 ${baseNumber.slice(0, 4)} ${baseNumber.slice(4)}`;
             case 'DE':
-                const deNumber = match[1];
-                return `+49 ${deNumber.slice(0, 3)} ${deNumber.slice(3)}`;
+                return `+49 ${baseNumber.slice(0, 3)} ${baseNumber.slice(3)}`;
             case 'FR':
-                const frNumber = match[1];
-                return `+33 ${frNumber.slice(0, 1)} ${frNumber.slice(1, 3)} ${frNumber.slice(3, 5)} ${frNumber.slice(5, 7)} ${frNumber.slice(7)}`;
+                return `+33 ${baseNumber.slice(0, 1)} ${baseNumber.slice(1, 3)} ${baseNumber.slice(3, 5)} ${baseNumber.slice(5, 7)} ${baseNumber.slice(7)}`;
             case 'SA':
-                const saNumber = match[1];
-                return `+966 ${saNumber.slice(0, 1)} ${saNumber.slice(1, 4)} ${saNumber.slice(4, 8)}`;
+                return `+966 ${baseNumber.slice(0, 1)} ${baseNumber.slice(1, 4)} ${baseNumber.slice(4, 8)}`;
             case 'AE':
-                const aeNumber = match[1];
-                return `+971 ${aeNumber.slice(0, 2)} ${aeNumber.slice(2, 5)} ${aeNumber.slice(5)}`;
+                return `+971 ${baseNumber.slice(0, 2)} ${baseNumber.slice(2, 5)} ${baseNumber.slice(5)}`;
             case 'IN':
-                const inNumber = match[1];
-                return `+91 ${inNumber.slice(0, 5)} ${inNumber.slice(5)}`;
+                return `+91 ${baseNumber.slice(0, 5)} ${baseNumber.slice(5)}`;
             default:
                 return sanitized;
         }

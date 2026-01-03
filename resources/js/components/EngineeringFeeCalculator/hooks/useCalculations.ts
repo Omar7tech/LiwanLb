@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BuildingCategory, BuildingGroups, FeeBracket } from '../types';
+import { BuildingCategory, FeeBracket } from '../types';
 import { BUILDING_GROUPS, FEE_SCHEDULE, COMPLEXITY_MAPPING, COMPLEXITY_LEVELS } from '../constants';
 
 export interface CalculationResult {

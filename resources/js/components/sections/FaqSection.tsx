@@ -1,21 +1,16 @@
-import { FAQ, FAQs } from "@/types";
+import { FAQs } from "@/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-// --- CUSTOM COLORS DERIVED FROM YOUR CARD ---
-// Adjusted light theme colors for clean separation and contrast
-const LIGHT_BG = "#FAFAFA";               // Main section background
-const CARD_BACKGROUND_COLOR = "#ffffff";  // Card Background (White)
-const ACCENT_COLOR = "#f2ae1d";          // Accent (Gold/Yellow)
-const QUESTION_COLOR = "#2C2C2C";        // Primary Dark Text (Question)
-const ANSWER_COLOR = "#666666";          // Muted Gray Text (Answer)
-const BORDER_COLOR = "#E5E5E5";          // Light Border/Line
-const DEFAULT_IMAGE = "/images/blognoimage.webp";
-// ------------------------------------------
 
-// Simple container fade-in
+const CARD_BACKGROUND_COLOR = "#ffffff";  
+const QUESTION_COLOR = "#2C2C2C";        
+const ANSWER_COLOR = "#666666";          
+const BORDER_COLOR = "#E5E5E5";          
+const DEFAULT_IMAGE = "/images/blognoimage.webp";
+
 const sectionVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -38,15 +33,9 @@ export default function FaqSection({ faqs, workImage, overlayText }: FaqSectionP
     const [imageSrc, setImageSrc] = useState(workImage ?? DEFAULT_IMAGE);
     const [isLoadingImage, setIsLoadingImage] = useState(!!workImage);
 
-    useEffect(() => {
-        setImageSrc(workImage ?? DEFAULT_IMAGE);
-        setIsLoadingImage(!!workImage);
-    }, [workImage]);
-
     const defaultOpenItem = faqList.length > 0 ? `item-${faqList[0].id}` : undefined;
 
     return (
-        // Main section background set to LIGHT_BG for contrast (or keep transparent if needed)
         <section
             className={`py-3`}
         >
@@ -119,7 +108,7 @@ export default function FaqSection({ faqs, workImage, overlayText }: FaqSectionP
                                         </div>
                                     </div>
                                 ) : (
-                                    faqList.map((faq, index) => (
+                                    faqList.map((faq) => (
                                         <AccordionItem
                                             key={faq.id}
                                             value={`item-${faq.id}`}

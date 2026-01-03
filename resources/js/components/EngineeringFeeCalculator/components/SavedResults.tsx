@@ -1,6 +1,6 @@
 import React from 'react';
 import { Language, SavedResult } from '../types';
-import { TRANSLATIONS } from '../constants';
+
 
 interface SavedResultsProps {
   language: Language;
@@ -17,17 +17,12 @@ const SavedResults: React.FC<SavedResultsProps> = ({
   showSavedResults,
   savedResults,
   currentSavedResult,
-  onLoadResult,
   onDeleteResult,
   onDownloadResult
 }) => {
   if (!showSavedResults) {
     return null;
   }
-
-  const t = (key: string): string => {
-    return TRANSLATIONS[key]?.[language] || key;
-  };
 
   return (
     <div className="mt-8">
@@ -76,7 +71,7 @@ const SavedResults: React.FC<SavedResultsProps> = ({
                         {result.complexityName}
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
+                    <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
                       <div className="text-xs text-gray-600 mb-1 font-medium">
                         {language === 'ar' ? 'الكلفة' : 'Cost'}
                       </div>
@@ -84,7 +79,7 @@ const SavedResults: React.FC<SavedResultsProps> = ({
                         ${result.estimatedCost.toLocaleString()}
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
+                    <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
                       <div className="text-xs text-gray-600 mb-1 font-medium">
                         {language === 'ar' ? 'الأتعاب' : 'Fee'}
                       </div>

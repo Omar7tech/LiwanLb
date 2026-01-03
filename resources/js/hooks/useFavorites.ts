@@ -5,36 +5,53 @@ const STORAGE_KEY = 'liwan_blog_favorites';
 const EVENT_KEY = 'liwan-favorites-changed';
 
 export function useFavorites() {
-    const [favorites, setFavorites] = useState<Blog[]>([]);
-    const [showFavorites, setShowFavorites] = useState(false);
-
-    const loadFavorites = useCallback(() => {
-        if (typeof window === 'undefined') return;
+    const [favorites, setFavorites] = useState<Blog[]>(() => {
+        // Load initial favorites during state initialization
+        if (typeof window === 'undefined') return [];
         
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
             try {
-                setFavorites(JSON.parse(stored));
+                return JSON.parse(stored);
             } catch (e) {
                 console.error('Failed to parse favorites:', e);
-                setFavorites([]);
+                return [];
             }
         } else {
-            setFavorites([]);
+            return [];
+        }
+    });
+    const [showFavorites, setShowFavorites] = useState(false);
+
+    const loadFavorites = useCallback(() => {
+        if (typeof window === 'undefined') return [];
+        
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                return JSON.parse(stored);
+            } catch (e) {
+                console.error('Failed to parse favorites:', e);
+                return [];
+            }
+        } else {
+            return [];
         }
     }, []);
 
     useEffect(() => {
-        loadFavorites();
-
         const handleStorageChange = (e: StorageEvent) => {
             if (e.key === STORAGE_KEY) {
-                loadFavorites();
+                const newFavorites = loadFavorites();
+                 
+                setFavorites(newFavorites);
             }
         };
 
         const handleLocalChange = () => {
-            loadFavorites();
+            const newFavorites = loadFavorites();
+             
+            setFavorites(newFavorites);
         };
 
         window.addEventListener('storage', handleStorageChange);
@@ -44,6 +61,7 @@ export function useFavorites() {
             window.removeEventListener('storage', handleStorageChange);
             window.removeEventListener(EVENT_KEY, handleLocalChange);
         };
+         
     }, [loadFavorites]);
 
     const toggleFavorite = (blog: Blog) => {

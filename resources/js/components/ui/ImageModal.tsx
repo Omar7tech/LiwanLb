@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ImageWithLoader } from './ImageWithLoader';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from 'lucide-react';
 
 interface ImageModalProps {
@@ -14,9 +14,38 @@ export const ImageModal = ({ isOpen, images, currentIndex, onClose }: ImageModal
     const [currentImageIndex, setCurrentImageIndex] = useState(currentIndex);
     const [zoomLevel, setZoomLevel] = useState(1);
 
-    useEffect(() => {
-        setCurrentImageIndex(currentIndex);
+    const navigateImage = useCallback((direction: 'prev' | 'next') => {
+        if (images.length <= 1) return;
+        
+        if (direction === 'prev') {
+            setCurrentImageIndex(prev => prev === 0 ? images.length - 1 : prev - 1);
+        } else {
+            setCurrentImageIndex(prev => prev === images.length - 1 ? 0 : prev + 1);
+        }
         setZoomLevel(1);
+    }, [images.length]);
+
+    const handleZoom = useCallback((direction: 'in' | 'out') => {
+        if (direction === 'in') {
+            setZoomLevel(prev => Math.min(prev + 0.25, 3));
+        } else {
+            setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+        }
+    }, []);
+
+    const handleResetZoom = useCallback(() => {
+        setZoomLevel(1);
+    }, []);
+
+    // Reset zoom when index changes
+    useEffect(() => {
+        setZoomLevel(1);
+    }, [currentImageIndex]);
+
+    // Sync with external currentIndex prop
+    useEffect(() => {
+         
+        setCurrentImageIndex(currentIndex);
     }, [currentIndex]);
 
     useEffect(() => {
@@ -43,30 +72,7 @@ export const ImageModal = ({ isOpen, images, currentIndex, onClose }: ImageModal
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, currentImageIndex, images.length]);
-
-    const navigateImage = (direction: 'prev' | 'next') => {
-        if (images.length <= 1) return;
-        
-        if (direction === 'prev') {
-            setCurrentImageIndex(prev => prev === 0 ? images.length - 1 : prev - 1);
-        } else {
-            setCurrentImageIndex(prev => prev === images.length - 1 ? 0 : prev + 1);
-        }
-        setZoomLevel(1);
-    };
-
-    const handleZoom = (direction: 'in' | 'out') => {
-        if (direction === 'in') {
-            setZoomLevel(prev => Math.min(prev + 0.25, 3));
-        } else {
-            setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
-        }
-    };
-
-    const handleResetZoom = () => {
-        setZoomLevel(1);
-    };
+    }, [isOpen, navigateImage, onClose, handleZoom]);
 
     if (!isOpen || images.length === 0) return null;
 

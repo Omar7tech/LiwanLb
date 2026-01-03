@@ -496,7 +496,7 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                             name="building_type"
                                                             value=""
                                                             checked={formData.building_type === ""}
-                                                            onChange={(e) => {
+                                                            onChange={() => {
                                                                 handleChange("building_type", "");
                                                                 // Reset project category when building type changes
                                                                 handleChange("project_category", "");
@@ -628,7 +628,7 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                 name="project_category"
                                                                 value=""
                                                                 checked={formData.project_category === ""}
-                                                                onChange={(e) => handleChange("project_category", "")}
+                                                                onChange={() => handleChange("project_category", "")}
                                                                 disabled={!formData.building_type}
                                                                 className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
                                                             />

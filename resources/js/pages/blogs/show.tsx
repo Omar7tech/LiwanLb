@@ -1,20 +1,15 @@
 import AppLayout from '@/layouts/app-layout';
 import { Blog } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { useFavorites } from '@/hooks/useFavorites';
 import { motion, Variants } from 'framer-motion';
-import { Calendar, Clock, ArrowLeft, Share2, Bookmark, Heart } from 'lucide-react';
+import { Share2, Heart } from 'lucide-react';
 
 // Custom utility to format the date for a clean UI
 const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
-
-const PRIMARY_COLOR = '#3a3b3a';
-const ACCENT_COLOR = '#f2ae1d';
-const LIGHT_GRAY = '#f8f9fa';
-const TEXT_GRAY = '#6b7280';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -40,7 +35,7 @@ const itemVariants: Variants = {
     }
 };
 
-function show({ blog }: { blog: Blog }) {
+function Show({ blog }: { blog: Blog }) {
     const { isFavorite, toggleFavorite } = useFavorites();
     const postContent = blog.content || '<p>This post is currently empty. Check back soon!</p>';
     const pageTitle = blog.title || "Blog Post";
@@ -112,7 +107,6 @@ function show({ blog }: { blog: Blog }) {
                                         {/* Date Badge */}
                                         {blog.created_at && (
                                             <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-                                                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                                                 <span className="text-xs sm:text-sm font-medium text-white">
                                                     {formatDate(blog.created_at)}
                                                 </span>
@@ -197,4 +191,4 @@ function show({ blog }: { blog: Blog }) {
     );
 }
 
-export default show;
+export default Show;

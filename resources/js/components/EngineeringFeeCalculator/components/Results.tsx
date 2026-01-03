@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu } from 'lucide-react';
-import { Language } from '../types';
+import { Language, SavedResult } from '../types';
+import { GeneralSettings, SocialSettings } from '@/types';
 import { TRANSLATIONS } from '../constants';
 import { usePage } from '@inertiajs/react';
 
@@ -12,16 +13,20 @@ declare global {
         chat: (prompt: string, options?: { model?: string; temperature?: number; max_tokens?: number }) =>
           Promise<string | {
             success?: boolean;
-            error?: any;
+            error?: string;
             response?: string;
             text?: string;
             data?: string;
             // OpenAI-style response format
             index?: number;
             finish_reason?: string;
-            usage?: any;
+            usage?: {
+              prompt_tokens?: number;
+              completion_tokens?: number;
+              total_tokens?: number;
+            };
             via_ai_chat_service?: boolean;
-            message: { role: string; content: string; refusal?: any };
+            message: { role: string; content: string; refusal?: string };
           }>;
       };
     };
@@ -35,7 +40,7 @@ interface ResultsProps {
   applicablePercentage: number;
   minimumFee: number;
   baseCostPerSqm: number;
-  currentSavedResult: any;
+  currentSavedResult: SavedResult | null;
   onSaveResult: () => void;
   onDownloadImage: () => void;
   onToggleSavedResults: () => void;
@@ -56,8 +61,8 @@ const Results: React.FC<ResultsProps> = ({
   savedResultsCount,
 }) => {
   const { props } = usePage();
-  const generalSettings = props.generalSettings as any;
-  const socialSettings = props.socialSettings as any;
+  const generalSettings = props.generalSettings as GeneralSettings;
+  const socialSettings = props.socialSettings as SocialSettings;
   const costStudyAIEnabled = generalSettings?.cost_study_ai_enabled || false;
   const [aiAnalysis, setAiAnalysis] = useState('');
   const [isAILoading, setIsAILoading] = useState(false);
@@ -180,7 +185,7 @@ const Results: React.FC<ResultsProps> = ({
           console.log('Content sample:', analysisText.substring(0, 200));
         } else if (response.success === false && response.error) {
           console.error('Puter.js API error:', response.error);
-          throw new Error(response.error.message || response.error.toString() || 'Puter.js API error');
+          throw new Error((response.error as { message?: string })?.message || response.error.toString() || 'Puter.js API error');
         } else if (response.success === true && response.response) {
           analysisText = response.response;
           console.log('Using success.response, length:', analysisText.length);

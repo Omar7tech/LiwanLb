@@ -5,7 +5,7 @@ import { Blog, PaginationProps } from '@/types';
 import { Head } from '@inertiajs/react';
 import { useFavorites } from '@/hooks/useFavorites';
 
-function blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
+function Blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
     const { favorites, showFavorites, setShowFavorites } = useFavorites();
 
     const displayedBlogs = showFavorites ? favorites : blogs.data;
@@ -112,4 +112,4 @@ function blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
     );
 }
 
-export default blogs;
+export default Blogs;

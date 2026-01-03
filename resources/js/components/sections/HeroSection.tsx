@@ -2,7 +2,6 @@ import { Link, usePage } from "@inertiajs/react";
 import BlurText from "../BlurText";
 import WhatsAppButton from "../WhatsAppButton";
 import { type SharedData } from '@/types';
-import { Home } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 export default function HeroSection() {
@@ -26,13 +25,14 @@ export default function HeroSection() {
             { threshold: 0.1 }
         );
 
-        if (videoRef.current) {
-            observer.observe(videoRef.current);
+        const currentVideoRef = videoRef.current;
+        if (currentVideoRef) {
+            observer.observe(currentVideoRef);
         }
 
         return () => {
-            if (videoRef.current) {
-                observer.unobserve(videoRef.current);
+            if (currentVideoRef) {
+                observer.unobserve(currentVideoRef);
             }
         };
     }, [isVideoLoaded]);

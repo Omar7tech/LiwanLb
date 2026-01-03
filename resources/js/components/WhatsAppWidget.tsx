@@ -10,13 +10,6 @@ export default function WhatsAppWidget() {
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    // Don't render if WhatsApp is not active or no number or widget is disabled
-    // Also don't render if Tawk.to is enabled to avoid conflicts
-    if (!socialSettings.whatsapp_active || !socialSettings.whatsapp_number || !socialSettings.whatsapp_widget_active || (generalSettings?.tawk_active && generalSettings?.tawk_script)) {
-        return null;
-    }
-
-    // Handle keyboard appearance on mobile
     useEffect(() => {
         if (!isOpen) return;
 
@@ -35,6 +28,12 @@ export default function WhatsAppWidget() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [isOpen]);
+
+    // Don't render if WhatsApp is not active or no number or widget is disabled
+    // Also don't render if Tawk.to is enabled to avoid conflicts
+    if (!socialSettings.whatsapp_active || !socialSettings.whatsapp_number || !socialSettings.whatsapp_widget_active || (generalSettings?.tawk_active && generalSettings?.tawk_script)) {
+        return null;
+    }
 
     const handleSendMessage = () => {
         if (!message.trim() || !socialSettings.whatsapp_number) return;

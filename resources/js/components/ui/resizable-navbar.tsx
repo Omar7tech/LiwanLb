@@ -232,7 +232,7 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
 
               {/* Items List */}
               <div className="flex flex-col">
-                {items.map((item, index) => (
+                {items.map((item) => (
                   <Link
                     viewTransition
                     key={item.id}

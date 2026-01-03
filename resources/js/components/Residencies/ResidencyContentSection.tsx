@@ -1,6 +1,6 @@
 import { ResidencyContent } from "@/types";
 import { motion } from "framer-motion";
-import { useState } from "react";
+
 
 interface Props {
     section: ResidencyContent;
@@ -25,7 +25,7 @@ export default function ResidencyContentSection({ section, index }: Props) {
                 className="w-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-16 py-6 md:py-10 sticky top-0"
             >
                 <div className="relative w-full overflow-hidden rounded-2xl group">
-                    <div className="relative aspect-[16/9] w-full overflow-hidden">
+                    <div className="relative aspect-video w-full overflow-hidden">
                         <img 
                             src={section.image!} 
                             alt="Section Image" 
@@ -74,7 +74,7 @@ export default function ResidencyContentSection({ section, index }: Props) {
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className={`${!isEven ? 'lg:col-start-2' : ''} lg:sticky lg:top-24`}
                 >
-                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl group">
+                    <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl group">
                         <img 
                             src={section.image!} 
                             alt="Section Image"

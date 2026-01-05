@@ -39,16 +39,16 @@ export default function HeroSection() {
     return (
         <section className="w-full px-5 pt-10">
             <div className="mx-auto space-y-10">
-                <div className="or grid grid-cols-1 items-baseline-last gap-6 lg:grid-cols-2">
+                <div className="or grid grid-cols-1 items-baseline-last gap-6 xl:grid-cols-2">
                     <div>
                         <BlurText
                             text="Architecture"
                             delay={50}
                             animateBy="letters"
                             direction="top"
-                            className="text-[40px] leading-[1.1] font-bold text-[#3A3B3A] md:text-5xl lg:text-7xl"
+                            className="text-[40px] leading-[1.1] font-bold text-[#3A3B3A] md:text-5xl xl:text-7xl"
                         />
-                        <span className="text-[40px] leading-[1.1] font-bold text-[#3A3B3A] md:text-5xl lg:text-7xl md:whitespace-nowrap">
+                        <span className="text-[40px] leading-[1.1] font-bold text-[#3A3B3A] md:text-5xl xl:text-7xl md:whitespace-nowrap">
                             <BlurText
                                 text="That Understands "
                                 delay={50}
@@ -67,9 +67,9 @@ export default function HeroSection() {
                         </span>
                     </div>
                     
-                    <div className="flex flex-col lg:ml-30">
+                    <div className="flex flex-col xl:ml-30 space-y-2 xl:space-y-5  mt-[-40px] md:mt-0">
                         <div className="flex justify-between">
-                            <p className="mt-18 lg:mt-0 max-w-48 leading-tight font-light text-[#3A3B3A] animate-[fadeInLeft_1s_ease-out_0.6s_both]">
+                            <p className="mt-18 xl:mt-0 max-w-48 leading-tight font-light text-[#3A3B3A] animate-[fadeInLeft_1s_ease-out_0.6s_both]">
                                 We listen first, design spaces that reflect your
                                 identity, carry purpose, and deliver lasting
                                 value.
@@ -87,7 +87,7 @@ export default function HeroSection() {
 
                             </p>
                         </div>
-                        <div className="flex justify-end md:justify-center animate-[fadeInUp_0.8s_ease-out_1s_both] md:mt-0 mt-5">
+                        <div className="flex justify-end md:justify-center animate-[fadeInUp_0.8s_ease-out_1s_both] ">
                             <WhatsAppButton />
                         </div>
                     </div>
@@ -97,7 +97,9 @@ export default function HeroSection() {
                     <div className="relative overflow-hidden rounded-2xl shadow-md animate-[fadeInScale_1.2s_ease-out_1.2s_both]">
                         <video
                             ref={videoRef}
-                            className="max-h-[calc(100vh-50px)] w-full object-cover"
+                            className={`max-h-[calc(100vh-50px)] w-full object-cover transition-opacity duration-300 ${
+                                isVideoLoaded ? 'opacity-100' : 'opacity-0'
+                            }`}
                             autoPlay
                             loop
                             muted
@@ -108,7 +110,7 @@ export default function HeroSection() {
                         {/* Loading placeholder */}
                         {!isVideoLoaded && (
                             <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3a3b3a]"></div>
+                                <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-[#3a3b3a]"></div>
                             </div>
                         )}
                     </div>
@@ -118,7 +120,7 @@ export default function HeroSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="flex w-full justify-center px-5 py-10 text-center align-middle text-3xl text-[#3a3b3a] md:text-5xl md:font-extralight lg:text-8xl"
+                    className="flex w-full justify-center px-5 py-2 text-center align-middle text-3xl text-[#3a3b3a] md:text-5xl md:font-extralight xl:text-8xl"
                 >
                     <p>هندسة . بناء . اشراف</p>
                 </motion.div>

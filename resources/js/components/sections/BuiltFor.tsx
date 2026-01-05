@@ -1,55 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 function BuiltFor() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
-    const [scrollOffset, setScrollOffset] = useState(0);
     const carouselRef = useRef<HTMLDivElement>(null);
-    const componentRef = useRef<HTMLDivElement>(null);
-
-    // --- Counter-Directional Parallax Setup (Desktop Only) ---
-    useEffect(() => {
-        const handleScroll = () => {
-            if (componentRef.current) {
-                // Check if the screen width is above the Tailwind 'lg' breakpoint (1024px)
-                if (window.innerWidth < 1024) {
-                    setScrollOffset(0); // Disable parallax on mobile/tablet
-                    return;
-                }
-
-                const componentTop = componentRef.current.offsetTop;
-                const windowHeight = window.innerHeight;
-                const scrollY = window.scrollY;
-
-                // Calculate a base scroll value relative to the component
-                const parallaxValue = Math.max(0, scrollY - componentTop + windowHeight);
-                setScrollOffset(parallaxValue);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('resize', handleScroll);
-        }
-    }, []);
-
-    // 1. Title Text Parallax (DISABLED - No parallax effect on text)
-    const titleParallaxTransform = 'none';
-
-    // 2. Cards Parallax (Noticeable movement in the opposite direction: moves DOWN when scrolling DOWN)
-    // By multiplying by -1 (or using a negative division), the element moves against the scroll.
-    // Divisor -25 or -30 is usually effective for a smooth, counter-directional pull.
-    const cardsParallaxTransform = `translateY(${scrollOffset / -30}px)`;
 
 
     const cards = [
         {
-            title: 'Home Owners',
+            title: 'Home Owners ',
             description: 'We help homeowners build, renovate, and maintain their dream spaces.',
             image: '/images/homeowners.webp'
         },
@@ -109,15 +70,9 @@ function BuiltFor() {
 
 
     return (
-        <div
-            ref={componentRef}
-            className="w-full items-center justify-between space-y-5 p-5 lg:space-x-16 lg:flex overflow-hidden relative"
-        >
-            {/* LEFT TEXT (TITLE) - Parallax 1: Moves slightly UP on scroll */}
-            <div
-                className="flex pe-8 leading-[1.1] font-bold whitespace-nowrap text-[#3a3b3a] lg:flex-col lg:relative lg:z-10 transition-[transform] duration-50"
-                style={{ transform: titleParallaxTransform }}
-            >
+        <div className="w-full items-center justify-between space-y-5 p-5 lg:space-x-16 lg:flex overflow-hidden relative">
+            {/* LEFT TEXT (TITLE) */}
+            <div className="flex pe-8 leading-[1.1] font-bold whitespace-nowrap text-[#3a3b3a] lg:flex-col lg:relative lg:z-10">
                 {/* Hover effect remains: changes color to accent yellow */}
 
                 <span className="text-2xl md:text-6xl lg:text-[clamp(4rem,8vw,10rem)] inline transition-all duration-300 hover:text-[#f2ae1d] cursor-default">We Build</span>
@@ -196,16 +151,14 @@ function BuiltFor() {
                 </div>
             </div>
 
-            {/* ALL CARDS - DESKTOP - Parallax 2: Moves significantly DOWN on scroll (Counter-Directional) */}
             <div
-                className="hidden w-full gap-5 lg:flex lg:relative lg:z-10 transition-[transform] duration-50"
-                style={{ transform: cardsParallaxTransform }}
+                className="hidden w-full gap-5 lg:flex lg:relative lg:z-10"
             >
 
                 {/* --- CARD 1: Home Owners --- (UNCHANGED) */}
                 <div
                     className="group relative flex-1 hover:flex-2 transition-[flex] duration-500 flex h-[300px] md:h-[500px]
-                                cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
+                                 items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
                                 bg-cover bg-center text-white"
                     style={{
                         backgroundImage: `
@@ -231,8 +184,8 @@ function BuiltFor() {
                 {/* --- CARD 2: Developers --- (UNCHANGED) */}
                 <div
                     className="group relative flex-2 hover:flex-2 transition-[flex] duration-500 flex h-[300px] md:h-[500px]
-                                cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
-                                bg-cover bg-center text-white"
+                                 items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
+                                 bg-cover bg-center text-white"
                     style={{
                         backgroundImage: `
                             linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3), rgba(0,0,0,0)),
@@ -257,7 +210,7 @@ function BuiltFor() {
                 {/* --- CARD 3: Business Owners --- (UNCHANGED) */}
                 <div
                     className="group relative flex-1 hover:flex-2 transition-[flex] duration-500 flex h-[300px] md:h-[500px]
-                                cursor-pointer items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
+                                 items-end justify-center overflow-hidden rounded-2xl md:rounded-[40px]
                                 bg-cover bg-center text-white"
                     style={{
                         backgroundImage: `

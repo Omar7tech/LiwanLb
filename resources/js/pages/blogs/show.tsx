@@ -76,7 +76,7 @@ function Show({ blog }: { blog: Blog }) {
                 </meta>
             </Head>
             <AppLayout>
-                <div className="min-h-screen bg-linear-to-b from-white to-gray-50">
+                <div className="min-h-screen bg-linear-to-b">
 
                     {/* Hero Section */}
                     <motion.header
@@ -162,7 +162,7 @@ function Show({ blog }: { blog: Blog }) {
                     </motion.header>
 
                     {/* --- 2. MAIN CONTENT BODY --- */}
-                    <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 overflow-auto">
+                    <main className="max-w-6xl mx-auto px-6 py-12 md:py-20 overflow-auto">
 
                         {/* Conditional Content Rendering */}
                         {postContent && (

@@ -17,6 +17,7 @@ function Card({ blog = {
 } }) {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
 
   const handleCopyLink = (e: React.MouseEvent) => {
@@ -36,6 +37,16 @@ function Card({ blog = {
     setShowShareMenu(false);
   };
 
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    setHasError(false);
+  };
+
+  const handleImageError = () => {
+    setIsLoading(false);
+    setHasError(true);
+  };
+
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -49,15 +60,39 @@ function Card({ blog = {
     >
       {/* Image Background */}
       <img
-        className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
-          isLoading ? 'blur-sm' : ''
-        }`}
+        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
+          isLoading ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
+        } ${hasError ? 'hidden' : ''}`}
         loading="lazy"
         src={blog.image ?? '/images/blognoimage.webp'}
-        alt={blog.slug}
-        onLoad={() => setIsLoading(false)}
-        onError={() => setIsLoading(false)}
+        alt={blog.title || blog.slug}
+        onLoad={handleImageLoad}
+        onError={handleImageError}
       />
+      
+      {/* Loading State */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-100">
+          <div className="absolute inset-0 bg-linear-to-r from-gray-100 via-gray-50 to-gray-100 animate-pulse"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-6 h-6 border border-gray-300 border-t-gray-400 rounded-full animate-spin"></div>
+          </div>
+        </div>
+      )}
+      
+      {/* Error State */}
+      {hasError && (
+        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mb-2 mx-auto">
+              <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </div>
+            <span className="text-gray-500 text-xs">Failed to load</span>
+          </div>
+        </div>
+      )}
 
       {/* Dark Gradient Overlay - stronger at bottom */}
       <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/30 to-black/70" />

@@ -43,7 +43,7 @@ function Blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
                 </meta>
             </Head>
             <AppLayout>
-                <div className="px-6 py-8 md:px-8 lg:px-12 text-[#3a3b3a]">
+                <div className="px-5 py-8 md:px-8 lg:px-12 text-[#3a3b3a]">
                     {/* Header Section */}
                     <div className="mb-12 flex flex-col md:flex-row justify-between md:items-end gap-6">
                         <div className="flex-1">

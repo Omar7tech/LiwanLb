@@ -228,7 +228,7 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
             <div className="h-2" />
 
             {/* Dropdown Container */}
-            <div className="bg-white rounded-lg shadow-xl ring-1 ring-black/5 overflow-hidden p-2 min-w-[280px]">
+            <div className="bg-[#fafafa]  rounded-lg shadow-xl ring-1 ring-black/5 overflow-hidden p-2 min-w-[280px]">
 
               {/* Items List */}
               <div className="flex flex-col">
@@ -237,14 +237,14 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
                     viewTransition
                     key={item.id}
                     href={`/work/${item.slug}`}
-                    className="group block relative rounded-md hover:bg-neutral-50 transition-colors duration-200"
+                    className="group block relative rounded-md hover:bg-yellow-500/20 transition-colors duration-200"
                   >
 
                     {/* Content */}
                     <div className="relative px-5 py-3.5 flex items-center justify-between">
 
                       {/* Work Name - Bigger and cleaner */}
-                      <span className="text-lg font-light text-neutral-600 group-hover:text-black transition-colors duration-200 tracking-wide">
+                      <span className="text-lg  text-[#3A3B3A] group-hover:text-black transition-colors duration-200 tracking-wide">
                         {item.name}
                       </span>
 

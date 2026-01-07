@@ -555,7 +555,7 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                     </label>
                                                     <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md ${
                                                         formData.building_type === '' 
-                                                            ? 'border-gray-400 bg-gray-400 shadow-lg' 
+                                                            ? 'border-gray-400 bg-[#3a3b3a] shadow-lg' 
                                                             : 'border-gray-300'
                                                     }`}>
                                                         <input
@@ -881,7 +881,7 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                     {(formData.building_type || !formData.building_type) && (
                                                         <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md ${
                                                             formData.project_category === '' 
-                                                                ? 'border-gray-400 bg-gray-400 shadow-lg' 
+                                                                ? 'border-gray-400 bg-[#3a3b3a] shadow-lg' 
                                                                 : 'border-gray-300'
                                                         }`}>
                                                             <input

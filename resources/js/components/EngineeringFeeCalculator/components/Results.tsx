@@ -397,7 +397,7 @@ const Results: React.FC<ResultsProps> = ({
   return (
     <div id="results-section" className="mt-12  animate-fadeIn">
       <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-6 ${language === 'ar' ? 'sm:flex-row-reverse' : ''} animate-slideDown`}>
-        <h2 className={`text-2xl font-semibold text-[#3a3b3a] font-instrument-sans ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+        <h2 className={`text-2xl font-semibold text-[#3a3b3a] font-cairo ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           {t('results')}
         </h2>
         {currentSavedResult && (
@@ -409,19 +409,19 @@ const Results: React.FC<ResultsProps> = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 lg:max-w-2xl lg:mx-auto">
         <div className="group hidden lg:block p-6 bg-white rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-lg hover:border-[#F2AE1D]/30 hover:-translate-y-1">
-          <p className="text-sm font-medium text-gray-700 mb-3 font-instrument-sans group-hover:text-[#3a3b3a] transition-colors">
+          <p className="text-sm font-medium text-gray-700 mb-3 font-cairo group-hover:text-[#3a3b3a] transition-colors">
             {t('baseCost')}
           </p>
-          <p className="text-2xl font-semibold text-[#3a3b3a] font-instrument-sans group-hover:scale-105 transition-transform duration-300">
+          <p className="text-2xl font-semibold text-[#3a3b3a] font-cairo group-hover:scale-105 transition-transform duration-300">
             ${baseCostPerSqm.toLocaleString()}/m²
           </p>
         </div>
 
         <div className="group hidden lg:block p-6 bg-white rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-lg hover:border-green-200 hover:-translate-y-1">
-          <p className="text-sm font-medium text-gray-700 mb-3 font-instrument-sans group-hover:text-green-700 transition-colors">
+          <p className="text-sm font-medium text-gray-700 mb-3 font-cairo group-hover:text-green-700 transition-colors">
             {t('estimatedCost')}
           </p>
-          <p className="text-3xl font-bold text-green-700 font-instrument-sans group-hover:scale-105 transition-transform duration-300">
+          <p className="text-3xl font-bold text-green-700 font-cairo group-hover:scale-105 transition-transform duration-300">
             ${estimatedCost.toLocaleString()}
           </p>
         </div>
@@ -429,19 +429,19 @@ const Results: React.FC<ResultsProps> = ({
 
         {/* Mobile versions without hover effects */}
         <div className="lg:hidden p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-scaleIn" style={{ animationDelay: '0.1s' }}>
-          <p className="text-sm font-medium text-gray-700 mb-3 font-instrument-sans">
+          <p className="text-sm font-medium text-gray-700 mb-3 font-cairo">
             {t('baseCost')}
           </p>
-          <p className="text-2xl font-semibold text-[#3a3b3a] font-instrument-sans">
+          <p className="text-2xl font-semibold text-[#3a3b3a] font-cairo">
             ${baseCostPerSqm.toLocaleString()}/m²
           </p>
         </div>
 
         <div className="lg:hidden p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-scaleIn" style={{ animationDelay: '0.2s' }}>
-          <p className="text-sm font-medium text-gray-700 mb-3 font-instrument-sans">
+          <p className="text-sm font-medium text-gray-700 mb-3 font-cairo">
             {t('estimatedCost')}
           </p>
-          <p className="text-3xl font-bold text-green-700 font-instrument-sans">
+          <p className="text-3xl font-bold text-green-700 font-cairo">
             ${estimatedCost.toLocaleString()}
           </p>
         </div>

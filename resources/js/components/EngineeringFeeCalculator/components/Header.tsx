@@ -15,10 +15,10 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage }) => {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#3a3b3a] font-instrument-sans">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#3a3b3a] font-cairo">
           {t('title')}
         </h1>
-        <p className="text-lg sm:text-xl font-medium text-gray-600 mt-3 font-instrument-sans">
+        <p className="text-lg sm:text-xl font-medium text-gray-600 mt-3 font-cairo">
           {language === 'ar' ? 'احسب الأتعاب الهندسية الدقيقة لمشروعك' : 'Calculate precise engineering fees for your project'}
         </p>
       </div>

@@ -27,14 +27,14 @@ export default function Welcome({ designDeliveryStandards, testimonials }: { des
                     <meta head-key="keywords" name="keywords" content="design, creative, residency, collaboration, innovation, art, architecture, design standards" />
                     <meta head-key="og:title" property="og:title" content="Welcome - Liwan Architecture" />
                     <meta head-key="og:description" property="og:description" content="We listen first, design spaces that reflect your identity, carry purpose, and deliver lasting value." />
-                    <meta head-key="og:image" property="og:image" content="/images/logo.png" />
+                    <meta head-key="og:image" property="og:image" content="/images/ogimage.jpeg" />
                     <meta head-key="og:url" property="og:url" content={window.location.origin} />
                     <meta head-key="og:type" property="og:type" content="website" />
                     <meta head-key="og:site_name" property="og:site_name" content="Liwan Architecture" />
                     <meta head-key="twitter:card" name="twitter:card" content="summary_large_image" />
                     <meta head-key="twitter:title" name="twitter:title" content="Welcome - Liwan Architecture" />
                     <meta head-key="twitter:description" name="twitter:description" content="We listen first, design spaces that reflect your identity, carry purpose, and deliver lasting value." />
-                    <meta head-key="twitter:image" name="twitter:image" content="/images/logo.png" />
+                    <meta head-key="twitter:image" name="twitter:image" content="/images/ogimage.jpeg" />
                     <meta head-key="structured-data" name="structured-data" content="welcome">
                         <script type="application/ld+json">
                             {JSON.stringify({
@@ -43,7 +43,7 @@ export default function Welcome({ designDeliveryStandards, testimonials }: { des
                                 'name': 'Welcome - Liwan Architecture',
                                 'description': 'We listen first, design spaces that reflect your identity, carry purpose, and deliver lasting value.',
                                 'url': window.location.origin,
-                                'image': '/images/logo.png',
+                                'image': '/images/ogimage.jpeg',
                                 'mainEntity': {
                                     '@type': 'Organization',
                                     'name': 'Liwan Architecture'
@@ -51,8 +51,6 @@ export default function Welcome({ designDeliveryStandards, testimonials }: { des
                             })}
                         </script>
                     </meta>
-                    <link head-key="preconnect" rel="preconnect" href="https://fonts.bunny.net" />
-                    <link head-key="stylesheet" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
                 </Head>
 
                 <AppLayout>

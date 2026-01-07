@@ -46,14 +46,14 @@ const Modal: React.FC<ModalProps> = ({ modal, onClose, language }) => {
         >
           {/* Header */}
           <div className={`relative px-6 py-5 ${
-            modal.type === 'success' ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-100' :
-            modal.type === 'error' ? 'bg-gradient-to-r from-red-50 to-rose-50 border-b border-red-100' :
-            'bg-gradient-to-r from-yellow-50 to-amber-50 border-b border-yellow-100'
+            modal.type === 'success' ? 'bg-linear-to-rrom-green-50 to-emerald-50 border-b border-green-100' :
+            modal.type === 'error' ? 'bg-linear-to-r from-red-50 to-rose-50 border-b border-red-100' :
+            'bg-linear-to-rrom-yellow-50 to-amber-50 border-b border-yellow-100'
           }`}>
             <div className="flex items-start justify-between">
               <div className="flex items-center space-x-3">
                 {/* Icon */}
-                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                   modal.type === 'success' ? 'bg-green-100 text-green-600' :
                   modal.type === 'error' ? 'bg-red-100 text-red-600' :
                   'bg-yellow-100 text-yellow-600'
@@ -90,7 +90,7 @@ const Modal: React.FC<ModalProps> = ({ modal, onClose, language }) => {
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
+                className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
                   modal.type === 'success' ? 'hover:bg-green-100 text-green-600 hover:text-green-700' :
                   modal.type === 'error' ? 'hover:bg-red-100 text-red-600 hover:text-red-700' :
                   'hover:bg-yellow-100 text-yellow-600 hover:text-yellow-700'
@@ -145,9 +145,9 @@ const Modal: React.FC<ModalProps> = ({ modal, onClose, language }) => {
               whileTap={{ scale: 0.98 }}
               onClick={onClose}
               className={`w-full px-6 py-3 rounded-xl font-medium transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md ${
-                modal.type === 'success' ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700' :
-                modal.type === 'error' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-700 hover:to-rose-700' :
-                'bg-gradient-to-r from-yellow-600 to-amber-600 text-white hover:from-yellow-700 hover:to-amber-700'
+                modal.type === 'success' ? 'bg-linear-to-rrom-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700' :
+                modal.type === 'error' ? 'bg-linear-to-r from-red-600 to-rose-600 text-white hover:from-red-700 hover:to-rose-700' :
+                'bg-linear-to-r from-yellow-600 to-amber-600 text-white hover:from-yellow-700 hover:to-amber-700'
               }`}
             >
               {language === 'ar' ? 'حسناً' : 'OK'}

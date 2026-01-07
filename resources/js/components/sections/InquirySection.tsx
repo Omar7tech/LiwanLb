@@ -355,31 +355,41 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                 <span>رﻗﻢ اﻟﻬﺎﺗﻒ</span>
                                             </label>
                                             <div dir="ltr">
-                                                <PhoneInput
-                                                    
-                                                    international
-                                                    defaultCountry="LB"
-                                                    countries={[
-                                                        "LB", // Lebanon
-                                                        "SA", // Saudi Arabia
-                                                        "AE", // United Arab Emirates
-                                                        "QA", // Qatar
-                                                        "KW", // Kuwait
-                                                        "OM", // Oman
-                                                        "BH", // Bahrain
-                                                        "EG", // Egypt
-                                                        "TR", // Turkey
-                                                    ]}
-                                                    value={formData.phone}
-                                                    onChange={(value) => handleChange("phone", value || "")}
-                                                    className={`w-full border-b py-3 focus-within:border-[#F2AE1D] transition-colors bg-transparent flex gap-2 ${
-                                                        errors.phone ? "border-red-500" : "border-gray-300"
-                                                    }`}
-                                                    numberInputProps={{
-                                                        className: "w-full bg-transparent border-none focus:ring-0 focus:outline-none p-0 placeholder-gray-400 text-base",
-                                                        placeholder: "Enter phone number"
-                                                    }}
-                                                />
+                                                <div className="flex gap-2">
+                                                    <select
+                                                        value={formData.phone?.split(' ')[0] || '+961'}
+                                                        onChange={(e) => {
+                                                            const countryCode = e.target.value;
+                                                            const currentNumber = formData.phone?.split(' ').slice(1).join(' ') || '';
+                                                            handleChange("phone", `${countryCode} ${currentNumber}`);
+                                                        }}
+                                                        className={`border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${
+                                                            errors.phone ? "border-red-500" : "border-gray-300"
+                                                        }`}
+                                                    >
+                                                        <option value="+961">+961</option>
+                                                        <option value="+966">+966</option>
+                                                        <option value="+971">+971</option>
+                                                        <option value="+974">+974</option>
+                                                        <option value="+965">+965</option>
+                                                        <option value="+968">+968</option>
+                                                        <option value="+973">+973</option>
+                                                        <option value="+20">+20</option>
+                                                        <option value="+90">+90</option>
+                                                    </select>
+                                                    <input
+                                                        type="tel"
+                                                        value={formData.phone?.split(' ').slice(1).join(' ') || ''}
+                                                        onChange={(e) => {
+                                                            const countryCode = formData.phone?.split(' ')[0] || '+961';
+                                                            handleChange("phone", `${countryCode} ${e.target.value}`);
+                                                        }}
+                                                        placeholder="Enter phone number"
+                                                        className={`flex-1 border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${
+                                                            errors.phone ? "border-red-500" : "border-gray-300"
+                                                        }`}
+                                                    />
+                                                </div>
                                             </div>
                                             {errors.phone && (
                                                 <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -412,19 +422,22 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                     <span>Project Type</span>
                                                     <span>ﻧﻮع اﻟﻤشروع</span>
                                                 </label>
-                                                <select
-                                                    name="project_type"
-                                                    value={formData.project_type}
-                                                    onChange={(e) => handleChange("project_type", e.target.value)}
-                                                    className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_type ? "border-red-500" : "border-gray-300"
-                                                        }`}
-                                                >
+                                                <div className="flex gap-1 overflow-x-auto no-scrollbar py-3">
                                                     {sharedWorks?.data?.map((work) => (
-                                                        <option key={work.id} value={work.name}>
+                                                        <button
+                                                            key={work.id}
+                                                            type="button"
+                                                            onClick={() => handleChange("project_type", work.name)}
+                                                            className={`px-3 py-3 text-sm font-medium border-2 rounded-full transition-all duration-200 flex items-center justify-center whitespace-nowrap grow cursor-pointer ${
+                                                                formData.project_type === work.name
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] text-white shadow-sm'
+                                                                    : 'border-gray-300 text-gray-600 hover:border-[#F2AE1D] hover:text-[#F2AE1D] bg-transparent'
+                                                            }`}
+                                                        >
                                                             {work.name}
-                                                        </option>
+                                                        </button>
                                                     ))}
-                                                </select>
+                                                </div>
                                                 {errors.project_type && (
                                                     <p className="text-red-500 text-sm mt-1">{errors.project_type}</p>
                                                 )}
@@ -459,8 +472,12 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                     <span>Building Type (Optional)</span>
                                                     <span>ﻧﻮع اﻟﻤبﻨﻰ (اختياري)</span>
                                                 </label>
-                                                <div className="space-y-3">
-                                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                                <div className="space-y-2">
+                                                    <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                        formData.building_type === 'existing_building' 
+                                                            ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                            : 'border-gray-300'
+                                                    }`}>
                                                         <input
                                                             type="radio"
                                                             name="building_type"
@@ -468,14 +485,39 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                             checked={formData.building_type === 'existing_building'}
                                                             onChange={(e) => {
                                                                 handleChange("building_type", e.target.value);
-                                                                // Reset project category when building type changes
                                                                 handleChange("project_category", "");
                                                             }}
-                                                            className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D]"
+                                                            className="sr-only"
                                                         />
-                                                        <span className="text-gray-700">مبنى موجود | Existing Building</span>
+                                                        <div className="flex items-center justify-between w-full">
+                                                            <span className={`text-sm sm:text-base font-medium ${
+                                                                formData.building_type === 'existing_building' 
+                                                                    ? 'text-white' 
+                                                                    : 'text-gray-700'
+                                                            }`}>
+                                                                <span className="block">مبنى موجود</span>
+                                                                <span className="block text-xs sm:text-sm opacity-80">Existing Building</span>
+                                                            </span>
+                                                            <div className="relative">
+                                                                <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                    formData.building_type === 'existing_building' 
+                                                                        ? 'border-white bg-[#F2AE1D]' 
+                                                                        : 'border-gray-300'
+                                                                }`}>
+                                                                    <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                        formData.building_type === 'existing_building' 
+                                                                            ? 'scale-50' 
+                                                                            : 'scale-0'
+                                                                    }`}></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </label>
-                                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                                    <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                        formData.building_type === 'empty_land' 
+                                                            ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                            : 'border-gray-300'
+                                                    }`}>
                                                         <input
                                                             type="radio"
                                                             name="building_type"
@@ -483,14 +525,39 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                             checked={formData.building_type === 'empty_land'}
                                                             onChange={(e) => {
                                                                 handleChange("building_type", e.target.value);
-                                                                // Reset project category when building type changes
                                                                 handleChange("project_category", "");
                                                             }}
-                                                            className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D]"
+                                                            className="sr-only"
                                                         />
-                                                        <span className="text-gray-700">أرض خالية | Empty Land</span>
+                                                        <div className="flex items-center justify-between w-full">
+                                                            <span className={`text-sm sm:text-base font-medium ${
+                                                                formData.building_type === 'empty_land' 
+                                                                    ? 'text-white' 
+                                                                    : 'text-gray-700'
+                                                            }`}>
+                                                                <span className="block">أرض خالية</span>
+                                                                <span className="block text-xs sm:text-sm opacity-80">Empty Land</span>
+                                                            </span>
+                                                            <div className="relative">
+                                                                <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                    formData.building_type === 'empty_land' 
+                                                                        ? 'border-white bg-[#F2AE1D]' 
+                                                                        : 'border-gray-300'
+                                                                }`}>
+                                                                    <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                        formData.building_type === 'empty_land' 
+                                                                            ? 'scale-50' 
+                                                                            : 'scale-0'
+                                                                    }`}></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </label>
-                                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                                    <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md ${
+                                                        formData.building_type === '' 
+                                                            ? 'border-gray-400 bg-gray-400 shadow-lg' 
+                                                            : 'border-gray-300'
+                                                    }`}>
                                                         <input
                                                             type="radio"
                                                             name="building_type"
@@ -498,12 +565,32 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                             checked={formData.building_type === ""}
                                                             onChange={() => {
                                                                 handleChange("building_type", "");
-                                                                // Reset project category when building type changes
                                                                 handleChange("project_category", "");
                                                             }}
-                                                            className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D]"
+                                                            className="sr-only"
                                                         />
-                                                        <span className="text-gray-500">Skip | تخطي</span>
+                                                        <div className="flex items-center justify-between w-full">
+                                                            <span className={`text-sm sm:text-base font-medium ${
+                                                                formData.building_type === '' 
+                                                                    ? 'text-white' 
+                                                                    : 'text-gray-500'
+                                                            }`}>
+                                                                Skip | تخطي
+                                                            </span>
+                                                            <div className="relative">
+                                                                <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                    formData.building_type === '' 
+                                                                        ? 'border-white bg-gray-400' 
+                                                                        : 'border-gray-300'
+                                                                }`}>
+                                                                    <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                        formData.building_type === '' 
+                                                                            ? 'scale-50' 
+                                                                            : 'scale-0'
+                                                                    }`}></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </label>
                                                 </div>
                                                 {errors.building_type && (
@@ -516,10 +603,14 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                     <span>Project Category (Optional)</span>
                                                     <span>ﻓﺌﺔ اﻟﻤشروع (اختياري)</span>
                                                 </label>
-                                                <div className={`space-y-3 ${!formData.building_type ? "opacity-50" : ""}`}>
+                                                <div className={`space-y-2 ${!formData.building_type ? "opacity-50" : ""}`}>
                                                     {formData.building_type === 'existing_building' && (
                                                         <>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'residential' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -527,11 +618,37 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'residential'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">شقق سكنية | Residential Apartments</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'residential' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">شقق سكنية</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Residential Apartments</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'residential' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'residential' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'commercial' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -539,11 +656,37 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'commercial'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">محلات تجارية | Commercial Shops</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'commercial' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">محلات تجارية</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Commercial Shops</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'commercial' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'commercial' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'offices' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -551,15 +694,41 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'offices'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">مكاتب | Offices</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'offices' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">مكاتب</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Offices</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'offices' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'offices' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
                                                         </>
                                                     )}
                                                     {formData.building_type === 'empty_land' && (
                                                         <>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'private_project' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -567,23 +736,37 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'private_project'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">مشروع خاص | Private Project</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'private_project' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">مشروع خاص</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Private Project</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'private_project' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'private_project' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
-                                                                <input
-                                                                    type="radio"
-                                                                    name="project_category"
-                                                                    value="investment_project"
-                                                                    checked={formData.project_category === 'investment_project'}
-                                                                    onChange={(e) => handleChange("project_category", e.target.value)}
-                                                                    disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
-                                                                />
-                                                                <span className="text-gray-700">مشروع استثمار | Investment Project</span>
-                                                            </label>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'sale' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -591,11 +774,37 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'sale'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">بيع | Sale</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'sale' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">بيع</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Sale</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'sale' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'sale' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'rent' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -603,11 +812,37 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'rent'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">إيجار | Rent</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'rent' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">إيجار</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Rent</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'rent' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'rent' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
-                                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                            <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#F2AE1D] hover:shadow-md ${
+                                                                formData.project_category === 'investment' 
+                                                                    ? 'border-[#F2AE1D] bg-[#F2AE1D] shadow-lg' 
+                                                                    : 'border-gray-300'
+                                                            }`}>
                                                                 <input
                                                                     type="radio"
                                                                     name="project_category"
@@ -615,14 +850,40 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                     checked={formData.project_category === 'investment'}
                                                                     onChange={(e) => handleChange("project_category", e.target.value)}
                                                                     disabled={!formData.building_type}
-                                                                    className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                    className="sr-only"
                                                                 />
-                                                                <span className="text-gray-700">إستثمار | Investment</span>
+                                                                <div className="flex items-center justify-between w-full">
+                                                                    <span className={`text-sm sm:text-base font-medium ${
+                                                                        formData.project_category === 'investment' 
+                                                                            ? 'text-white' 
+                                                                            : 'text-gray-700'
+                                                                    }`}>
+                                                                        <span className="block">إستثمار</span>
+                                                                        <span className="block text-xs sm:text-sm opacity-80">Investment</span>
+                                                                    </span>
+                                                                    <div className="relative">
+                                                                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                            formData.project_category === 'investment' 
+                                                                                ? 'border-white bg-[#F2AE1D]' 
+                                                                                : 'border-gray-300'
+                                                                        }`}>
+                                                                            <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                                formData.project_category === 'investment' 
+                                                                                    ? 'scale-50' 
+                                                                                    : 'scale-0'
+                                                                            }`}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </label>
                                                         </>
                                                     )}
                                                     {(formData.building_type || !formData.building_type) && (
-                                                        <label className="flex items-center space-x-3 cursor-pointer">
+                                                        <label className={`relative flex items-center p-2 sm:p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md ${
+                                                            formData.project_category === '' 
+                                                                ? 'border-gray-400 bg-gray-400 shadow-lg' 
+                                                                : 'border-gray-300'
+                                                        }`}>
                                                             <input
                                                                 type="radio"
                                                                 name="project_category"
@@ -630,9 +891,30 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                                 checked={formData.project_category === ""}
                                                                 onChange={() => handleChange("project_category", "")}
                                                                 disabled={!formData.building_type}
-                                                                className="w-4 h-4 text-[#F2AE1D] border-gray-300 focus:ring-[#F2AE1D] disabled:opacity-50"
+                                                                className="sr-only"
                                                             />
-                                                            <span className="text-gray-500">Skip | تخطي</span>
+                                                            <div className="flex items-center justify-between w-full">
+                                                                <span className={`text-sm sm:text-base font-medium ${
+                                                                    formData.project_category === '' 
+                                                                        ? 'text-white' 
+                                                                        : 'text-gray-500'
+                                                                }`}>
+                                                                    Skip | تخطي
+                                                                </span>
+                                                                <div className="relative">
+                                                                    <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-all duration-200 ${
+                                                                        formData.project_category === '' 
+                                                                            ? 'border-white bg-gray-400' 
+                                                                            : 'border-gray-300'
+                                                                    }`}>
+                                                                        <div className={`absolute inset-0 rounded-full bg-white transition-transform duration-200 ${
+                                                                            formData.project_category === '' 
+                                                                                ? 'scale-50' 
+                                                                                : 'scale-0'
+                                                                        }`}></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </label>
                                                     )}
                                                     {!formData.building_type && (

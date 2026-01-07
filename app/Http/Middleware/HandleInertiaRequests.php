@@ -52,4 +52,42 @@ class HandleInertiaRequests extends Middleware
             'sharedWorks' => fn() => sharedWorkListResource::collection(Work::all()),
         ];
     }
+
+    /**
+     * Determines if the request should be handled by Inertia.
+     * 
+     * This fixes the Android Chrome tab restoration issue where
+     * Chrome sometimes sends requests with Inertia headers but
+     * expects HTML responses.
+     */
+    public function shouldHandle(Request $request): bool
+    {
+        // Check for Android Chrome tab restoration issue
+        // If the request has Inertia headers but also has a referer
+        // that doesn't match our app domain, it's likely a tab restoration
+        $referer = $request->header('referer');
+        $host = $request->getHost();
+        
+        if ($referer && !str_contains($referer, $host)) {
+            // This looks like a tab restoration, don't handle with Inertia
+            return false;
+        }
+
+        // Check for partial X-Inertia headers (some browsers send incomplete headers)
+        $inertiaHeader = $request->header('X-Inertia');
+        $inertiaVersionHeader = $request->header('X-Inertia-Version');
+        
+        if ($inertiaHeader && !$inertiaVersionHeader) {
+            // Incomplete Inertia headers, likely tab restoration
+            return false;
+        }
+
+        // Check for missing X-Requested-With header (tab restoration often misses this)
+        if ($inertiaHeader && !$request->header('X-Requested-With')) {
+            return false;
+        }
+
+        // Check if this is a regular Inertia request
+        return $inertiaHeader && $inertiaVersionHeader && $request->header('X-Requested-With');
+    }
 }

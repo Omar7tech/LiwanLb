@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage }) => {
             : 'bg-gray-100 text-[#3a3b3a] hover:bg-gray-200'
             }`}
         >
-          🇱🇧 العربية
+          العربية
         </button>
         <button
           onClick={() => setLanguage('en')}
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage }) => {
             : 'bg-gray-100 text-[#3a3b3a] hover:bg-gray-200'
             }`}
         >
-          🇬🇧 English
+          English
         </button>
       </div>
     </div>

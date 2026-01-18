@@ -3,7 +3,8 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { 
     Briefcase, 
-    Activity
+    Activity,
+    FileText
 } from 'lucide-react';
 
 // Simple chart components
@@ -14,16 +15,26 @@ interface SimpleStatsCardProps {
     showButton?: boolean;
     buttonHref?: string;
     buttonText?: string;
+    hasNotification?: boolean;
 }
 
-const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText }: SimpleStatsCardProps) => (
+const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText, hasNotification }: SimpleStatsCardProps) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-lg border border-gray-200 p-6"
+        className={`bg-white rounded-lg border p-6 relative ${
+            hasNotification ? 'border-[#f2ae1d]' : 'border-gray-200'
+        }`}
     >
+        {hasNotification && (
+            <div className="absolute top-4 right-4">
+                <div className="w-3 h-3 bg-[#f2ae1d] rounded-full animate-pulse"></div>
+            </div>
+        )}
         <div className="flex items-center mb-4">
-            <div className="p-2 bg-gray-100 rounded-lg">
+            <div className={`p-2 rounded-lg ${
+                hasNotification ? 'bg-[#f2ae1d]/10' : 'bg-gray-100'
+            }`}>
                 {icon}
             </div>
         </div>
@@ -32,7 +43,11 @@ const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonTex
         {showButton && (
             <Link
                 href={buttonHref}
-                className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-black transition-colors w-full justify-center"
+                className={`inline-flex items-center rounded-md px-4 py-2 text-sm font-medium shadow-sm transition-colors w-full justify-center ${
+                    hasNotification 
+                        ? 'bg-[#f2ae1d] text-white hover:bg-[#e09e0d]' 
+                        : 'bg-gray-900 text-white hover:bg-black'
+                }`}
             >
                 {buttonText}
             </Link>
@@ -142,6 +157,7 @@ interface DashboardProps {
         updatesByMonth: Record<string, number>;
         total: number;
         totalUpdates: number;
+        totalRequirements: number;
         byStatus: {
             pending: number;
             active: number;
@@ -155,15 +171,28 @@ interface DashboardProps {
             updates: number;
         }[];
     };
+    projects?: {
+        data: Array<{
+            project_notes?: Array<{ content: string }> | null;
+        }>;
+    };
 }
 
 export default function Dashboard() {
     const pageProps = usePage().props;
-    const { auth, projectStats } = pageProps as unknown as DashboardProps;
+    const { auth, projectStats, projects } = pageProps as unknown as DashboardProps;
 
     // Get real data from API
     const totalProjects = projectStats?.total ?? 0;
     const totalUpdates = projectStats?.totalUpdates ?? 0;
+    const totalRequirements = projectStats?.totalRequirements ?? 0;
+
+    // Calculate requirements from project data if not provided
+    const calculatedRequirements = projects?.data?.reduce((total, project) => {
+        return total + (project.project_notes?.length || 0);
+    }, 0) || 0;
+    
+    const finalRequirements = totalRequirements || calculatedRequirements;
 
     // Projects by status for chart
     const projectStatusData = [
@@ -198,7 +227,7 @@ export default function Dashboard() {
                 </h1>
 
                 {/* Simple Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <SimpleStatsCard
                         title="Total Projects"
                         value={totalProjects}
@@ -211,6 +240,15 @@ export default function Dashboard() {
                         title="Total Updates"
                         value={totalUpdates}
                         icon={<Activity className="h-6 w-6 text-gray-600" />}
+                    />
+                    <SimpleStatsCard
+                        title="Requirements"
+                        value={finalRequirements}
+                        icon={<FileText className="h-6 w-6 text-gray-600" />}
+                        showButton={finalRequirements > 0}
+                        buttonHref="/dashboard/requirements"
+                        buttonText="View Requirements"
+                        hasNotification={finalRequirements > 0}
                     />
                 </div>
 

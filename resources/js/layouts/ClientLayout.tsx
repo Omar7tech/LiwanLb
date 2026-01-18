@@ -12,6 +12,7 @@ import {
     ChevronLeft,
     Phone,
     User,
+    Paperclip,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -44,6 +45,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         { name: 'Projects', href: '/dashboard/projects', icon: <Briefcase size={18} /> },
         { name: 'Contact', href: '/dashboard/contact', icon: <Phone size={18} /> },
         { name: 'Profile', href: '/dashboard/profile', icon: <User size={18} /> },
+        { name: 'Requirements', href: '/dashboard/requirements', icon: <Paperclip size={18} /> }
     ];
 
     const isActive = (href: string) => {
@@ -54,17 +56,15 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         <div className="flex h-screen bg-white text-gray-900">
             {(isSidebarOpen || isDesktop) && (
                 <>
-                    <div className={`hidden lg:flex flex-col border-r border-gray-200 bg-gray-50 transition-all duration-300 ${
-                        isDesktopSidebarCollapsed ? 'w-20' : 'w-64'
-                    }`}>
-                        <div className={`flex items-center justify-center px-6 py-5 border-b border-gray-200 ${
-                            isDesktopSidebarCollapsed ? 'px-1' : 'px-6'
+                    <div className={`hidden lg:flex flex-col border-r border-gray-200 bg-gray-50 transition-all duration-300 ${isDesktopSidebarCollapsed ? 'w-20' : 'w-64'
                         }`}>
+                        <div className={`flex items-center justify-center px-6 py-5 border-b border-gray-200 ${isDesktopSidebarCollapsed ? 'px-1' : 'px-6'
+                            }`}>
                             <div className="relative w-10 h-10 overflow-hidden">
                                 <Link href="/">
-                                    <img 
-                                        src="/images/logo.png" 
-                                        alt="Liwan Logo" 
+                                    <img
+                                        src="/images/logo.png"
+                                        alt="Liwan Logo"
                                         className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300"
                                         style={{ opacity: isDesktopSidebarCollapsed ? 0.8 : 1 }}
                                     />
@@ -73,16 +73,14 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                         </div>
 
                         {/* Navigation */}
-                        <nav className={`flex-1 overflow-y-auto py-6 space-y-1 ${
-                            isDesktopSidebarCollapsed ? 'px-2' : 'px-3'
-                        }`}>
+                        <nav className={`flex-1 overflow-y-auto py-6 space-y-1 ${isDesktopSidebarCollapsed ? 'px-2' : 'px-3'
+                            }`}>
                             {navItems.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`w-full flex items-center rounded-lg text-sm font-medium transition-colors duration-200 ${
-                                        isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
-                                    } ${isActive(item.href)
+                                    className={`w-full flex items-center rounded-lg text-sm font-medium transition-colors duration-200 ${isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
+                                        } ${isActive(item.href)
                                             ? 'bg-gray-900 text-white'
                                             : 'text-gray-600 hover:bg-gray-100'
                                         }`}
@@ -100,14 +98,12 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                         </nav>
 
                         {/* Bottom Actions */}
-                        <div className={`border-t border-gray-200 space-y-1 ${
-                            isDesktopSidebarCollapsed ? 'p-2' : 'p-3'
-                        }`}>
+                        <div className={`border-t border-gray-200 space-y-1 ${isDesktopSidebarCollapsed ? 'p-2' : 'p-3'
+                            }`}>
                             <Link
                                 href="/"
-                                className={`w-full flex items-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors ${
-                                    isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
-                                }`}
+                                className={`w-full flex items-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors ${isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
+                                    }`}
                                 title={isDesktopSidebarCollapsed ? 'Go to Website' : ''}
                             >
                                 <ExternalLink size={18} />
@@ -117,9 +113,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                                 href="/logout"
                                 method="post"
                                 as="button"
-                                className={`w-full flex items-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors ${
-                                    isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
-                                }`}
+                                className={`w-full flex items-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors ${isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
+                                    }`}
                                 title={isDesktopSidebarCollapsed ? 'Log Out' : ''}
                             >
                                 <LogOut size={18} />
@@ -150,8 +145,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                                     key={item.href}
                                     href={item.href}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${isActive(item.href)
-                                            ? 'bg-gray-900 text-white'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                        ? 'bg-gray-900 text-white'
+                                        : 'text-gray-600 hover:bg-gray-100'
                                         }`}
                                     onClick={() => setIsSidebarOpen(false)}
                                 >

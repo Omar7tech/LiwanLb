@@ -19,15 +19,18 @@
         <meta property="og:type" inertia content="article">
         <meta property="og:url" inertia content="{{ url()->current() }}">
         <meta property="og:site_name" inertia content="{{ config('app.name', 'Liwan') }}">
-        <meta property="og:image" inertia content="{{ $blog->getFirstMedia('images') ? $blog->getFirstMedia('images')->getUrl('webp') : asset('images/ogimage.jpeg') }}">
-        
+        <meta property="og:image" inertia
+            content="{{ $blog->getFirstMedia('images') ? $blog->getFirstMedia('images')->getUrl('webp') : asset('images/ogimage.jpeg') }}">
+
         <meta name="twitter:card" inertia content="summary_large_image">
         <meta name="twitter:title" inertia content="{{ $blog->title }}">
         <meta name="twitter:description" inertia content="{{ Str::limit($blog->description, 160) }}">
-        <meta name="twitter:image" inertia content="{{ $blog->getFirstMedia('images') ? $blog->getFirstMedia('images')->getUrl('webp') : asset('images/ogimage.jpeg') }}">
+        <meta name="twitter:image" inertia
+            content="{{ $blog->getFirstMedia('images') ? $blog->getFirstMedia('images')->getUrl('webp') : asset('images/ogimage.jpeg') }}">
     @else
         <meta property="og:title" inertia content="{{ config('app.name', 'Liwan') }}">
-        <meta property="og:description" inertia content="Liwan - Innovative architecture platform designed for modern building design and construction management">
+        <meta property="og:description" inertia
+            content="Liwan - Innovative architecture platform designed for modern building design and construction management">
         <meta property="og:type" inertia content="website">
         <meta property="og:url" inertia content="{{ url()->current() }}">
         <meta property="og:site_name" inertia content="{{ config('app.name', 'Liwan') }}">
@@ -35,7 +38,8 @@
 
         <meta name="twitter:card" inertia content="summary_large_image">
         <meta name="twitter:title" inertia content="{{ config('app.name', 'Liwan') }}">
-        <meta name="twitter:description" inertia content="Liwan - Innovative architecture platform designed for modern building design and construction management">
+        <meta name="twitter:description" inertia
+            content="Liwan - Innovative architecture platform designed for modern building design and construction management">
         <meta name="twitter:image" inertia content="{{ asset('images/ogimage.jpeg') }}">
     @endif
 

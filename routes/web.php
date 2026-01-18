@@ -49,7 +49,9 @@ Route::middleware([CheckSiteActive::class])->group(function () {
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
             Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('throttle:5,1');
             Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
+            Route::get('/requirements', [ProjectController::class, 'notesIndex'])->name('notes.index');
             Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+
             Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
             Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('throttle:10,1');
             Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update')->middleware('throttle:20,1');

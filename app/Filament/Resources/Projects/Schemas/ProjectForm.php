@@ -131,15 +131,7 @@ class ProjectForm
 
 
 
-                Section::make('Reqirments notes for the client')
-                    ->schema([
-                        Repeater::make('project_notes')
-                            ->schema([
-                                RichEditor::make('content')->required(),
-                            ])
-                            ->columnSpanFull(),
-                    ])
-                    ->columnSpanFull(),
+                
 
             ]);
     }

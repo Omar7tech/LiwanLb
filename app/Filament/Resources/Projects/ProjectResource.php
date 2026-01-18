@@ -41,12 +41,7 @@ class ProjectResource extends Resource
         return ProjectsTable::configure($table);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            ProjectUpdatesRelationManager::class
-        ];
-    }
+    
 
     public static function getPages(): array
     {
@@ -55,7 +50,7 @@ class ProjectResource extends Resource
             'create' => CreateProject::route('/create'),
             'view' => ViewProject::route('/{record}'),
             'edit' => EditProject::route('/{record}/edit'),
-            'requirements' => Pages\ProjectRequirement::route('/{record}/requirements'),
+            'edit-requirements' => Pages\EditProjectRequirement::route('/{record}/edit/requirements'),
         ];
     }
 
@@ -78,7 +73,7 @@ class ProjectResource extends Resource
         return $page->generateNavigationItems([
             Pages\EditProject::class,
             Resources\ProjectUpdates\Pages\ListProjectUpdates::class,
-            Pages\ProjectRequirement::class
+            Pages\EditProjectRequirement::class
         ]);
     }
 

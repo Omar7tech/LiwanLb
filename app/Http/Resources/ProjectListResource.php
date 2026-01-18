@@ -22,8 +22,10 @@ class ProjectListResource extends JsonResource
             'status' => $this->status,
             'location' => $this->location,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
+            'project_notes' => $this->project_notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            
         ];
     }
 }

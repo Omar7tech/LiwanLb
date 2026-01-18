@@ -38,4 +38,25 @@ class ProjectController extends Controller
             'project' => fn () => new ProjectResource($project),
         ]);
     }
+
+     public function notesIndex(Request $request)
+    {
+
+        $user = $request->user();
+        abort_unless($user->hasRole('client'), 403);
+
+        $projects = Project::query()
+            ->where('client_id', $user->id)
+            ->with('client')
+            ->latest()
+            ->get();
+
+        return Inertia::render('dashboard/projectNotes', [
+            'projects' => fn () => ProjectListResource::collection($projects),
+        ]);
+    }
+
+
+
+    
 }

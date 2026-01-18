@@ -121,15 +121,15 @@ function DashboardContact() {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.3 + index * 0.1 }}
                                     >
-                                        <div className="flex-shrink-0 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+                                        <div className="shrink-0 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
                                             <item.icon className="h-5 w-5 text-gray-700" />
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <h3 className="font-medium text-gray-900 text-sm">{item.name}</h3>
-                                            <p className="text-gray-600 break-words text-sm leading-relaxed">{item.value}</p>
+                                            <p className="text-gray-600 wrap-break-word text-sm leading-relaxed">{item.value}</p>
                                         </div>
                                         {item.name === 'Address' && (
-                                            <div className="flex-shrink-0">
+                                            <div className="shrink-0">
                                                 <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
                                             </div>
                                         )}
@@ -191,10 +191,10 @@ function DashboardContact() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-200"
+                        className="bg-linear-to-r from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-200"
                     >
                         <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                            <div className="shrink-0 w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
                                 <Mail className="h-5 w-5 text-gray-700" />
                             </div>
                             <div className="flex-1">

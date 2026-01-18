@@ -183,8 +183,8 @@ export interface Work {
     slug: string;
     image?: string;
     visual_text?: string;
-     process_title?: string;
-     process_steps?: { title: string; description: string }[];
+    process_title?: string;
+    process_steps?: { title: string; description: string }[];
     created_at?: string;
     updated_at?: string;
     faqs?: FAQs;
@@ -234,21 +234,22 @@ export interface ProjectUpdate {
     created_at: string;
 }
 
+export interface ProjectNote {
+    content: string;
+}
+
 export interface Project {
-id: number;
-name: string;
-slug: string;
-start_date: string;
-status: string;
-location: string;
-description?: string | null;
-image?: string | null;
-created_at?: string;
-updated_at?: string;
+    id: number;
+    name: string;
+    slug: string;
+    start_date: string;
+    status: string;
+    location?: string | null;
     description?: string | null;
     image?: string | null;
     created_at?: string;
     updated_at?: string;
+    project_notes?: ProjectNote[] | null;
 
     // From ProjectResource relations (all optional on the TS side)
     client?: ProjectClient | null;

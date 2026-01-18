@@ -1,11 +1,11 @@
 import ClientLayout from '@/layouts/ClientLayout';
 import { Project } from '@/types';
-import { Head, usePage, router } from '@inertiajs/react';
+import { Head, usePage, router, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { useState } from 'react';
-import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin } from 'lucide-react';
+import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText, AlertCircle } from 'lucide-react';
 
 function ProjectShow() {
 	const { project: initialProject } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;
@@ -277,6 +277,64 @@ function ProjectShow() {
 										<p className="text-gray-700 leading-relaxed whitespace-pre-line">
 											{project.description}
 										</p>
+									</div>
+								</motion.section>
+							)}
+
+							{/* Project Requirements Section */}
+							{project.project_notes && project.project_notes.length > 0 && (
+								<motion.section
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ delay: 0.35 }}
+									className="bg-white rounded-lg border border-gray-200 p-4 relative"
+								>
+									{/* Header Bar */}
+									<div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-100">
+										<div className="flex items-center gap-2">
+											<div className="w-5 h-5 bg-[#f2ae1d] rounded-full flex items-center justify-center">
+												<FileText className="h-2.5 w-2.5 text-white" />
+											</div>
+											<div>
+												<span className="text-sm font-semibold text-gray-900">Requirements</span>
+												<span className="ml-2 px-2 py-0.5 bg-[#f2ae1d]/10 text-xs font-medium text-[#f2ae1d] rounded-full">
+													{project.project_notes.length}
+												</span>
+											</div>
+										</div>
+										<Link
+											href="/dashboard/requirements"
+											className="text-xs text-[#f2ae1d] hover:text-[#e09e0d] transition-colors"
+										>
+											View All →
+										</Link>
+									</div>
+
+									{/* Requirements Grid */}
+									<div className="grid grid-cols-1 gap-2">
+										{project.project_notes.map((note, index) => (
+											<motion.div
+												key={index}
+												initial={{ opacity: 0, y: 10 }}
+												animate={{ opacity: 1, y: 0 }}
+												transition={{ duration: 0.2, delay: index * 0.02 }}
+												className="group"
+											>
+												<div className="flex items-start gap-2 p-3 bg-gray-50 rounded border border-gray-200 hover:border-[#f2ae1d]/20 hover:shadow-sm transition-all duration-200">
+													<div className="shrink-0 w-4 h-4 bg-white rounded border border-gray-300 flex items-center justify-center text-xs font-bold text-gray-500">
+														{index + 1}
+													</div>
+													<div className="flex-1 min-w-0">
+														<div 
+															className="text-gray-700 text-xs leading-relaxed prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-3 [&_ol]:list-decimal [&_ol]:pl-3 [&_li]:mb-0.5 [&_h1]:text-xs [&_h2]:text-xs [&_h3]:text-xs [&_p]:mb-1 [&_strong]:font-medium [&_em]:italic"
+															dangerouslySetInnerHTML={{
+																__html: note.content
+															}}
+														/>
+													</div>
+												</div>
+											</motion.div>
+										))}
 									</div>
 								</motion.section>
 							)}

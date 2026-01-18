@@ -14,7 +14,7 @@ use Spatie\Sluggable\SlugOptions;
 class Project extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasSlug;
-    
+
     public $registerMediaConversionsUsingModelInstance = true;
 
     protected $fillable = [
@@ -25,10 +25,12 @@ class Project extends Model implements HasMedia
         'location',
         'client_id',
         'description',
+        'project_notes'
     ];
 
     protected $casts = [
         'start_date' => 'date',
+        'project_notes' => 'array'
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -57,7 +59,7 @@ class Project extends Model implements HasMedia
     {
         return $this->hasMany(ProjectUpdate::class);
     }
-    
+
     public function projectSections()
     {
         return $this->projectUpdates();

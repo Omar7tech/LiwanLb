@@ -75,7 +75,7 @@ function Show({residency}: {residency: Residency}) {
                                     transition={{ duration: 0.8, delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] }}
                                     className="overflow-hidden"
                                 >
-                                    <h1 className="text-[#3a3b3a] text-[75px] font-light leading-[0.85] tracking-tighter wrap-break-word -ml-1">
+                                    <h1 className="text-[#3a3b3a] text-[60px] md:text-[70px] lg:text-[80px] font-light leading-[0.85] tracking-tighter wrap-break-word -ml-1">
                                         {word}
                                     </h1>
                                 </motion.div>

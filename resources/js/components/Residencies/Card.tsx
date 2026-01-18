@@ -19,7 +19,7 @@ function Card({ residency, onImageClick }: { residency: Residency; onImageClick?
         <Link
             viewTransition
             href={show(residency)}
-            className="relative group overflow-hidden rounded-2xl h-[250px] md:h-[350px] block transition-transform duration-500 hover:scale-[1.02]"
+            className="relative group overflow-hidden rounded-2xl w-full aspect-square sm:w-auto sm:h-[350px] sm:aspect-auto block transition-transform duration-500 hover:scale-[1.02]"
         >
             {/* Skeleton Loader */}
             {isLoading && (
@@ -49,11 +49,11 @@ function Card({ residency, onImageClick }: { residency: Residency; onImageClick?
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-90 transition-opacity duration-300" />
 
             {/* Top Right Glassy Explore Button */}
-            <div className="absolute top-4 right-4 z-20">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-white text-sm font-medium transition-all duration-300 group-hover:bg-[#3a3b3a]/10 group-hover:border-[#3a3b3a]/10">
+            <div className="absolute top-3 right-3 md:top-4 md:right-4 z-20">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 md:gap-2 md:px-4 md:py-2 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-white text-xs md:text-sm font-medium transition-all duration-300 group-hover:bg-[#3a3b3a]/10 group-hover:border-[#3a3b3a]/10">
                     <span>Explore</span>
                     <svg
-                        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                        className="w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 group-hover:translate-x-1"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -64,8 +64,8 @@ function Card({ residency, onImageClick }: { residency: Residency; onImageClick?
             </div>
 
             {/* Content at Bottom */}
-            <div className="absolute bottom-0 left-0 w-full p-6 space-y-1">
-                <h3 className="text-white text-xl md:text-2xl font-bold leading-tight tracking-wide">
+            <div className="absolute bottom-0 left-0 w-full p-4 space-y-1">
+                <h3 className="text-white text-md md:text-xl lg:text-2xl font-bold leading-tight tracking-wide">
                     {residency.name}
                 </h3>
             </div>

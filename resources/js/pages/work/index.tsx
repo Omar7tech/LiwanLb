@@ -124,16 +124,19 @@ function WorkCard({ work }: { work: Work }) {
         <Link
             viewTransition
             href={`/work/${work.slug}`}
-            className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 aspect-square bg-white active:scale-95 block"
+            className="relative group overflow-hidden rounded-2xl h-[250px] md:h-[350px] block transition-transform duration-500 hover:scale-[1.02]"
         >
+            {/* Skeleton Loader */}
             {isLoading && (
-                <div className="absolute inset-0 z-10 bg-linear-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
-                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-12 h-12 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin"></div>
+                        <div className="w-12 h-12 border-4 border-gray-300 border-t-[#f2ae1d] rounded-full animate-spin" />
                     </div>
                 </div>
             )}
+
+            {/* Main Image */}
             <img
                 src={imageSrc}
                 alt={work.name}
@@ -143,42 +146,33 @@ function WorkCard({ work }: { work: Work }) {
                     setImageSrc(defaultImage);
                     setIsLoading(false);
                 }}
-                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isLoading ? "opacity-0" : "opacity-100"}`}
+                className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
             />
-            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"></div>
-            <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6">
-                <h2 className="text-xl md:text-2xl lg:text-4xl font-light text-white mb-1 md:mb-2 transform transition-transform duration-500 group-hover:translate-y-[-4px]">
-                    {work.name}
-                </h2>
 
-                {work.title && (
-                    <p className="text-sm md:text-lg text-gray-200 md:text-[#F2AE1D] font-normal md:font-medium mb-3 md:mb-2 
-                        opacity-100 md:opacity-0 md:group-hover:opacity-100 
-                        transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 
-                        transition-all duration-500 delay-75 line-clamp-2">
-                        {work.title}
-                    </p>
-                )}
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-90 transition-opacity duration-300" />
 
-                <div className="flex items-center gap-2 text-[#F2AE1D] font-semibold text-sm md:text-base opacity-100 md:opacity-0 md:group-hover:opacity-100 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-500">
+            {/* Top Right Glassy Explore Button */}
+            <div className="absolute top-4 right-4 z-20">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-white text-sm font-medium transition-all duration-300 group-hover:bg-[#3a3b3a]/10 group-hover:border-[#3a3b3a]/10">
                     <span>Explore</span>
                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 md:h-5 md:w-5 transition-transform duration-500 group-hover:translate-x-1"
+                        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                     >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                 </div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-[#F2AE1D] to-[#f5c451] transform scale-x-100 md:scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+
+            {/* Content at Bottom */}
+            <div className="absolute bottom-0 left-0 w-full p-6 space-y-1">
+                <h3 className="text-white text-xl md:text-2xl font-bold leading-tight tracking-wide">
+                    {work.name}
+                </h3>
+            </div>
         </Link>
     );
 }

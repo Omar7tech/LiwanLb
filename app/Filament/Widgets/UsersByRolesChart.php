@@ -5,8 +5,11 @@ namespace App\Filament\Widgets;
 use App\Models\User;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+
 class UsersByRolesChart extends ApexChartWidget
 {
+    use HasWidgetShield;
     /**
      * Chart Id
      *

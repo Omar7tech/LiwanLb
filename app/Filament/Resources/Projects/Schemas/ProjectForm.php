@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Projects\Schemas;
 
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
@@ -18,7 +20,7 @@ class ProjectForm
     {
         return $schema
             ->components([
-                // Project main details
+
                 Section::make('Project Details')
                     ->description('Basic information about the project.')
                     ->schema([
@@ -115,7 +117,7 @@ class ProjectForm
                     ])
                     ->columnSpanFull(),
 
-                // Description / notes
+
                 Section::make('Description & Notes')
                     ->description('Add an overview or any important notes about this project.')
                     ->schema([
@@ -126,6 +128,19 @@ class ProjectForm
                             ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
+
+
+
+                Section::make('Reqirments notes for the client')
+                    ->schema([
+                        Repeater::make('project_notes')
+                            ->schema([
+                                RichEditor::make('content')->required(),
+                            ])
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+
             ]);
     }
 }

@@ -9,10 +9,12 @@ use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 
 class ProjectsOverviewChart extends ApexChartWidget
 {
     use HasFiltersSchema;
+    use HasWidgetShield;
 
     /**
      * Chart Id

@@ -55,6 +55,7 @@ class ProjectResource extends Resource
             'create' => CreateProject::route('/create'),
             'view' => ViewProject::route('/{record}'),
             'edit' => EditProject::route('/{record}/edit'),
+            'requirements' => Pages\ProjectRequirement::route('/{record}/requirements'),
         ];
     }
 
@@ -76,7 +77,8 @@ class ProjectResource extends Resource
     {
         return $page->generateNavigationItems([
             Pages\EditProject::class,
-            Resources\ProjectUpdates\Pages\ListProjectUpdates::class
+            Resources\ProjectUpdates\Pages\ListProjectUpdates::class,
+            Pages\ProjectRequirement::class
         ]);
     }
 

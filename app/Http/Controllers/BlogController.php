@@ -19,6 +19,7 @@ class BlogController extends Controller
 
     public function show(Blog $blog)
     {
+        view()->share('blog', $blog);
         return Inertia::render('blogs/show', ['blog' => $blog->toResource()]);
     }
 }

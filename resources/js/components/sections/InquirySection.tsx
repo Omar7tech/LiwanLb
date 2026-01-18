@@ -4,8 +4,8 @@ import { FormEvent, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { SharedData } from '@/types';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
+
+
 
 interface InquiryFormData {
     full_name: string;

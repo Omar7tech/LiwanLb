@@ -6,8 +6,11 @@ use App\Models\Work;
 use App\Models\Testimonial;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+
 class TestimonialsByWorkChart extends ApexChartWidget
 {
+    use HasWidgetShield;
     /**
      * Chart Id
      *

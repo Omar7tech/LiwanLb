@@ -5,8 +5,11 @@ namespace App\Filament\Widgets;
 use App\Models\Blog;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+
 class BlogsByMonthChart extends ApexChartWidget
 {
+    use HasWidgetShield;
     /**
      * Chart Id
      *

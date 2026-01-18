@@ -5,8 +5,11 @@ namespace App\Filament\Widgets;
 use App\Models\Work;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+
 class WorksResidenciesChart extends ApexChartWidget
 {
+    use HasWidgetShield;
     /**
      * Chart Id
      *

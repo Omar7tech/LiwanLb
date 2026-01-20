@@ -163,9 +163,9 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
                                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                                 viewport={{ once: true, margin: "-20px" }}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
-                                className="my-16"
+                                className="my-12"
                             >
-                                <p className="text-[#3a3b3a] text-2xl md:text-4xl lg:text-7xl font-bold p-5 flex flex-col">
+                                <p className="text-[#3a3b3a] text-3xl md:text-5xl lg:text-8xl font-bold p-5 flex flex-col">
                                     {work.process_title?.split("\n").map((line: string, index: number) => (
                                         <motion.span 
                                             key={index}
@@ -191,10 +191,10 @@ export default function Show({ work, residencies, testimonials }: { work: Work; 
                                             transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }}
                                             className="flex flex-col gap-2 pb-10 last:pb-0"
                                         >
-                                            <h3 className="text-sm md:text-2xl lg:text-3xl font-bold text-[#3a3b3a]">
+                                            <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-[#3a3b3a]">
                                                 {step.title}
                                             </h3>
-                                            <p className="text-sm md:text-2xl lg:text-2xl text-gray-500 font-light">
+                                            <p className="text-sm md:text-2xl lg:text-2xl text-gray-500 font-light max-w-4xl">
                                                 {step.description}
                                             </p>
                                         </motion.div>

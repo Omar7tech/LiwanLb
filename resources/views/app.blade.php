@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title inertia>{{ config('app.name', 'Liwan') }}</title>
     <meta name="description" inertia
         content="Liwan - Innovative architecture platform designed for modern building design and construction management">

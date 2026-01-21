@@ -3,16 +3,19 @@ import { unstable_batchedUpdates } from 'react-dom';
 import { motion } from 'framer-motion';
 import { Language, SavedResult, ModalState, InputState } from './EngineeringFeeCalculator/types';
 import { Header, Form, Results, SavedResults, Modal } from './EngineeringFeeCalculator/components';
+import CostStudyModal from './CostStudyModal';
 import { useCalculations } from './EngineeringFeeCalculator/hooks/useCalculations';
 import { useLocalStorage } from './EngineeringFeeCalculator/hooks/useLocalStorage';
 import { useImageGeneration } from './EngineeringFeeCalculator/hooks/useImageGeneration';
 import { BUILDING_GROUPS, COMPLEXITY_LEVELS, TRANSLATIONS } from './EngineeringFeeCalculator/constants';
+import { usePage } from '@inertiajs/react';
 
 // Helper functions to generate IDs and timestamps outside of render
 const generateId = () => Date.now().toString();
 const getCurrentTimestamp = () => new Date().toISOString();
 
 const EngineeringFeeCalculator: React.FC = () => {
+  const { props } = usePage();
   const [language, setLanguage] = useState<Language>('ar');
   const [selectedGroup, setSelectedGroup] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -28,6 +31,23 @@ const EngineeringFeeCalculator: React.FC = () => {
   const [currentSavedResult, setCurrentSavedResult] = useState<SavedResult | null>(null);
   const [showSavedResults, setShowSavedResults] = useState<boolean>(false);
   const [modal, setModal] = useState<ModalState | null>(null);
+  const [showCostStudyModal, setShowCostStudyModal] = useState<boolean>(false);
+
+  // Check if user is authenticated
+  const isAuthenticated = !!(props as any).auth?.user;
+
+  // Check if user has already submitted cost study inquiry
+  const hasSubmittedCostStudy = useMemo(() => {
+    if (isAuthenticated) return true; // Authenticated users never see the modal
+    return localStorage.getItem('cost_study_submitted') === 'true';
+  }, [isAuthenticated]);
+
+  // Show modal on page load if user hasn't submitted cost study
+  useEffect(() => {
+    if (!hasSubmittedCostStudy) {
+      setShowCostStudyModal(true);
+    }
+  }, [hasSubmittedCostStudy]);
 
   // Use custom hooks
   const { availableCategories, availableComplexities, calculateFees: calculateFeesHook } = useCalculations(
@@ -419,113 +439,123 @@ const EngineeringFeeCalculator: React.FC = () => {
         `
       }} />
       
-      {/* Main Content */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
-        className="space-y-12"
-      >
-        {/* Header Component */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
+      {/* Conditional Rendering: Show Modal OR Cost Study */}
+      {showCostStudyModal ? (
+        // Show Cost Study Modal
+        <CostStudyModal 
+          isOpen={showCostStudyModal} 
+          onClose={() => setShowCostStudyModal(false)} 
+          language={language}
+        />
+      ) : (
+        // Show Cost Study Calculator
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="space-y-12"
         >
-          <Header language={language} setLanguage={setLanguage} />
-        </motion.div>
-
-        {/* Form Component */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-        >
-          <Form
-            language={language}
-            selectedGroup={selectedGroup}
-            selectedCategory={selectedCategory}
-            selectedComplexity={selectedComplexity}
-            area={area}
-            errors={errors}
-            availableCategories={availableCategories}
-            availableComplexities={availableComplexities}
-            uniqueGroups={uniqueGroups}
-            isGroupEnabled={isGroupEnabled}
-            isCategoryEnabled={isCategoryEnabled}
-            isComplexityEnabled={isComplexityEnabled}
-            isAreaEnabled={isAreaEnabled}
-            getGroupState={getGroupState}
-            getCategoryState={getCategoryState}
-            getComplexityState={getComplexityState}
-            getAreaState={getAreaState}
-            getInputStyles={getInputStyles}
-            getLabelStyles={getLabelStyles}
-            setSelectedGroup={setSelectedGroup}
-            setSelectedCategory={setSelectedCategory}
-            setSelectedComplexity={setSelectedComplexity}
-            setArea={setArea}
-            calculateFees={calculateFees}
-            clearForm={currentSavedResult ? startNewCalculation : clearForm}
-            isCalculating={isCalculating}
-            hasCalculated={hasCalculated}
-            currentSavedResult={currentSavedResult}
-          />
-        </motion.div>
-
-        {/* Results Component */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
-        >
-          <Results
-            language={language}
-            hasCalculated={hasCalculated}
-            estimatedCost={estimatedCost}
-            applicablePercentage={applicablePercentage}
-            minimumFee={minimumFee}
-            baseCostPerSqm={baseCostPerSqm}
-            currentSavedResult={currentSavedResult}
-            onSaveResult={saveCurrentResult}
-            onDownloadImage={downloadResult}
-            onToggleSavedResults={() => setShowSavedResults(!showSavedResults)}
-            savedResultsCount={savedResults.length}
-          />
-        </motion.div>
-
-       
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-        >
-          <SavedResults
-            language={language}
-            showSavedResults={showSavedResults}
-            savedResults={savedResults}
-            currentSavedResult={currentSavedResult}
-            onLoadResult={loadSavedResult}
-            onDeleteResult={deleteSavedResult}
-            onDownloadResult={downloadSavedResult}
-          />
-        </motion.div>
-
-        {/* Error Message */}
-        {area && parseFloat(area) <= 0 && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.2 }}
-            className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700"
+          {/* Header Component */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.3 }}
           >
-            {language === 'ar'
-              ? 'الرجاء إدخال مساحة البناء الإجمالية لحساب الأتعاب.'
-              : 'Please enter the total building area to calculate fees.'
-            }
+            <Header language={language} setLanguage={setLanguage} />
           </motion.div>
-        )}
-      </motion.div>
+
+          {/* Form Component */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
+          >
+            <Form
+              language={language}
+              selectedGroup={selectedGroup}
+              selectedCategory={selectedCategory}
+              selectedComplexity={selectedComplexity}
+              area={area}
+              errors={errors}
+              availableCategories={availableCategories}
+              availableComplexities={availableComplexities}
+              uniqueGroups={uniqueGroups}
+              isGroupEnabled={isGroupEnabled}
+              isCategoryEnabled={isCategoryEnabled}
+              isComplexityEnabled={isComplexityEnabled}
+              isAreaEnabled={isAreaEnabled}
+              getGroupState={getGroupState}
+              getCategoryState={getCategoryState}
+              getComplexityState={getComplexityState}
+              getAreaState={getAreaState}
+              getInputStyles={getInputStyles}
+              getLabelStyles={getLabelStyles}
+              setSelectedGroup={setSelectedGroup}
+              setSelectedCategory={setSelectedCategory}
+              setSelectedComplexity={setSelectedComplexity}
+              setArea={setArea}
+              calculateFees={calculateFees}
+              clearForm={currentSavedResult ? startNewCalculation : clearForm}
+              isCalculating={isCalculating}
+              hasCalculated={hasCalculated}
+              currentSavedResult={currentSavedResult}
+            />
+          </motion.div>
+
+          {/* Results Component */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.4 }}
+          >
+            <Results
+              language={language}
+              hasCalculated={hasCalculated}
+              estimatedCost={estimatedCost}
+              applicablePercentage={applicablePercentage}
+              minimumFee={minimumFee}
+              baseCostPerSqm={baseCostPerSqm}
+              currentSavedResult={currentSavedResult}
+              onSaveResult={saveCurrentResult}
+              onDownloadImage={downloadResult}
+              onToggleSavedResults={() => setShowSavedResults(!showSavedResults)}
+              savedResultsCount={savedResults.length}
+            />
+          </motion.div>
+
+         
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.3 }}
+          >
+            <SavedResults
+              language={language}
+              showSavedResults={showSavedResults}
+              savedResults={savedResults}
+              currentSavedResult={currentSavedResult}
+              onLoadResult={loadSavedResult}
+              onDeleteResult={deleteSavedResult}
+              onDownloadResult={downloadSavedResult}
+            />
+          </motion.div>
+
+          {/* Error Message */}
+          {area && parseFloat(area) <= 0 && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.2 }}
+              className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700"
+            >
+              {language === 'ar'
+                ? 'الرجاء إدخال مساحة البناء الإجمالية لحساب الأتعاب.'
+                : 'Please enter the total building area to calculate fees.'
+              }
+            </motion.div>
+          )}
+        </motion.div>
+      )}
 
       {/* Modal Component */}
       <Modal modal={modal} onClose={closeModal} language={language} />

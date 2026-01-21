@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Works;
 
 use App\Filament\Resources\Works\Pages\CreateWork;
 use App\Filament\Resources\Works\Pages\EditWork;
+use App\Filament\Resources\Works\Pages\EditWorkProcessSteps;
 use App\Filament\Resources\Works\Pages\ListWorks;
 use App\Filament\Resources\Works\Pages\ViewWork;
 use App\Filament\Resources\Works\RelationManagers\FaqsRelationManager;
@@ -56,6 +57,7 @@ class WorkResource extends Resource
             'create' => CreateWork::route('/create'),
             'view' => ViewWork::route('/{record}'),
             'edit' => EditWork::route('/{record}/edit'),
+            'edit-process-steps' => Pages\EditWorkProcessSteps::route('/{record}/edit/process-steps'),
         ];
     }
 
@@ -71,6 +73,7 @@ class WorkResource extends Resource
     {
         return $page->generateNavigationItems([
             Pages\EditWork::class,
+            Pages\EditWorkProcessSteps::class,
             Resources\Faqs\Pages\ListFaqs::class,
             Resources\Residencies\Pages\ListResidencies::class,
         ]);

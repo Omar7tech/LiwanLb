@@ -14,10 +14,10 @@ class WorkSeeder extends Seeder
     public function run(): void
     {
          $works = [
-            ['name' => 'Home', 'title' => 'Liwan For Every Home'],
-            ['name' => 'Estate', 'title' => 'Liwan Estate'],
-            ['name' => 'Interior', 'title' => 'Liwan Interiors'],
-            ['name' => 'Business', 'title' => 'Liwan Business Space'],
+            ['name' => 'Home', 'title' => 'Liwan For Every Home', 'arabic_name' => 'بيت'],
+            ['name' => 'Estate', 'title' => 'Liwan Estate', 'arabic_name' => 'عقار'],
+            ['name' => 'Interior', 'title' => 'Liwan Interiors', 'arabic_name' => 'ديكور داخلي'],
+            ['name' => 'Business', 'title' => 'Liwan Business Space', 'arabic_name' => 'مساحة تجارية'],
         ];
 
         $faker = \Faker\Factory::create();
@@ -34,6 +34,7 @@ class WorkSeeder extends Seeder
             Work::create([
                 'name' => $work['name'],
                 'title' => $work['title'],
+                'arabic_name' => $work['arabic_name'],
                 'visual_text' => $faker->sentence(),
                 'process_title' => $faker->sentence(2),
                 'process_steps' => $steps,

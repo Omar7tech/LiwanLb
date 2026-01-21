@@ -17,6 +17,7 @@ class sharedWorkListResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'arabic_name' => $this->arabic_name,
             'title' => $this->title,
             'slug' => $this->slug,
         ];

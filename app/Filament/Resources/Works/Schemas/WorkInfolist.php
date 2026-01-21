@@ -29,6 +29,11 @@ class WorkInfolist
                             ->label('Internal Name')
                             ->weight('bold')
                             ->size('lg'),
+                        TextEntry::make('arabic_name')
+                            ->label('Arabic Name')
+                            ->weight('bold')
+                            ->size('lg')
+                            ->color('success'),
                         TextEntry::make('title')
                             ->label('Display Title')
                             ->placeholder('Uses name')

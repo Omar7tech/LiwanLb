@@ -397,44 +397,67 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <label className="flex justify-between text-sm font-medium text-gray-700">
-                                                <span>Email (Optional)</span>
-                                                <span>اﻟبرﻳﺪ اﻹﻟﻜتروﻧﻲ (اختياري)</span>
-                                            </label>
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                value={formData.email}
-                                                onChange={(e) => handleChange("email", e.target.value)}
-                                                className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.email ? "border-red-500" : "border-gray-300"
-                                                    }`}
-                                            />
-                                            {errors.email && (
-                                                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                                            )}
-                                        </div>
+                                    {type === 'client' && (
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                            <div className="space-y-6">
+                                                <div className="space-y-2">
+                                                    <label className="flex justify-between text-sm font-medium text-gray-700">
+                                                        <span>Email (Optional)</span>
+                                                        <span>اﻟبرﻳﺪ اﻹﻟﻜتروﻧﻲ (اختياري)</span>
+                                                    </label>
+                                                    <input
+                                                        type="email"
+                                                        name="email"
+                                                        value={formData.email}
+                                                        onChange={(e) => handleChange("email", e.target.value)}
+                                                        className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.email ? "border-red-500" : "border-gray-300"
+                                                            }`}
+                                                    />
+                                                    {errors.email && (
+                                                        <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                                                    )}
+                                                </div>
 
-                                        {type === 'client' && (
+                                                <div className="space-y-2">
+                                                    <label className="flex justify-between text-sm font-medium text-gray-700">
+                                                        <span>Project Location</span>
+                                                        <span>ﻣﻮﻗﻊ اﻟﻤشروع</span>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="project_location"
+                                                        value={formData.project_location}
+                                                        onChange={(e) => handleChange("project_location", e.target.value)}
+                                                        className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_location ? "border-red-500" : "border-gray-300"
+                                                            }`}
+                                                    />
+                                                    {errors.project_location && (
+                                                        <p className="text-red-500 text-sm mt-1">{errors.project_location}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+
                                             <div className="space-y-2">
                                                 <label className="flex justify-between text-sm font-medium text-gray-700">
                                                     <span>Project Type</span>
                                                     <span>ﻧﻮع اﻟﻤشروع</span>
                                                 </label>
-                                                <div className="flex gap-1 overflow-x-auto no-scrollbar py-3">
+                                                <div className="grid grid-cols-2 gap-1 py-2">
                                                     {sharedWorks?.data?.map((work) => (
                                                         <button
                                                             key={work.id}
                                                             type="button"
                                                             onClick={() => handleChange("project_type", work.name)}
-                                                            className={`px-3 py-3 text-sm font-medium border-2 rounded-full transition-all duration-200 flex items-center justify-center whitespace-nowrap grow cursor-pointer ${
+                                                            className={`px-2 py-2 text-sm font-medium border-2 rounded-xl transition-all duration-200 flex flex-col items-center justify-center cursor-pointer min-h-[75px] ${
                                                                 formData.project_type === work.name
                                                                     ? 'border-[#F2AE1D] bg-[#F2AE1D] text-white shadow-sm'
                                                                     : 'border-gray-300 text-gray-600 hover:border-[#F2AE1D] hover:text-[#F2AE1D] bg-transparent'
                                                             }`}
                                                         >
-                                                            {work.name}
+                                                            <span className="text-base font-semibold block">{work.name}</span>
+                                                            {work.arabic_name && (
+                                                                <span className="text-xs opacity-80 mt-1 block">{work.arabic_name}</span>
+                                                            )}
                                                         </button>
                                                     ))}
                                                 </div>
@@ -442,26 +465,6 @@ export default function InquirySection({ preselectedWork, type = 'client' }: Inq
                                                     <p className="text-red-500 text-sm mt-1">{errors.project_type}</p>
                                                 )}
                                             </div>
-                                        )}
-                                    </div>
-
-                                    {type === 'client' && (
-                                        <div className="space-y-2">
-                                            <label className="flex justify-between text-sm font-medium text-gray-700">
-                                                <span>Project Location</span>
-                                                <span>ﻣﻮﻗﻊ اﻟﻤشروع</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="project_location"
-                                                value={formData.project_location}
-                                                onChange={(e) => handleChange("project_location", e.target.value)}
-                                                className={`w-full border-b py-3 focus:border-[#F2AE1D] focus:outline-none transition-colors bg-transparent ${errors.project_location ? "border-red-500" : "border-gray-300"
-                                                    }`}
-                                            />
-                                            {errors.project_location && (
-                                                <p className="text-red-500 text-sm mt-1">{errors.project_location}</p>
-                                            )}
                                         </div>
                                     )}
 

@@ -4,7 +4,7 @@ import { Head, usePage } from "@inertiajs/react";
 import { motion } from 'framer-motion';
 import { FileText, FolderOpen } from 'lucide-react';
 
-function projectNotes() {
+function ProjectNotes() {
     const { projects } = usePage<{ projects: Projects }>().props;
     return (
         <ClientLayout>
@@ -123,4 +123,4 @@ function projectNotes() {
     )
 }
 
-export default projectNotes
+export default ProjectNotes

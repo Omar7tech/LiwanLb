@@ -72,7 +72,7 @@ function WorkIndex({ works }: { works: Works }) {
             </Head>
             <AppLayout>
 
-                <div className="container mx-auto px-4 md:px-8 py-12 md:py-16">
+                <div className="mx-auto px-5 py-12 md:py-16">
                     <motion.div
                         className="space-y-4 mb-12 md:mb-16"
                         initial="hidden"
@@ -89,7 +89,7 @@ function WorkIndex({ works }: { works: Works }) {
 
 
                     <motion.div
-                        className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
+                        className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3"
                         initial="hidden"
                         animate="visible"
                         variants={containerVariants}
@@ -169,7 +169,7 @@ function WorkCard({ work }: { work: Work }) {
 
             {/* Content at Bottom */}
             <div className="absolute bottom-0 left-0 w-full p-6 space-y-1">
-                <h3 className="text-white text-xl md:text-2xl font-bold leading-tight tracking-wide">
+                <h3 className="text-white text-2xl md:text-4xl font-normal leading-tight tracking-wide">
                     {work.name}
                 </h3>
             </div>

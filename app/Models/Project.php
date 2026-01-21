@@ -15,7 +15,6 @@ class Project extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasSlug;
 
-    public $registerMediaConversionsUsingModelInstance = true;
 
     protected $fillable = [
         'name',

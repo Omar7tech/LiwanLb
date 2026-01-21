@@ -32,7 +32,7 @@ class ProjectController extends Controller
         abort_unless($user->hasRole('client'), 403);
         abort_unless($project->client_id === $user->id, 403);
 
-        $project->load(['projectUpdates.updater', 'projectUpdates.comments']);
+        $project->load(['projectUpdates.updater', 'projectUpdates.comments' , 'projectUpdates.media', 'media']);
 
         return Inertia::render('projects/show', [
             'project' => fn () => new ProjectResource($project),

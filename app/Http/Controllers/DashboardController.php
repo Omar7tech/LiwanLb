@@ -16,6 +16,7 @@ class DashboardController extends Controller
         $projects = \App\Models\Project::query()
             ->where('client_id', $user->id)
             ->withCount('projectUpdates')
+            ->with('media')
             ->get();
 
         // Calculate basic stats

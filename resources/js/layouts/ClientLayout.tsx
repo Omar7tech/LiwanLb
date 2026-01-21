@@ -1,20 +1,22 @@
 import { SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-    Briefcase,
     ChevronRight,
+    ChevronLeft,
     ExternalLink,
     Home,
+    Briefcase,
+    Phone,
+    User,
     LogOut,
     Menu,
     X,
-    ChevronLeft,
-    Phone,
-    User,
+    Maximize2,
+    Minimize2,
     Paperclip,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 interface ClientLayoutProps {
     children: React.ReactNode;
@@ -30,6 +32,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(false);
     const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [logoutModal, setLogoutModal] = useState({ isOpen: false });
     const { url, props } = usePage<SharedData>();
     const userName = props.auth?.user?.name ?? '';
 
@@ -38,6 +42,38 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         checkDesktop();
         window.addEventListener('resize', checkDesktop);
         return () => window.removeEventListener('resize', checkDesktop);
+    }, []);
+
+    const toggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+            setIsFullscreen(true);
+        } else {
+            document.exitFullscreen();
+            setIsFullscreen(false);
+        }
+    };
+
+    const handleLogout = () => {
+        setLogoutModal({ isOpen: true });
+    };
+
+    const confirmLogout = () => {
+        setLogoutModal({ isOpen: false });
+        router.post('/logout');
+    };
+
+    const cancelLogout = () => {
+        setLogoutModal({ isOpen: false });
+    };
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
     }, []);
 
     const navItems: NavItem[] = [
@@ -109,17 +145,15 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                                 <ExternalLink size={18} />
                                 {!isDesktopSidebarCollapsed && <span>Go to Website</span>}
                             </Link>
-                            <Link
-                                href="/logout"
-                                method="post"
-                                as="button"
-                                className={`w-full flex items-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors ${isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
+                            <button
+                                onClick={handleLogout}
+                                className={`w-full flex items-center rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors ${isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
                                     }`}
                                 title={isDesktopSidebarCollapsed ? 'Log Out' : ''}
                             >
                                 <LogOut size={18} />
                                 {!isDesktopSidebarCollapsed && <span>Log Out</span>}
-                            </Link>
+                            </button>
                         </div>
                     </div>
 
@@ -166,15 +200,13 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                                 <ExternalLink size={18} />
                                 <span>Go to Website</span>
                             </Link>
-                            <Link
-                                href="/logout"
-                                method="post"
-                                as="button"
-                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+                            <button
+                                onClick={handleLogout}
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
                             >
                                 <LogOut size={18} />
                                 <span>Log Out</span>
-                            </Link>
+                            </button>
                         </div>
                     </div>
 
@@ -211,15 +243,20 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                     </div>
                     <div className="flex-1" />
                     <div className="flex items-center gap-3">
-                        <div className="text-sm text-gray-600">
-                            Welcome back{userName ? `, ${userName}` : ''}
-                        </div>
+                        <motion.button
+                            onClick={toggleFullscreen}
+                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            whileTap={{ scale: 0.95 }}
+                            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                        >
+                            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                        </motion.button>
                         <Link
                             href="/dashboard/profile"
                             className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                         >
                             <User size={18} />
-                            <span className="hidden sm:inline">Profile</span>
+                            <span className="hidden sm:inline">{userName || 'Profile'}</span>
                         </Link>
                     </div>
                 </header>
@@ -232,12 +269,54 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                         transition={{ duration: 0.3 }}
 
                     >
-                        <div className="max-w-7xl mx-auto">
+                        <div className=" mx-auto">
                             {children}
                         </div>
                     </motion.div>
                 </main>
             </div>
+
+            {/* Logout Confirmation Modal */}
+            {logoutModal.isOpen && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+                    onClick={cancelLogout}
+                >
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="bg-white rounded-lg p-6 max-w-sm w-full mx-auto"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                            <LogOut className="h-6 w-6 text-red-600" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Log Out</h3>
+                        <p className="text-sm text-gray-500 mb-6">
+                            Are you sure you want to log out? You will need to sign in again to access your account.
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={cancelLogout}
+                                className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmLogout}
+                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
+                            >
+                                Log Out
+                            </button>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
         </div>
     );
 }

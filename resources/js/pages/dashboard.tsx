@@ -16,15 +16,16 @@ interface SimpleStatsCardProps {
     buttonHref?: string;
     buttonText?: string;
     hasNotification?: boolean;
+    fullWidth?: boolean;
 }
 
-const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText, hasNotification }: SimpleStatsCardProps) => (
+const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText, hasNotification, fullWidth }: SimpleStatsCardProps) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`bg-white rounded-lg border p-6 relative ${
+        className={`bg-white rounded-lg border p-4 md:p-6 relative ${
             hasNotification ? 'border-[#f2ae1d]' : 'border-gray-200'
-        }`}
+        } ${fullWidth ? 'md:col-span-1 col-span-2' : ''}`}
     >
         {hasNotification && (
             <div className="absolute top-4 right-4">
@@ -43,13 +44,13 @@ const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonTex
         {showButton && (
             <Link
                 href={buttonHref}
-                className={`inline-flex items-center rounded-md px-4 py-2 text-sm font-medium shadow-sm transition-colors w-full justify-center ${
+                className={`inline-flex items-center rounded-md px-3 py-2 text-xs md:text-sm font-medium shadow-sm transition-colors w-full justify-center ${
                     hasNotification 
                         ? 'bg-[#f2ae1d] text-white hover:bg-[#e09e0d]' 
                         : 'bg-gray-900 text-white hover:bg-black'
                 }`}
             >
-                {buttonText}
+                <span className="truncate">{buttonText}</span>
             </Link>
         )}
     </motion.div>
@@ -220,14 +221,14 @@ export default function Dashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className='p-6 md:p-8'
+                className='p-3 md:p-8 mt-5 md:mt-0'
             >
-                <h1 className="text-3xl font-bold tracking-tight text-[#3a3b3a] mb-6">
+                <h1 className="text-3xl font-normal tracking-tight text-[#3a3b3a] mb-6">
                     Welcome back, {auth.user.name}
                 </h1>
 
                 {/* Simple Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-2">
                     <SimpleStatsCard
                         title="Total Projects"
                         value={totalProjects}
@@ -249,6 +250,7 @@ export default function Dashboard() {
                         buttonHref="/dashboard/requirements"
                         buttonText="View Requirements"
                         hasNotification={finalRequirements > 0}
+                        fullWidth={true}
                     />
                 </div>
 

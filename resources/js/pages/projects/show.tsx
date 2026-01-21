@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { useState } from 'react';
-import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText, AlertCircle } from 'lucide-react';
+import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText } from 'lucide-react';
 
 function ProjectShow() {
 	const { project: initialProject } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;
@@ -203,7 +203,7 @@ function ProjectShow() {
 						>
 							{/* Breadcrumb */}
 							<nav className="flex items-center space-x-2 text-sm text-gray-500">
-								<a href="/projects" className="hover:text-gray-700 transition-colors">Projects</a>
+								<Link href="/dashboard/projects" className="hover:text-gray-700 transition-colors">Projects</Link>
 								<span>/</span>
 								<span className="text-gray-900 font-medium">{project.name}</span>
 							</nav>
@@ -380,7 +380,7 @@ function ProjectShow() {
 													{/* Header */}
 													<button
 														onClick={toggleCollapse}
-														className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+														className="w-full px-3 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
 													>
 														<div className="flex-1 min-w-0">
 															<div className="flex items-center gap-3 mb-2">
@@ -426,7 +426,7 @@ function ProjectShow() {
 															transition={{ duration: 0.3 }}
 															className="border-t border-gray-200"
 														>
-															<div className="p-6 space-y-6">
+															<div className="p-2 space-y-6">
 																{update.description && (
 																	<div>
 																		<p className="text-gray-700 leading-relaxed whitespace-pre-line">
@@ -438,7 +438,7 @@ function ProjectShow() {
 																{update.media && update.media.length > 0 && (
 																	<div>
 																		<h4 className="text-sm font-medium text-gray-900 mb-3">Media</h4>
-																		<div className="grid grid-cols-2 gap-3">
+																		<div className="grid grid-cols-2 gap-2">
 																			{update.media.map((mediaItem) => (
 																				<motion.div
 																					key={mediaItem.id}

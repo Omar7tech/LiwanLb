@@ -43,7 +43,7 @@ function Blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
                 </meta>
             </Head>
             <AppLayout>
-                <div className="px-5 py-8 md:px-8 lg:px-12 text-[#3a3b3a]">
+                <div className="px-5 py-8  text-[#3a3b3a]">
                     {/* Header Section */}
                     <div className="mb-12 flex flex-col md:flex-row justify-between md:items-end gap-6">
                         <div className="flex-1">
@@ -87,7 +87,7 @@ function Blogs({ blogs }: { blogs: PaginationProps<Blog> }) {
 
                     {displayedBlogs.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-12">
                                 {displayedBlogs.map((blog: Blog) => (
                                     <Card key={blog.id} blog={blog} />
                                 ))}

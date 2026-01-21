@@ -13,7 +13,6 @@ class ProjectUpdate extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
     
-    public $registerMediaConversionsUsingModelInstance = true;
 
     protected $fillable = [
         'project_id',

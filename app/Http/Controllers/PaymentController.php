@@ -25,12 +25,6 @@ class PaymentController extends Controller
             ->get();
 
         return inertia('dashboard/payments', [
-            'auth' => [
-                'user' => [
-                    'name' => $user->name,
-                    'email' => $user->email,
-                ],
-            ],
             'projects' => ProjectListResource::collection($projects)->toArray(request()),
         ]);
     }

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { useState } from 'react';
-import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText, CreditCard, ExternalLink } from 'lucide-react';
+import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText, CreditCard } from 'lucide-react';
 
 function ProjectShow() {
 	const { project: initialProject } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;

@@ -5,8 +5,7 @@ import {
     CreditCard, 
     FileSpreadsheet,
     ExternalLink,
-    Calendar,
-    DollarSign
+    Calendar
 } from 'lucide-react';
 
 interface PaymentProject {
@@ -21,18 +20,12 @@ interface PaymentProject {
 }
 
 interface PaymentsProps {
-    auth: {
-        user: {
-            name: string;
-            email?: string;
-        };
-    };
     projects: PaymentProject[];
 }
 
 export default function Payments() {
     const pageProps = usePage().props;
-    const { auth, projects } = pageProps as unknown as PaymentsProps;
+    const { projects } = pageProps as unknown as PaymentsProps;
 
     return (
         <ClientLayout>

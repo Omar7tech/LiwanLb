@@ -185,6 +185,7 @@ export interface Work {
     visual_text?: string;
     process_title?: string;
     process_steps?: { title: string; description: string }[];
+    payment_link?: string;
     created_at?: string;
     updated_at?: string;
     faqs?: FAQs;
@@ -246,6 +247,7 @@ export interface Project {
     status: string;
     location?: string | null;
     description?: string | null;
+    payment_link?: string | null;
     image?: string | null;
     created_at?: string;
     updated_at?: string;

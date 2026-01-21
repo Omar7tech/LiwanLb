@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Projects;
 
 use App\Filament\Resources\Projects\Pages\CreateProject;
 use App\Filament\Resources\Projects\Pages\EditProject;
+use App\Filament\Resources\Projects\Pages\EditProjectPayment;
+use App\Filament\Resources\Projects\Pages\EditProjectRequirement;
 use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Filament\Resources\Projects\Pages\ViewProject;
 use App\Filament\Resources\Projects\RelationManagers\ProjectUpdatesRelationManager;
@@ -51,6 +53,7 @@ class ProjectResource extends Resource
             'view' => ViewProject::route('/{record}'),
             'edit' => EditProject::route('/{record}/edit'),
             'edit-requirements' => Pages\EditProjectRequirement::route('/{record}/edit/requirements'),
+            'edit-payments' => Pages\EditProjectPayment::route('/{record}/edit/payments'),
         ];
     }
 
@@ -73,7 +76,8 @@ class ProjectResource extends Resource
         return $page->generateNavigationItems([
             Pages\EditProject::class,
             Resources\ProjectUpdates\Pages\ListProjectUpdates::class,
-            Pages\EditProjectRequirement::class
+            Pages\EditProjectRequirement::class,
+            Pages\EditProjectPayment::class
         ]);
     }
 

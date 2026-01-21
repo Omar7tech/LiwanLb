@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { useState } from 'react';
-import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText } from 'lucide-react';
+import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText, CreditCard, ExternalLink } from 'lucide-react';
 
 function ProjectShow() {
 	const { project: initialProject } = usePage<{ project: Project; auth: { user: { id: number; name?: string; email?: string } } }>().props;
@@ -234,6 +234,20 @@ function ProjectShow() {
 											{project.status}
 										</div>
 									</div>
+									
+									{project.payment_link && (
+										<div className="mt-4">
+											<a
+												href={project.payment_link}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#f2ae1d] hover:bg-[#e09e0d] transition-colors"
+											>
+												<CreditCard className="h-4 w-4" />
+												View Payment Sheet
+											</a>
+										</div>
+									)}
 								</div>
 
 								{project.image && (
@@ -281,6 +295,7 @@ function ProjectShow() {
 								</motion.section>
 							)}
 
+							
 							{/* Project Requirements Section */}
 							{project.project_notes && project.project_notes.length > 0 && (
 								<motion.section

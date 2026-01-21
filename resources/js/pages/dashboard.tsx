@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { 
     Briefcase, 
     Activity,
-    FileText
+    FileText,
+    CreditCard
 } from 'lucide-react';
 
 // Simple chart components
@@ -17,24 +18,27 @@ interface SimpleStatsCardProps {
     buttonText?: string;
     hasNotification?: boolean;
     fullWidth?: boolean;
+    isGreen?: boolean;
 }
 
-const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText, hasNotification, fullWidth }: SimpleStatsCardProps) => (
+const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonText, hasNotification, fullWidth, isGreen }: SimpleStatsCardProps) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className={`bg-white rounded-lg border p-4 md:p-6 relative ${
-            hasNotification ? 'border-[#f2ae1d]' : 'border-gray-200'
+            hasNotification ? (isGreen ? 'border-green-500' : 'border-[#f2ae1d]') : 'border-gray-200'
         } ${fullWidth ? 'md:col-span-1 col-span-2' : ''}`}
     >
         {hasNotification && (
             <div className="absolute top-4 right-4">
-                <div className="w-3 h-3 bg-[#f2ae1d] rounded-full animate-pulse"></div>
+                <div className={`w-3 h-3 rounded-full animate-pulse ${
+                    isGreen ? 'bg-green-500' : 'bg-[#f2ae1d]'
+                }`}></div>
             </div>
         )}
         <div className="flex items-center mb-4">
             <div className={`p-2 rounded-lg ${
-                hasNotification ? 'bg-[#f2ae1d]/10' : 'bg-gray-100'
+                hasNotification ? (isGreen ? 'bg-green-500/10' : 'bg-[#f2ae1d]/10') : 'bg-gray-100'
             }`}>
                 {icon}
             </div>
@@ -46,7 +50,7 @@ const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonTex
                 href={buttonHref}
                 className={`inline-flex items-center rounded-md px-3 py-2 text-xs md:text-sm font-medium shadow-sm transition-colors w-full justify-center ${
                     hasNotification 
-                        ? 'bg-[#f2ae1d] text-white hover:bg-[#e09e0d]' 
+                        ? (isGreen ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-[#f2ae1d] text-white hover:bg-[#e09e0d]') 
                         : 'bg-gray-900 text-white hover:bg-black'
                 }`}
             >
@@ -228,7 +232,7 @@ export default function Dashboard() {
                 </h1>
 
                 {/* Simple Stats Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
                     <SimpleStatsCard
                         title="Total Projects"
                         value={totalProjects}
@@ -250,7 +254,16 @@ export default function Dashboard() {
                         buttonHref="/dashboard/requirements"
                         buttonText="View Requirements"
                         hasNotification={finalRequirements > 0}
-                        fullWidth={true}
+                    />
+                    <SimpleStatsCard
+                        title="Payments"
+                        value="Center"
+                        icon={<CreditCard className="h-6 w-6 text-gray-600" />}
+                        showButton={true}
+                        buttonHref="/dashboard/payments"
+                        buttonText="View Payments"
+                        hasNotification={true}
+                        isGreen={true}
                     />
                 </div>
 

@@ -16,6 +16,7 @@ import {
     Maximize2,
     Minimize2,
     Paperclip,
+    DollarSign,
 } from 'lucide-react';
 
 interface ClientLayoutProps {
@@ -79,9 +80,10 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     const navItems: NavItem[] = [
         { name: 'Dashboard', href: '/dashboard', icon: <Home size={18} /> },
         { name: 'Projects', href: '/dashboard/projects', icon: <Briefcase size={18} /> },
-        { name: 'Contact', href: '/dashboard/contact', icon: <Phone size={18} /> },
+        { name: 'Requirements', href: '/dashboard/requirements', icon: <Paperclip size={18} /> },
+        { name: 'Payments', href: '/dashboard/payments', icon: <DollarSign size={18} /> },
         { name: 'Profile', href: '/dashboard/profile', icon: <User size={18} /> },
-        { name: 'Requirements', href: '/dashboard/requirements', icon: <Paperclip size={18} /> }
+        { name: 'Contact', href: '/dashboard/contact', icon: <Phone size={18} /> }
     ];
 
     const isActive = (href: string) => {

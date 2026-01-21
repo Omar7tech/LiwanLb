@@ -27,6 +27,7 @@ class ProjectResource extends JsonResource
             'status' => $this->status,
             'location' => $this->location,
             'description' => $this->description,
+            'payment_link' => $this->payment_link,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'project_notes' => $this->project_notes,
 

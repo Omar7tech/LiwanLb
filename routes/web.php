@@ -7,6 +7,7 @@ use App\Http\Controllers\CostStudyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResidencyController;
@@ -51,6 +52,7 @@ Route::middleware([CheckSiteActive::class])->group(function () {
             Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
             Route::get('/requirements', [ProjectController::class, 'notesIndex'])->name('notes.index');
             Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+            Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
 
             Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
             Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('throttle:10,1');

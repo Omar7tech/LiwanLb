@@ -29,6 +29,13 @@ class ProjectInfolist
                             ->label('Description')
                             ->placeholder('-')
                             ->columnSpanFull(),
+
+                        TextEntry::make('payment_link')
+                            ->label('Payment Link')
+                            ->url(fn ($record) => $record->payment_link)
+                            ->openUrlInNewTab()
+                            ->placeholder('No payment link')
+                            ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
 

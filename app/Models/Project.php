@@ -24,6 +24,7 @@ class Project extends Model implements HasMedia
         'location',
         'client_id',
         'description',
+        'payment_link',
         'project_notes'
     ];
 

@@ -2,7 +2,7 @@ import ClientLayout from '@/layouts/ClientLayout';
 import { Projects } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { FileText } from 'lucide-react';
+import { FileText, CreditCard } from 'lucide-react';
 
 function ProjectImage({ src, alt }: { src: string; alt: string }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -80,6 +80,14 @@ function ProjectsIndex() {
                                             <FileText className="h-3 w-3 text-[#f2ae1d]" />
                                             <span className="text-xs font-medium text-[#f2ae1d]">
                                                 {project.project_notes.length}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {project.payment_link && (
+                                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 border border-green-200">
+                                            <CreditCard className="h-3 w-3 text-green-600" />
+                                            <span className="text-xs font-medium text-green-700">
+                                                Payment
                                             </span>
                                         </div>
                                     )}

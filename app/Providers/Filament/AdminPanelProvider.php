@@ -12,6 +12,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\PanelProvider;
+use Filament\Support\Enums\Width;
 use Filament\Widgets\AccountWidget;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -43,6 +44,9 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3rem')
             ->profile()
+            ->errorNotifications(false)
+            
+            ->maxContentWidth(Width::Full)
             ->font('Cairo', provider: GoogleFontProvider::class)
             ->sidebarCollapsibleOnDesktop()
             ->spa(hasPrefetching: true)

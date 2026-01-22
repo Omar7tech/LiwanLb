@@ -6,6 +6,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use App\Filament\Actions\ExportCostStudyCsvAction;
+use App\Filament\Actions\ExportCostStudyPdfAction;
 use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -46,6 +48,8 @@ class CostStudiesTable
                 DeleteAction::make()
             ])
             ->toolbarActions([
+                ExportCostStudyCsvAction::make(),
+                ExportCostStudyPdfAction::make(),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

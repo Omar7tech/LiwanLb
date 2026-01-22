@@ -20,12 +20,6 @@ use App\Http\Middleware\CheckSiteActive;
 use App\Settings\GeneralSettings;
 use Inertia\Middleware\EncryptHistory;
 
-Route::get('/maintenance', function (GeneralSettings $settings) {
-    if ($settings->site_active) {
-        return redirect()->route('home');
-    }
-    return view('maintenance');
-})->name('maintenance');
 
 Route::middleware([CheckSiteActive::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');

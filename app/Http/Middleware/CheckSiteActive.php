@@ -6,6 +6,7 @@ use App\Settings\GeneralSettings;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class CheckSiteActive
 {
@@ -25,11 +26,7 @@ class CheckSiteActive
             return $next($request);
         }
 
-        // Allow access to maintenance page
-        if ($request->routeIs('maintenance')) {
-            return $next($request);
-        }
-
-        return redirect()->route('maintenance');
+        // Throw service unavailable exception which will be handled by the exception handler
+        throw new ServiceUnavailableHttpException('We are currently under maintenance. Please check back soon.');
     }
 }

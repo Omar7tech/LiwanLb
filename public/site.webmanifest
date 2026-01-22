@@ -1,0 +1,37 @@
+{
+    "name": "Liwan Architecture",
+    "short_name": "Liwan",
+    "description": "Innovative architecture platform designed for modern building design and construction management",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FAFAFA",
+    "theme_color": "#f2ae1d",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "categories": ["business", "productivity", "design"],
+    "lang": "en",
+    "dir": "ltr",
+    "scope": "/",
+    "prefer_related_applications": false
+}

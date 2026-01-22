@@ -1,2 +1,42 @@
 User-agent: *
-Disallow:
+Allow: /
+Crawl-delay: 1
+
+# Allow major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block unwanted bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Disallow admin and private areas
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /admin/
+Disallow: /_ignition/
+
+# Sitemap location
+Sitemap: https://liwanlb.com/sitemap.xml
+
+# SEO directives for shared hosting
+# Update frequency: Daily for blog, Weekly for static content
+# Priority: High for main pages, Medium for content pages

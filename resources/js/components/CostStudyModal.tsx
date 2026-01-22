@@ -152,20 +152,19 @@ const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose }) => {
                   type="tel"
                   value={data.mobile_number}
                   onChange={(e) => {
-                    setData('mobile_number', e.target.value);
+                    // Only allow numbers, backspace, delete, arrow keys, etc.
+                    const value = e.target.value.replace(/[^0-9]/g, '');
+                    setData('mobile_number', value);
                     setTouched({ ...touched, mobile_number: true });
                     
                     // Validate immediately and show errors
-                    const value = e.target.value.trim();
-                    if (value && (value.length < 8 || value.length > 20 || !/^[0-9]+$/.test(value))) {
+                    if (value && (value.length < 8 || value.length > 20)) {
                       if (value.length < 8) {
                         setErrors({ ...errors, mobile_number: 'Mobile number must be at least 8 digits' });
                       } else if (value.length > 20) {
                         setErrors({ ...errors, mobile_number: 'Mobile number must be 20 digits maximum' });
-                      } else if (!/^[0-9]+$/.test(value)) {
-                        setErrors({ ...errors, mobile_number: 'Mobile number must contain only numbers' });
                       }
-                    } else if (value.length >= 8 && value.length <= 20 && /^[0-9]+$/.test(value)) {
+                    } else if (value.length >= 8 && value.length <= 20) {
                       setErrors({ ...errors, mobile_number: undefined });
                     }
                   }}
@@ -174,6 +173,8 @@ const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose }) => {
                     errors.mobile_number ? 'border-red-500' : touched.mobile_number && data.mobile_number.trim() ? 'border-green-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter your mobile number"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
                 {errors.mobile_number && touched.mobile_number && (
                   <p className="mt-1 text-sm text-red-600 text-left">{errors.mobile_number}</p>

@@ -17,6 +17,8 @@ import {
     Minimize2,
     Paperclip,
     DollarSign,
+    Wallet,
+    Clock,
 } from 'lucide-react';
 
 interface ClientLayoutProps {
@@ -27,6 +29,8 @@ interface NavItem {
     name: string;
     href: string;
     icon: React.ReactNode;
+    isDisabled?: boolean;
+    badge?: string;
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
@@ -83,7 +87,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         { name: 'Requirements', href: '/dashboard/requirements', icon: <Paperclip size={18} /> },
         { name: 'Payments', href: '/dashboard/payments', icon: <DollarSign size={18} /> },
         { name: 'Profile', href: '/dashboard/profile', icon: <User size={18} /> },
-        { name: 'Contact', href: '/dashboard/contact', icon: <Phone size={18} /> }
+        { name: 'Contact', href: '/dashboard/contact', icon: <Phone size={18} /> },
+        { name: 'Wallet', href: '/dashboard/wallet', icon: <Wallet size={18} />, isDisabled: true, badge: 'Coming Soon' },
     ];
 
     const isActive = (href: string) => {
@@ -120,15 +125,23 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                                     className={`w-full flex items-center rounded-lg text-sm font-medium transition-colors duration-200 ${isDesktopSidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-4 py-3'
                                         } ${isActive(item.href)
                                             ? 'bg-gray-900 text-white'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                            : item.isDisabled
+                                                ? 'text-gray-400 cursor-not-allowed'
+                                                : 'text-gray-600 hover:bg-gray-100'
                                         }`}
                                     title={isDesktopSidebarCollapsed ? item.name : ''}
                                 >
                                     {item.icon}
                                     {!isDesktopSidebarCollapsed && (
                                         <>
-                                            <span>{item.name}</span>
-                                            {isActive(item.href) && <ChevronRight size={16} className="ml-auto" />}
+                                            <span className="flex-1">{item.name}</span>
+                                            {item.badge && (
+                                                <span className="ml-auto flex items-center gap-1">
+                                                    <Clock size={12} className="text-gray-400" />
+                                                    <span className="text-xs text-gray-400 font-medium">{item.badge}</span>
+                                                </span>
+                                            )}
+                                            {!item.badge && isActive(item.href) && <ChevronRight size={16} className="ml-auto" />}
                                         </>
                                     )}
                                 </Link>
@@ -182,13 +195,21 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                                     href={item.href}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${isActive(item.href)
                                         ? 'bg-gray-900 text-white'
-                                        : 'text-gray-600 hover:bg-gray-100'
+                                        : item.isDisabled
+                                            ? 'text-gray-400 cursor-not-allowed'
+                                            : 'text-gray-600 hover:bg-gray-100'
                                         }`}
                                     onClick={() => setIsSidebarOpen(false)}
                                 >
                                     {item.icon}
-                                    <span>{item.name}</span>
-                                    {isActive(item.href) && <ChevronRight size={16} className="ml-auto" />}
+                                    <span className="flex-1">{item.name}</span>
+                                    {item.badge && (
+                                        <span className="flex items-center gap-1">
+                                            <Clock size={12} className="text-gray-400" />
+                                            <span className="text-xs text-gray-400 font-medium">{item.badge}</span>
+                                        </span>
+                                    )}
+                                    {!item.badge && isActive(item.href) && <ChevronRight size={16} className="ml-auto" />}
                                 </Link>
                             ))}
                         </nav>

@@ -96,11 +96,11 @@ export default function ErrorPage({ status }: ErrorPageProps) {
         },
         503: {
             title: 'Service Unavailable',
-            description: 'We\'re currently performing exciting updates to enhance your experience. Our team is working hard to bring you new features and improvements. We\'ll be back shortly!',
-            color: 'orange',
-            bgColor: 'bg-orange-500',
-            hoverBgColor: 'hover:bg-orange-600',
-            blobColors: ['orange-200', 'orange-300', 'orange-100']
+            description: 'We\'re currently performing updates to improve your experience. We\'ll be back shortly.',
+            color: 'slate',
+            bgColor: 'bg-slate-500',
+            hoverBgColor: 'hover:bg-slate-600',
+            blobColors: ['slate-100', 'slate-200', 'slate-50']
         },
         504: {
             title: 'Gateway Timeout',
@@ -130,23 +130,27 @@ export default function ErrorPage({ status }: ErrorPageProps) {
                 <div className={`absolute -bottom-32 left-20 w-40 h-40 sm:w-64 sm:h-64 bg-${currentError.blobColors[2]} rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000`}></div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-2xl shadow-2xl text-center max-w-lg w-full z-10 border border-white/20">
-                <div className="mb-6 sm:mb-8 flex justify-center">
-                    <img src="/images/logo.png" alt="Logo" className="h-16 sm:h-20 md:h-24 w-auto object-contain drop-shadow-md" />
+            <div className="bg-white p-8 sm:p-12 md:p-16 text-center max-w-md w-full z-10">
+                <div className="mb-8">
+                    <img src="/images/logo.png" alt="Logo" className="h-12 sm:h-14 w-auto mx-auto mb-8 opacity-80" />
                 </div>
                 
-                <div className="mb-6">
-                    <h1 className={`text-6xl sm:text-7xl md:text-8xl font-bold text-${currentError.color}-500 mb-2`}>{status}</h1>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 tracking-tight">{currentError.title}</h2>
+                <div className="space-y-6">
+                    <div className={`text-5xl sm:text-6xl font-light text-${currentError.color}-500`}>{status}</div>
+                    <h2 className="text-xl sm:text-2xl font-medium text-gray-900">{currentError.title}</h2>
+                    <p className="text-gray-600 text-sm leading-relaxed max-w-sm mx-auto">
+                        {currentError.description}
+                    </p>
                 </div>
-                
-                <p className="text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed">
-                    {currentError.description}
-                </p>
 
-                <a href="/" className={`inline-block ${currentError.bgColor} ${currentError.hoverBgColor} text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl`}>
-                    Go Back Home
-                </a>
+                <div className="mt-10">
+                    <a href="/" className={`inline-flex items-center text-${currentError.color}-600 hover:text-${currentError.color}-700 font-medium text-sm transition-colors duration-150`}>
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to home
+                    </a>
+                </div>
             </div>
 
             <style>{`

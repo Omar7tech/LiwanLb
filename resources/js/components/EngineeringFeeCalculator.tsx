@@ -32,21 +32,19 @@ const EngineeringFeeCalculator: React.FC = () => {
   const [showSavedResults, setShowSavedResults] = useState<boolean>(false);
   const [modal, setModal] = useState<ModalState | null>(null);
   const [showCostStudyModal, setShowCostStudyModal] = useState<boolean>(false);
-
+  
   // Check if user is authenticated
-  const isAuthenticated = !!(props as any).auth?.user;
+  const isAuthenticated = !!(props as { auth?: { user?: unknown } }).auth?.user;
 
-  // Check if user has already submitted cost study inquiry
+  // Check if user has already submitted cost study inquiry or skipped it
   const hasSubmittedCostStudy = useMemo(() => {
     if (isAuthenticated) return true; // Authenticated users never see the modal
-    return localStorage.getItem('cost_study_submitted') === 'true';
+    return localStorage.getItem('cost_study_submitted') === 'true' || localStorage.getItem('cost_study_skipped') === 'true';
   }, [isAuthenticated]);
 
   // Show modal on page load if user hasn't submitted cost study
-  useEffect(() => {
-    if (!hasSubmittedCostStudy) {
-      setShowCostStudyModal(true);
-    }
+  React.useEffect(() => {
+    setShowCostStudyModal(!hasSubmittedCostStudy);
   }, [hasSubmittedCostStudy]);
 
   // Use custom hooks
@@ -445,7 +443,6 @@ const EngineeringFeeCalculator: React.FC = () => {
         <CostStudyModal 
           isOpen={showCostStudyModal} 
           onClose={() => setShowCostStudyModal(false)} 
-          language={language}
         />
       ) : (
         // Show Cost Study Calculator

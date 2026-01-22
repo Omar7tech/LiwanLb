@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Form, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 
 interface CostStudyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  language: 'ar' | 'en';
 }
 
-const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose, language }) => {
+const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose }) => {
   const [errors, setErrors] = useState<{ full_name?: string; mobile_number?: string }>({});
   const [touched, setTouched] = useState<{ full_name?: boolean; mobile_number?: boolean }>({});
   
@@ -16,6 +15,13 @@ const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose, langua
     full_name: '',
     mobile_number: '',
   });
+
+  const handleSkip = () => {
+    // Set skip preference permanently
+    localStorage.setItem('cost_study_skipped', 'true');
+    localStorage.setItem('cost_study_skip_timestamp', Date.now().toString());
+    onClose();
+  };
 
   // Frontend validation
   const validateForm = (): boolean => {
@@ -78,7 +84,7 @@ const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose, langua
   if (!isOpen) return null;
 
   return (
-    // Clean modal without card appearance
+    // Clean modal without card appearance - conditional rendering in page
     <div className="flex justify-center p-4 text-left">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -175,14 +181,21 @@ const CostStudyModal: React.FC<CostStudyModalProps> = ({ isOpen, onClose, langua
               </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="mt-6">
+            {/* Action Buttons */}
+            <div className="mt-6 flex gap-3">
               <button
                 type="submit"
                 disabled={processing}
-                className="w-full bg-[#3a3b3a] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2a2b2a] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3a3b3a] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-[#3a3b3a] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2a2b2a] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3a3b3a] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {processing ? 'Calculating...' : 'Calculate Costs'}
+              </button>
+              <button
+                type="button"
+                onClick={handleSkip}
+                className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3a3b3a] focus:ring-offset-2 rounded-lg hover:bg-gray-50"
+              >
+                Skip
               </button>
             </div>
           </form>

@@ -41,6 +41,10 @@ class DashboardController extends Controller
                 ->pluck('count', 'month');
         }
 
+        // Get user's review status
+        $clientReview = \App\Models\ClientReview::where('client_id', $user->id)->first();
+        $hasReview = !is_null($clientReview);
+
         return Inertia::render('dashboard', [
             'projects' => \App\Http\Resources\ProjectListResource::collection($projects),
             'projectStats' => [
@@ -54,6 +58,7 @@ class DashboardController extends Controller
                 ],
                 'updatesByMonth' => $updatesByMonth->toArray(),
             ],
+            'hasReview' => $hasReview,
         ]);
     }
 

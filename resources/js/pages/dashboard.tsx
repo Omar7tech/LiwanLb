@@ -5,7 +5,8 @@ import {
     Briefcase, 
     Activity,
     FileText,
-    CreditCard
+    CreditCard,
+    Star
 } from 'lucide-react';
 
 // Simple chart components
@@ -181,11 +182,12 @@ interface DashboardProps {
             project_notes?: Array<{ content: string }> | null;
         }>;
     };
+    hasReview: boolean;
 }
 
 export default function Dashboard() {
     const pageProps = usePage().props;
-    const { auth, projectStats, projects } = pageProps as unknown as DashboardProps;
+    const { auth, projectStats, projects, hasReview } = pageProps as unknown as DashboardProps;
 
     // Get real data from API
     const totalProjects = projectStats?.total ?? 0;
@@ -230,6 +232,37 @@ export default function Dashboard() {
                 <h1 className="text-3xl font-normal tracking-tight text-[#3a3b3a] mb-6">
                     Welcome back, {auth.user.name}
                 </h1>
+
+                {/* Rate Us Banner - Only show if user doesn't have review */}
+                {!hasReview && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="bg-linear-to-r from-[#f2ae1d]/10 to-[#f2ae1d]/5 border border-[#f2ae1d]/20 rounded-lg p-3 mb-2"
+                    >
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-[#f2ae1d]/20 rounded-full flex items-center justify-center shrink-0">
+                                    <Star size={16} className="text-[#f2ae1d]" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="font-semibold text-gray-900 text-sm truncate">Share Your Feedback</h3>
+                                    <p className="text-xs text-gray-600 truncate">Help us improve your experience</p>
+                                </div>
+                            </div>
+                            <div className="shrink-0">
+                                <Link
+                                    href="/dashboard/client-reviews"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#f2ae1d] text-white text-xs font-medium rounded-lg hover:bg-[#d4941a] transition-colors"
+                                >
+                                    <Star size={14} />
+                                    Rate Us
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
 
                 {/* Simple Stats Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">

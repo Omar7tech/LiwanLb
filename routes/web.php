@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ClientReviewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CostStudyController;
 use App\Http\Controllers\DashboardController;
@@ -48,6 +49,9 @@ Route::middleware([CheckSiteActive::class])->group(function () {
             Route::get('/requirements', [ProjectController::class, 'notesIndex'])->name('notes.index');
             Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
             Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+            Route::get('/client-reviews', [ClientReviewController::class, 'index'])->name('client-reviews');
+            Route::post('/client-reviews', [ClientReviewController::class, 'store'])->name('client-reviews.store');
+            Route::delete('/client-reviews', [ClientReviewController::class, 'destroy'])->name('client-reviews.destroy');
 
             Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
             Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('throttle:10,1');

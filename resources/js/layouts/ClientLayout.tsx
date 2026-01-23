@@ -19,6 +19,7 @@ import {
     DollarSign,
     Wallet,
     Clock,
+    Star,
 } from 'lucide-react';
 
 interface ClientLayoutProps {
@@ -86,6 +87,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         { name: 'Projects', href: '/dashboard/projects', icon: <Briefcase size={18} /> },
         { name: 'Requirements', href: '/dashboard/requirements', icon: <Paperclip size={18} /> },
         { name: 'Payments', href: '/dashboard/payments', icon: <DollarSign size={18} /> },
+        { name: 'Rate Us', href: '/dashboard/client-reviews', icon: <Star size={18} /> },
         { name: 'Profile', href: '/dashboard/profile', icon: <User size={18} /> },
         { name: 'Contact', href: '/dashboard/contact', icon: <Phone size={18} /> },
         { name: 'Wallet', href: '/dashboard/wallet', icon: <Wallet size={18} />, isDisabled: true, badge: 'Coming Soon' },

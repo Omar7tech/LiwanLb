@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Project;
@@ -69,5 +70,10 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsToMany(Project::class, 'project_foreman', 'foreman_id', 'project_id')
             ->withTimestamps();
+    }
+
+    public function review(): HasOne
+    {
+        return $this->hasOne(ClientReview::class, 'client_id');
     }
 }

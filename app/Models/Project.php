@@ -25,12 +25,14 @@ class Project extends Model implements HasMedia
         'client_id',
         'description',
         'payment_link',
-        'project_notes'
+        'project_notes',
+        'timeline'
     ];
 
     protected $casts = [
         'start_date' => 'date',
-        'project_notes' => 'array'
+        'project_notes' => 'array',
+        'timeline' => 'array'
     ];
 
     public function getSlugOptions(): SlugOptions

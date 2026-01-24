@@ -30,6 +30,7 @@ class ProjectResource extends JsonResource
             'payment_link' => $this->payment_link,
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'project_notes' => $this->project_notes,
+            'timeline' => $this->timeline,
 
             
             'project_updates' => [

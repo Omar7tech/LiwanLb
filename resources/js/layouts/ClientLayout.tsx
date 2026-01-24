@@ -37,11 +37,25 @@ interface NavItem {
 export default function ClientLayout({ children }: ClientLayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(false);
-    const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(false);
+    const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(() => {
+        // Load saved state from localStorage or default to false
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('liwan-client-sidebar-collapsed');
+            return saved ? JSON.parse(saved) : false;
+        }
+        return false;
+    });
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [logoutModal, setLogoutModal] = useState({ isOpen: false });
     const { url, props } = usePage<SharedData>();
     const userName = props.auth?.user?.name ?? '';
+
+    // Save sidebar state to localStorage whenever it changes
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('liwan-client-sidebar-collapsed', JSON.stringify(isDesktopSidebarCollapsed));
+        }
+    }, [isDesktopSidebarCollapsed]);
 
     useEffect(() => {
         const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
@@ -248,7 +262,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Header */}
-                <header className="border-b border-gray-200 bg-white px-6 py-4 flex items-center justify-between">
+                <header className="border-b border-gray-200 bg-white px-6 py-2 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <motion.button
                             onClick={() => setIsSidebarOpen(!isSidebarOpen)}

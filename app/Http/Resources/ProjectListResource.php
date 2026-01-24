@@ -24,6 +24,7 @@ class ProjectListResource extends JsonResource
             'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'payment_link' => $this->payment_link,
             'project_notes' => $this->project_notes,
+            'timeline' => $this->timeline,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             

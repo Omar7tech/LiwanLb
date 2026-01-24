@@ -177,6 +177,21 @@ export interface SharedWorks {
     data: SharedWork[];
 }
 
+export interface TimelineItem {
+    title: string;
+    date: string | null;
+    is_active: boolean;
+    children: TimelineChild[];
+}
+
+export interface TimelineChild {
+    title: string;
+    date: string | null;
+    is_active: boolean;
+}
+
+export type TimelineData = TimelineItem[];
+
 export interface Work {
     id: number;
     name: string;
@@ -254,6 +269,7 @@ export interface Project {
     created_at?: string;
     updated_at?: string;
     project_notes?: ProjectNote[] | null;
+    timeline?: TimelineData | null;
 
     // From ProjectResource relations (all optional on the TS side)
     client?: ProjectClient | null;

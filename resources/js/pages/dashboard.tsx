@@ -1,3 +1,4 @@
+import React from 'react';
 import ClientLayout from '@/layouts/ClientLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
@@ -8,6 +9,7 @@ import {
     CreditCard,
     Star
 } from 'lucide-react';
+import Timeline from '@/components/Timeline';
 
 // Simple chart components
 interface SimpleStatsCardProps {
@@ -26,7 +28,7 @@ const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonTex
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`bg-white rounded-lg border p-4 md:p-6 relative ${
+        className={`bg-white rounded-lg border p-3 md:p-4 relative ${
             hasNotification ? (isGreen ? 'border-green-500' : 'border-[#f2ae1d]') : 'border-gray-200'
         } ${fullWidth ? 'md:col-span-1 col-span-2' : ''}`}
     >
@@ -37,19 +39,19 @@ const SimpleStatsCard = ({ title, value, icon, showButton, buttonHref, buttonTex
                 }`}></div>
             </div>
         )}
-        <div className="flex items-center mb-4">
-            <div className={`p-2 rounded-lg ${
+        <div className="flex items-center mb-3">
+            <div className={`p-1.5 rounded-lg ${
                 hasNotification ? (isGreen ? 'bg-green-500/10' : 'bg-[#f2ae1d]/10') : 'bg-gray-100'
             }`}>
                 {icon}
             </div>
         </div>
-        <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
-        <p className="text-sm text-gray-600 mb-4">{title}</p>
+        <h3 className="text-xl font-bold text-gray-900">{value}</h3>
+        <p className="text-xs text-gray-600 mb-3">{title}</p>
         {showButton && (
             <Link
                 href={buttonHref}
-                className={`inline-flex items-center rounded-md px-3 py-2 text-xs md:text-sm font-medium shadow-sm transition-colors w-full justify-center ${
+                className={`inline-flex items-center rounded-md px-2 py-1.5 text-xs font-medium shadow-sm transition-colors w-full justify-center ${
                     hasNotification 
                         ? (isGreen ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-[#f2ae1d] text-white hover:bg-[#e09e0d]') 
                         : 'bg-gray-900 text-white hover:bg-black'
@@ -79,19 +81,19 @@ const CombinedBarChart = ({ projectData, updateData }: CombinedBarChartProps) =>
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg border border-gray-200 p-6"
+            className="bg-white rounded-lg border border-gray-200 p-4"
         >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Projects & Updates Overview</h3>
+            <h3 className="text-base font-semibold text-gray-900 mb-3">Projects & Updates Overview</h3>
             
             {/* Projects Section */}
             {projectData.length > 0 && (
-                <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">Projects by Status</h4>
+                <div className="mb-4">
+                    <h4 className="text-xs font-medium text-gray-700 mb-2">Projects by Status</h4>
                     <div className="space-y-2">
                         {projectData.map((item: ChartDataPoint, index: number) => (
                             <div key={`project-${index}`} className="flex items-center gap-3">
-                                <div className="w-16 text-sm text-gray-600">{item.label}</div>
-                                <div className="flex-1 bg-gray-100 rounded h-6 relative overflow-hidden">
+                                <div className="w-12 text-xs text-gray-600">{item.label}</div>
+                                <div className="flex-1 bg-gray-100 rounded h-4 relative overflow-hidden">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${(item.value / projectMax) * 100}%` }}
@@ -111,12 +113,12 @@ const CombinedBarChart = ({ projectData, updateData }: CombinedBarChartProps) =>
             {/* Updates Section */}
             {updateData.length > 0 && (
                 <div>
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">Updates by Month</h4>
+                    <h4 className="text-xs font-medium text-gray-700 mb-2">Updates by Month</h4>
                     <div className="space-y-2">
                         {updateData.map((item: ChartDataPoint, index: number) => (
                             <div key={`update-${index}`} className="flex items-center gap-3">
-                                <div className="w-16 text-sm text-gray-600">{item.label}</div>
-                                <div className="flex-1 bg-gray-100 rounded h-6 relative overflow-hidden">
+                                <div className="w-12 text-xs text-gray-600">{item.label}</div>
+                                <div className="flex-1 bg-gray-100 rounded h-4 relative overflow-hidden">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${(item.value / updateMax) * 100}%` }}
@@ -134,7 +136,7 @@ const CombinedBarChart = ({ projectData, updateData }: CombinedBarChartProps) =>
             )}
             
             {/* Legend */}
-            <div className="mt-4 flex gap-4 text-sm">
+            <div className="mt-3 flex gap-3 text-xs">
                 {projectData.length > 0 && (
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-blue-500 rounded"></div>
@@ -179,6 +181,10 @@ interface DashboardProps {
     };
     projects?: {
         data: Array<{
+            id: number;
+            name: string;
+            slug: string;
+            timeline?: import('@/types').TimelineData | null;
             project_notes?: Array<{ content: string }> | null;
         }>;
     };
@@ -227,9 +233,9 @@ export default function Dashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className='p-3 md:p-8 mt-5 md:mt-0'
+                className='p-2 md:p-4 mt-3 md:mt-0'
             >
-                <h1 className="text-3xl font-normal tracking-tight text-[#3a3b3a] mb-6">
+                <h1 className="text-2xl font-normal tracking-tight text-[#3a3b3a] mb-4">
                     Welcome back, {auth.user.name}
                 </h1>
 
@@ -239,24 +245,24 @@ export default function Dashboard() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="bg-linear-to-r from-[#f2ae1d]/10 to-[#f2ae1d]/5 border border-[#f2ae1d]/20 rounded-lg p-3 mb-2"
+                        className="bg-linear-to-r from-[#f2ae1d]/10 to-[#f2ae1d]/5 border border-[#f2ae1d]/20 rounded-lg p-2 mb-2"
                     >
                         <div className="flex items-center justify-between gap-3">
                             <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-[#f2ae1d]/20 rounded-full flex items-center justify-center shrink-0">
-                                    <Star size={16} className="text-[#f2ae1d]" />
+                                <div className="w-6 h-6 bg-[#f2ae1d]/20 rounded-full flex items-center justify-center shrink-0">
+                                    <Star size={12} className="text-[#f2ae1d]" />
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                    <h3 className="font-semibold text-gray-900 text-sm truncate">Share Your Feedback</h3>
+                                    <h3 className="font-semibold text-gray-900 text-xs truncate">Share Your Feedback</h3>
                                     <p className="text-xs text-gray-600 truncate">Help us improve your experience</p>
                                 </div>
                             </div>
                             <div className="shrink-0">
                                 <Link
                                     href="/dashboard/client-reviews"
-                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#f2ae1d] text-white text-xs font-medium rounded-lg hover:bg-[#d4941a] transition-colors"
+                                    className="inline-flex items-center gap-1 px-2 py-1 bg-[#f2ae1d] text-white text-xs font-medium rounded-lg hover:bg-[#d4941a] transition-colors"
                                 >
-                                    <Star size={14} />
+                                    <Star size={12} />
                                     Rate Us
                                 </Link>
                             </div>
@@ -265,7 +271,7 @@ export default function Dashboard() {
                 )}
 
                 {/* Simple Stats Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-2">
                     <SimpleStatsCard
                         title="Total Projects"
                         value={totalProjects}
@@ -300,6 +306,33 @@ export default function Dashboard() {
                     />
                 </div>
 
+                {/* Project Timelines */}
+                {projects?.data?.filter(project => project.timeline && project.timeline.length > 0).map((project, index) => (
+                    <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                        className="bg-white rounded-lg border border-gray-200 p-4 mb-2"
+                    >
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                                <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <Briefcase className="h-2.5 w-2.5 text-white" />
+                                </div>
+                                <h3 className="text-sm font-semibold text-gray-900">{project.name}</h3>
+                            </div>
+                            <Link
+                                href={`/dashboard/project/${project.slug}`}
+                                className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                            >
+                                View Details
+                            </Link>
+                        </div>
+                        <Timeline items={project.timeline || []} />
+                    </motion.div>
+                ))}
+
                 {/* Combined Chart */}
                 {hasData && (
                     <CombinedBarChart
@@ -313,13 +346,13 @@ export default function Dashboard() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-lg border border-gray-200 p-8 text-center"
+                        className="bg-white rounded-lg border border-gray-200 p-4 text-center"
                     >
-                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Briefcase className="h-8 w-8 text-gray-400" />
+                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Briefcase className="h-6 w-6 text-gray-400" />
                         </div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No Projects Yet</h3>
-                        <p className="text-gray-600">Your projects and statistics will appear here once you have projects.</p>
+                        <h3 className="text-base font-medium text-gray-900 mb-2">No Projects Yet</h3>
+                        <p className="text-sm text-gray-600">Your projects and statistics will appear here once you have projects.</p>
                     </motion.div>
                 )}
 
@@ -329,11 +362,11 @@ export default function Dashboard() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="text-center mt-8"
+                        className="text-center mt-4"
                     >
                         <Link
                             href="/dashboard/projects"
-                            className="inline-flex items-center rounded-md bg-gray-900 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-black transition-colors"
+                            className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-black transition-colors"
                         >
                             View All Projects
                         </Link>

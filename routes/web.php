@@ -52,7 +52,6 @@ Route::middleware([CheckSiteActive::class])->group(function () {
             Route::get('/client-reviews', [ClientReviewController::class, 'index'])->name('client-reviews');
             Route::post('/client-reviews', [ClientReviewController::class, 'store'])->name('client-reviews.store');
             Route::delete('/client-reviews', [ClientReviewController::class, 'destroy'])->name('client-reviews.destroy');
-
             Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
             Route::post('/project-updates/{projectUpdate}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('throttle:10,1');
             Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update')->middleware('throttle:20,1');

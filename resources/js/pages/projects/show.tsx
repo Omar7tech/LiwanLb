@@ -4,6 +4,7 @@ import { Head, usePage, router, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { ImageWithLoader } from '@/components/ui/ImageWithLoader';
 import { ImageModal } from '@/components/ui/ImageModal';
+import Timeline from '@/components/Timeline';
 import { useState } from 'react';
 import { ChevronDown, MessageCircle, Send, Trash2, Calendar, MapPin, FileText, CreditCard } from 'lucide-react';
 
@@ -19,6 +20,36 @@ function ProjectShow() {
 	const [editContent, setEditContent] = useState<string>('');
 	const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; commentId: number | null }>({ isOpen: false, commentId: null });
 	const [project, setProject] = useState(initialProject);
+
+	// Smart percentage calculator that considers all nested items
+	const calculateSmartPercentage = (timelineItems: import('@/types').TimelineItem[]): number => {
+		if (!timelineItems || timelineItems.length === 0) return 0;
+
+		let totalItems = 0;
+		let completedItems = 0;
+
+		timelineItems.forEach(item => {
+			// Count parent item
+			totalItems++;
+			if (item.is_active) {
+				completedItems++;
+			}
+
+			// Count children items
+			if (item.children && item.children.length > 0) {
+				item.children.forEach(child => {
+					totalItems++;
+					if (child.is_active) {
+						completedItems++;
+					}
+				});
+			}
+		});
+
+		return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+	};
+
+	const timelinePercentage = calculateSmartPercentage(project.timeline || []);
 
 	const handleCommentSubmit = async (updateId: number) => {
 		const content = commentInputs[updateId]?.trim();
@@ -190,11 +221,11 @@ function ProjectShow() {
 	return (
 		<ClientLayout>
 			<Head title={project.name} />
-			
+
 			<div className="min-h-screen bg-gray-50">
 				{/* Header */}
 				<div className="bg-white border-b border-gray-200">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					<div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
@@ -214,15 +245,15 @@ function ProjectShow() {
 									<h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
 										{project.name}
 									</h1>
-									
+
 									<div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
 										<div className="flex items-center gap-2">
 											<Calendar className="h-4 w-4" />
 											<span>
-												{new Date(project.start_date).toLocaleDateString('en-US', { 
-													month: 'long', 
-													day: 'numeric', 
-													year: 'numeric' 
+												{new Date(project.start_date).toLocaleDateString('en-US', {
+													month: 'long',
+													day: 'numeric',
+													year: 'numeric'
 												})}
 											</span>
 										</div>
@@ -234,7 +265,7 @@ function ProjectShow() {
 											{project.status}
 										</div>
 									</div>
-									
+
 									{project.payment_link && (
 										<div className="mt-4">
 											<a
@@ -261,10 +292,10 @@ function ProjectShow() {
 											src={project.image}
 											alt={project.name}
 											className="w-full h-full object-cover cursor-pointer"
-											onClick={() => project.image && setModalImage({ 
-    images: [{ src: project.image, alt: project.name }], 
-    currentIndex: 0 
-})}
+											onClick={() => project.image && setModalImage({
+												images: [{ src: project.image, alt: project.name }],
+												currentIndex: 0
+											})}
 										/>
 									</motion.div>
 								)}
@@ -274,28 +305,67 @@ function ProjectShow() {
 				</div>
 
 				{/* Main Content */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+				<div className="mx-auto px-4 py-4">
+					<div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 						{/* Main Content Area */}
-						<div className="lg:col-span-2 space-y-8">
+						<div className="lg:col-span-4 space-y-2">
 							{/* Description */}
 							{project.description && (
 								<motion.section
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
-									transition={{ delay: 0.3 }}
-									className="bg-white rounded-xl border border-gray-200 p-6 lg:p-8"
+									transition={{ delay: 0.3, duration: 0.5 }}
+									className="bg-white rounded-lg border border-neutral-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
 								>
-									<h2 className="text-xl font-semibold text-gray-900 mb-4">Overview</h2>
-									<div className="prose prose-gray max-w-none">
-										<p className="text-gray-700 leading-relaxed whitespace-pre-line">
-											{project.description}
-										</p>
+									<div className="flex items-center gap-3 mb-4">
+										<div className="w-1 h-6 bg-neutral-900 rounded-full"></div>
+										<h2 className="text-base font-semibold text-neutral-900 tracking-tight">
+											Overview
+										</h2>
 									</div>
+									<p className="text-sm text-neutral-600 leading-relaxed">
+										{project.description}
+									</p>
 								</motion.section>
 							)}
 
-							
+							{/* Timeline Section */}
+							{project.timeline && project.timeline.length > 0 && (
+								<motion.section
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ delay: 0.35 }}
+									className="bg-white rounded-xl border border-gray-200 p-4"
+								>
+									<div className="flex items-center justify-between">
+										<div className="flex items-center gap-2">
+											<h2 className="text-lg font-semibold text-gray-900">Project Timeline</h2>
+											<div className="group relative">
+												<div className="w-5 h-5 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-help transition-colors">
+													<span className="text-xs text-gray-600 font-medium">i</span>
+												</div>
+												<div className="absolute left-0 top-full mt-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+													<p className="mb-2 font-semibold">How to use timeline:</p>
+													<ul className="space-y-1">
+														<li>• Drag left/right to scroll</li>
+														<li>• Click completed items for details</li>
+														<li>• Use arrow buttons to navigate</li>
+													</ul>
+													<div className="absolute -top-1 left-4 w-2 h-2 bg-gray-900 rotate-45"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="flex items-center justify-between mb-4">
+										<p className="text-sm text-gray-600">
+											{project.timeline?.filter(item => item.is_active).length || 0} of {project.timeline?.length || 0} completed
+										</p>
+									</div>
+									<Timeline items={project.timeline} />
+								</motion.section>
+							)}
+
+
 							{/* Project Requirements Section */}
 							{project.project_notes && project.project_notes.length > 0 && (
 								<motion.section
@@ -340,7 +410,7 @@ function ProjectShow() {
 														{index + 1}
 													</div>
 													<div className="flex-1 min-w-0">
-														<div 
+														<div
 															className="text-gray-700 text-xs leading-relaxed prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-3 [&_ol]:list-decimal [&_ol]:pl-3 [&_li]:mb-0.5 [&_h1]:text-xs [&_h2]:text-xs [&_h3]:text-xs [&_p]:mb-1 [&_strong]:font-medium [&_em]:italic"
 															dangerouslySetInnerHTML={{
 																__html: note.content
@@ -453,7 +523,7 @@ function ProjectShow() {
 																{update.media && update.media.length > 0 && (
 																	<div>
 																		<h4 className="text-sm font-medium text-gray-900 mb-3">Media</h4>
-																		<div className="grid grid-cols-2 gap-2">
+																		<div className="grid grid-cols-2 md:grid-cols-5 gap-2">
 																			{update.media.map((mediaItem) => (
 																				<motion.div
 																					key={mediaItem.id}
@@ -463,7 +533,7 @@ function ProjectShow() {
 																					<ImageWithLoader
 																						src={mediaItem.original_url}
 																						alt={`Update image ${mediaItem.id}`}
-																						className="w-full aspect-4/3 object-cover"
+																						className="w-full aspect-square object-cover"
 																						onClick={() => {
 																							const updateImages = update.media.map((media) => ({
 																								src: media.original_url,
@@ -637,52 +707,104 @@ function ProjectShow() {
 								transition={{ delay: 0.4 }}
 								className="hidden lg:block lg:sticky lg:top-24 lg:h-fit"
 							>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">Project Details</h3>
-								
-								<dl className="space-y-4">
-									<div>
-										<dt className="text-sm font-medium text-gray-500">Status</dt>
-										<dd className="mt-1">
-											<span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-												{project.status}
-											</span>
-										</dd>
-									</div>
-									
-									<div>
-										<dt className="text-sm font-medium text-gray-500">Location</dt>
-										<dd className="mt-1 text-sm text-gray-900">{project.location}</dd>
-									</div>
-									
-									<div>
-										<dt className="text-sm font-medium text-gray-500">Started</dt>
-										<dd className="mt-1 text-sm text-gray-900">
-											{new Date(project.start_date).toLocaleDateString('en-US', { 
-												month: 'long', 
-												day: 'numeric', 
-												year: 'numeric' 
-											})}
-										</dd>
-									</div>
-									
-									{project.project_updates && (
-										<div>
-											<dt className="text-sm font-medium text-gray-500">Updates</dt>
-											<dd className="mt-1 text-sm text-gray-900">
-												{project.project_updates.data.length} update{project.project_updates.data.length !== 1 ? 's' : ''}
+								<div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+									<h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
+										<div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+										Project Details
+									</h3>
+
+									<dl className="space-y-3">
+										<div className="flex items-center justify-between py-2 border-b border-gray-100">
+											<dt className="text-xs font-medium text-gray-500">Status</dt>
+											<dd>
+												<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+													{project.status}
+												</span>
 											</dd>
 										</div>
-									)}
-									
-									{project.project_updates && (
-										<div>
-											<dt className="text-sm font-medium text-gray-500">Comments</dt>
-											<dd className="mt-1 text-sm text-gray-900">
-												{project.project_updates.data.reduce((total, update) => total + (update.comments?.length || 0), 0)} comment{project.project_updates.data.reduce((total, update) => total + (update.comments?.length || 0), 0) !== 1 ? 's' : ''}
+
+										{project.location && (
+											<div className="flex items-center justify-between py-2 border-b border-gray-100">
+												<dt className="text-xs font-medium text-gray-500">Location</dt>
+												<dd className="text-xs text-gray-900 font-medium">{project.location}</dd>
+											</div>
+										)}
+
+										<div className="flex items-center justify-between py-2 border-b border-gray-100">
+											<dt className="text-xs font-medium text-gray-500">Started</dt>
+											<dd className="text-xs text-gray-900 font-medium">
+												{new Date(project.start_date).toLocaleDateString('en-US', {
+													month: 'short',
+													day: 'numeric',
+													year: 'numeric'
+												})}
 											</dd>
 										</div>
-									)}
-								</dl>
+
+										{project.timeline && project.timeline.length > 0 && (
+											<div className="flex items-center justify-between py-2 border-b border-gray-100">
+												<dt className="text-xs font-medium text-gray-500">Timeline</dt>
+												<dd>
+													<div className="flex items-center gap-2">
+														<span className="text-xs font-semibold text-emerald-600">{timelinePercentage}%</span>
+														<div className="w-12 bg-gray-200 rounded-full h-1.5">
+															<div
+																className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"
+																style={{ width: `${timelinePercentage}%` }}
+															/>
+														</div>
+													</div>
+												</dd>
+											</div>
+										)}
+
+										{project.project_notes && project.project_notes.length > 0 && (
+											<div className="flex items-center justify-between py-2 border-b border-gray-100">
+												<dt className="text-xs font-medium text-gray-500">Requirements</dt>
+												<dd>
+													<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#f2ae1d]/10 text-[#f2ae1d] border border-[#f2ae1d]/20">
+														{project.project_notes.length}
+													</span>
+												</dd>
+											</div>
+										)}
+
+										{project.payment_link && (
+											<div className="flex items-center justify-between py-2 border-b border-gray-100">
+												<dt className="text-xs font-medium text-gray-500">Payment</dt>
+												<dd>
+													<a
+														href={project.payment_link}
+														target="_blank"
+														rel="noopener noreferrer"
+														className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200 transition-colors"
+													>
+														<CreditCard className="h-3 w-3" />
+														Sheet
+													</a>
+												</dd>
+											</div>
+										)}
+
+										{project.project_updates && (
+											<div className="flex items-center justify-between py-2 border-b border-gray-100">
+												<dt className="text-xs font-medium text-gray-500">Updates</dt>
+												<dd className="text-xs text-gray-900 font-medium">
+													{project.project_updates.data.length}
+												</dd>
+											</div>
+										)}
+
+										{project.project_updates && (
+											<div className="flex items-center justify-between py-2">
+												<dt className="text-xs font-medium text-gray-500">Comments</dt>
+												<dd className="text-xs text-gray-900 font-medium">
+													{project.project_updates.data.reduce((total, update) => total + (update.comments?.length || 0), 0)}
+												</dd>
+											</div>
+										)}
+									</dl>
+								</div>
 							</motion.aside>
 						</div>
 					</div>

@@ -14,6 +14,7 @@ use App\Filament\Resources\Projects\Schemas\ProjectInfolist;
 use App\Filament\Resources\Projects\Tables\ProjectsTable;
 use App\Models\Project;
 use BackedEnum;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectResource extends Resource
 {
+
+    protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
     protected static ?string $model = Project::class;
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -43,7 +46,7 @@ class ProjectResource extends Resource
         return ProjectsTable::configure($table);
     }
 
-    
+
 
     public static function getPages(): array
     {
@@ -54,13 +57,14 @@ class ProjectResource extends Resource
             'edit' => EditProject::route('/{record}/edit'),
             'edit-requirements' => Pages\EditProjectRequirement::route('/{record}/edit/requirements'),
             'edit-payments' => Pages\EditProjectPayment::route('/{record}/edit/payments'),
+            'edit-timeline' => Pages\EditProjectTimeline::route('/{record}/edit/timeline')
         ];
     }
 
     public static function getEloquentQuery(): Builder
     {
         $user = Auth::user();
-        
+
         return parent::getEloquentQuery()
             ->withoutGlobalScopes()
             ->when($user && $user->roles && in_array('foreman', $user->roles->pluck('name')->toArray()), function (Builder $query) use ($user) {
@@ -77,9 +81,12 @@ class ProjectResource extends Resource
             Pages\EditProject::class,
             Resources\ProjectUpdates\Pages\ListProjectUpdates::class,
             Pages\EditProjectRequirement::class,
-            Pages\EditProjectPayment::class
+            Pages\EditProjectPayment::class,
+            Pages\EditProjectTimeline::class
         ]);
     }
 
-    
+
+
+
 }

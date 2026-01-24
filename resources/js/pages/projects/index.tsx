@@ -2,7 +2,7 @@ import ClientLayout from '@/layouts/ClientLayout';
 import { Projects } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { FileText, CreditCard } from 'lucide-react';
+import { FileText, CreditCard, Clock } from 'lucide-react';
 
 function ProjectImage({ src, alt }: { src: string; alt: string }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -75,26 +75,37 @@ function ProjectsIndex() {
                                     <h3 className="text-base font-semibold text-[#111827] transition-colors duration-300 group-hover:text-[#f2ae1d]">
                                         {project.name}
                                     </h3>
-                                    {project.project_notes && project.project_notes.length > 0 && (
-                                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#f2ae1d]/10 border border-[#f2ae1d]/20">
-                                            <FileText className="h-3 w-3 text-[#f2ae1d]" />
-                                            <span className="text-xs font-medium text-[#f2ae1d]">
-                                                {project.project_notes.length}
-                                            </span>
-                                        </div>
-                                    )}
-                                    {project.payment_link && (
-                                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 border border-green-200">
-                                            <CreditCard className="h-3 w-3 text-green-600" />
-                                            <span className="text-xs font-medium text-green-700">
-                                                Payment
-                                            </span>
-                                        </div>
-                                    )}
                                 </div>
                                 <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-700 transition-all duration-300 group-hover:bg-[#f2ae1d]/10 group-hover:text-[#f2ae1d]">
                                     {project.status}
                                 </span>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-2 mb-3">
+                                {project.project_notes && project.project_notes.length > 0 && (
+                                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#f2ae1d]/10 border border-[#f2ae1d]/20">
+                                        <FileText className="h-3 w-3 text-[#f2ae1d]" />
+                                        <span className="text-xs font-medium text-[#f2ae1d]">
+                                            {project.project_notes.length}
+                                        </span>
+                                    </div>
+                                )}
+                                {project.payment_link && (
+                                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 border border-green-200">
+                                        <CreditCard className="h-3 w-3 text-green-600" />
+                                        <span className="text-xs font-medium text-green-700">
+                                            Payment
+                                        </span>
+                                    </div>
+                                )}
+                                {project.timeline && project.timeline.length > 0 && (
+                                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-100 border border-blue-200">
+                                        <Clock className="h-3 w-3 text-blue-600" />
+                                        <span className="text-xs font-medium text-blue-700">
+                                            Timeline
+                                        </span>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="mt-1 space-y-1 text-xs text-neutral-500">

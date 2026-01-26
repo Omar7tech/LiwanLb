@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, CheckCircle, ChevronDown, Clock, ChevronRight } from 'lucide-react';
-import { TimelineItem, TimelineChild } from '../types/index';
+import { TimelineItem } from '../types/index';
 
 interface TimelineProps {
   items: TimelineItem[];
@@ -198,9 +198,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, className = '' }) => {
     );
   }
 
-  const completedCount = items.filter(item => item.is_active).length;
   const smartPercentage = calculateSmartPercentage(items || []);
-  const progressPercentage = (completedCount / items.length) * 100;
 
   return (
     <>
@@ -216,7 +214,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, className = '' }) => {
               initial={{ width: 0 }}
               animate={{ width: `${smartPercentage}%` }}
               transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
-              className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"
+              className="h-full bg-linear-to-r from-emerald-500 to-emerald-400 rounded-full"
             />
           </div>
         </div>
@@ -247,7 +245,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, className = '' }) => {
                         disabled={!item.is_active}
                         className={`relative w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
                           item.is_active
-                            ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-200 cursor-pointer ring-3 ring-emerald-100 hover:shadow-lg'
+                            ? 'bg-linear-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-200 cursor-pointer ring-3 ring-emerald-100 hover:shadow-lg'
                             : 'bg-white border-2 border-neutral-300 text-neutral-400 cursor-not-allowed'
                         }`}
                       >
@@ -333,7 +331,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, className = '' }) => {
               initial={{ height: 0 }}
               animate={{ height: `${smartPercentage}%` }}
               transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
-              className="absolute left-4 top-0 w-0.5 bg-gradient-to-b from-emerald-500 to-emerald-400"
+              className="absolute left-4 top-0 w-0.5 bg-linear-to-b from-emerald-500 to-emerald-400"
             />
             
             <div className="space-y-6">
@@ -353,7 +351,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, className = '' }) => {
                       disabled={!item.is_active}
                       className={`relative w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                         item.is_active
-                          ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-200 cursor-pointer'
+                          ? 'bg-linear-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-200 cursor-pointer'
                           : 'bg-white border-2 border-neutral-300 text-neutral-400 cursor-not-allowed'
                       }`}
                     >
@@ -420,7 +418,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, className = '' }) => {
                         transition={{ duration: 0.3, type: 'spring', damping: 20 }}
                         className="mt-3 overflow-hidden"
                       >
-                        <div className="bg-gradient-to-br from-neutral-50 to-neutral-100/50 rounded-xl border border-neutral-200/50 p-4 space-y-2">
+                        <div className="bg-linear-to-br from-neutral-50 to-neutral-100/50 rounded-xl border border-neutral-200/50 p-4 space-y-2">
                           {item.children.map((child, childIndex) => (
                             <motion.div
                               key={childIndex}

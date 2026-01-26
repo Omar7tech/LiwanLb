@@ -460,7 +460,7 @@ function ProjectShow() {
 													initial={{ opacity: 0, y: 20 }}
 													animate={{ opacity: 1, y: 0 }}
 													transition={{ delay: 0.1 * updateIndex }}
-													className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+													className="bg-white rounded-xl border border-gray-200 overflow-hidden p-2"
 												>
 													{/* Header */}
 													<button
@@ -488,12 +488,7 @@ function ProjectShow() {
 															<h3 className="text-lg font-medium text-gray-900 truncate">
 																{update.name || 'Project Update'}
 															</h3>
-															{update.description && (
-																<p className="text-sm text-gray-600 mt-1 line-clamp-2">
-																	{update.description}
-																</p>
-															)}
-														</div>
+																													</div>
 														<motion.div
 															animate={{ rotate: isCollapsed ? 0 : 180 }}
 															transition={{ duration: 0.2 }}
@@ -749,7 +744,7 @@ function ProjectShow() {
 														<span className="text-xs font-semibold text-emerald-600">{timelinePercentage}%</span>
 														<div className="w-12 bg-gray-200 rounded-full h-1.5">
 															<div
-																className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"
+																className="h-full bg-linear-to-r from-emerald-500 to-emerald-400 rounded-full"
 																style={{ width: `${timelinePercentage}%` }}
 															/>
 														</div>

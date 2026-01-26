@@ -19,7 +19,7 @@ export default function ClientReviews({ review, hasReview }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         rating: review?.rating || 0,
         review_notes: review?.review_notes || '',
     });

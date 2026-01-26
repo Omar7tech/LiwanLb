@@ -1,0 +1,9 @@
+Liwan Architecture - Security Contact Information
+For responsible disclosure of security vulnerabilities
+
+Contact: omar.7tech@gmail.com
+Contact: tel:+96171387946
+Preferred-Languages: en, ar
+
+Security Team: Omar Abi Farraj (Lead Developer)
+We appreciate responsible security research and will respond within 48 hours

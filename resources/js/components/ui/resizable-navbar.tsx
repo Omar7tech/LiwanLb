@@ -147,7 +147,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 
 interface NavDropdownProps {
   label: string;
-  items: Array<{ id: number; name: string; slug: string }>;
+  items: Array<{ id: number; name: string; slug: string; title?: string }>;
   mainLink: string;
   className?: string;
 }
@@ -224,13 +224,10 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
             transition={{ duration: 0.2 }}
             className="absolute left-0 top-full w-[320px] z-100"
           >
-            {/* Invisible bridge to prevent gap */}
             <div className="h-2" />
 
-            {/* Dropdown Container */}
             <div className="bg-[#fafafa]  rounded-lg shadow-xl ring-1 ring-black/5 overflow-hidden p-2 min-w-[280px]">
 
-              {/* Items List */}
               <div className="flex flex-col">
                 {items.map((item) => (
                   <Link
@@ -240,15 +237,12 @@ export const NavDropdown = ({ label, items, mainLink, className }: NavDropdownPr
                     className="group block relative rounded-md hover:bg-yellow-500/20 transition-colors duration-200"
                   >
 
-                    {/* Content */}
                     <div className="relative px-5 py-3.5 flex items-center justify-between">
 
-                      {/* Work Name - Bigger and cleaner */}
                       <span className="text-lg  text-[#3A3B3A] group-hover:text-black transition-colors duration-200 tracking-wide">
-                        {item.name}
+                        {item.title || item.name}
                       </span>
 
-                      {/* Arrow */}
                       <svg
                         className="w-4 h-4 text-neutral-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
                         fill="none"

@@ -18,7 +18,7 @@ class BlogListResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'image' => $this->getFirstMediaUrl('images', 'webp') ? $this->getFirstMediaUrl('images'): null,
+            'image' => $this->getFirstMediaUrl('images', 'webp') ?: null,
             'description' => $this->description,
         ];
     }

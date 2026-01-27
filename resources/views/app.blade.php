@@ -65,7 +65,7 @@
         <meta property="og:url" inertia content="{{ url()->current() }}">
         <meta property="og:site_name" inertia content="{{ config('app.name', 'Liwan') }}">
         <meta property="og:image" inertia
-            content="{{ $blog->getFirstMedia('images') ? $blog->getFirstMedia('images')->getUrl('webp') : asset('images/ogimage.jpeg') }}">
+            content="{{ $blog->getFirstMediaUrl('images', 'webp') ? $blog->getFirstMediaUrl('images') : asset('images/ogimage.jpeg') }}">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
 
@@ -73,8 +73,7 @@
         <meta name="twitter:title" inertia content="{{ $blog->title }}">
         <meta name="twitter:description" inertia content="{{ Str::limit($blog->description, 160) }}">
         <meta name="twitter:image" inertia
-            content="{{ $blog->getFirstMedia('images') ? $blog->getFirstMedia('images')->getUrl('webp') : asset('images/ogimage.jpeg') }}">
-        
+            content="{{ $blog->getFirstMediaUrl('images', 'webp') ? $blog->getFirstMediaUrl('images') : asset('images/ogimage.jpeg') }}">
         @php
     $articleStructuredData = [
         "@context" => "https://schema.org",

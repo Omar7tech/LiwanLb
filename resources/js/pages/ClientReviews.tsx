@@ -116,7 +116,7 @@ export default function ClientReviews({ review, hasReview }: Props) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className='p-2 md:p-4 mt-3 md:mt-0'
+                className='p-4 mt-3 md:mt-0'
             >
                 {/* Header */}
                 <div className="mb-4">

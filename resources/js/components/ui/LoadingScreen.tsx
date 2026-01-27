@@ -7,6 +7,8 @@ interface LoadingScreenProps {
 
 export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     const [isVisible, setIsVisible] = useState(true);
+    const [currentWordIndex, setCurrentWordIndex] = useState(0);
+    const words = ['DESIGN', 'DEVELOP', 'DELIVER'];
 
     useEffect(() => {
         // Prevent scrolling when loading screen is visible
@@ -27,6 +29,14 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         };
     }, [onComplete, isVisible]);
 
+    useEffect(() => {
+        const wordTimer = setInterval(() => {
+            setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        }, 700); // Switch words every 700ms
+
+        return () => clearInterval(wordTimer);
+    }, []);
+
     if (!isVisible) return null;
 
     return (
@@ -44,69 +54,21 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                 >
-                    <motion.div className="relative inline-block">
-                        <motion.span
-                            animate={{ 
-                                opacity: [1, 1, 0, 0],
-                                y: [0, 0, -10, -10]
-                            }}
-                            transition={{ 
-                                duration: 0.7, 
-                                ease: 'easeInOut'
-                            }}
-                            className="inline-block relative pr-2"
-                        >
-                            DESIGN
-                            {/* Custom punctuation mark */}
-                            <span className="inline-block align-bottom ml-1">
-                                <span className="relative inline-block">
-                                    <span className="block bg-[#f2ae1d] h-[0.7em] w-[0.18em] min-w-[3px]"></span>
-                                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[0.12em] min-w-[3px] h-[0.12em] min-h-[3px] bg-[#3a3b3a] rounded-full"></span>
-                                    
-                                </span>
+                    <div className="inline-grid grid-cols-[auto_1fr] items-center gap-0">
+                        <span className="col-start-1 row-start-1">
+                            D
+                        </span>
+                        <span className="col-start-2 row-start-1">
+                            {words[currentWordIndex].substring(1)}
+                        </span>
+                        {/* Custom punctuation mark */}
+                        <span className="inline-block align-bottom ml-1 col-start-3 row-start-1">
+                            <span className="relative inline-block">
+                                <span className="block bg-[#f2ae1d] h-[0.7em] w-[0.18em] min-w-[3px]"></span>
+                                <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[0.12em] min-w-[3px] h-[0.12em] min-h-[3px] bg-[#3a3b3a] rounded-full"></span>
                             </span>
-                        </motion.span>
-                        <motion.span
-                            animate={{ 
-                                opacity: [0, 0, 1, 1, 0, 0],
-                                y: [10, 10, 0, 0, -10, -10]
-                            }}
-                            transition={{ 
-                                duration: 1.4, 
-                                ease: 'easeInOut'
-                            }}
-                            className="inline-block absolute left-0"
-                        >
-                            DEVELOP
-                            {/* Custom punctuation mark */}
-                            <span className="inline-block align-bottom ml-1">
-                                <span className="relative inline-block">
-                                    <span className="block bg-[#f2ae1d] h-[0.7em] w-[0.18em] min-w-[3px]"></span>
-                                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[0.12em] min-w-[3px] h-[0.12em] min-h-[3px] bg-[#3a3b3a] rounded-full"></span>
-                                </span>
-                            </span>
-                        </motion.span>
-                        <motion.span
-                            animate={{ 
-                                opacity: [0, 0, 0, 0, 1, 1],
-                                y: [10, 10, 10, 10, 0, 0]
-                            }}
-                            transition={{ 
-                                duration: 2.1, 
-                                ease: 'easeInOut'
-                            }}
-                            className="inline-block absolute left-0"
-                        >
-                            DELIVER
-                            {/* Custom punctuation mark */}
-                            <span className="inline-block align-bottom ml-1">
-                                <span className="relative inline-block">
-                                    <span className="block bg-[#f2ae1d] h-[0.7em] w-[0.18em] min-w-[3px]"></span>
-                                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[0.12em] min-w-[3px] h-[0.12em] min-h-[3px] bg-[#3a3b3a] rounded-full"></span>
-                                </span>
-                            </span>
-                        </motion.span>
-                    </motion.div>
+                        </span>
+                    </div>
                 </motion.div>
             </div>
         </motion.div>

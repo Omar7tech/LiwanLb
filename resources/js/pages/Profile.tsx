@@ -81,7 +81,7 @@ function Profile() {
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.3 }}
-				className='p-6 md:p-8'
+				className='p-4 md:p-8'
 			>
 				<h1 className="text-2xl font-semibold tracking-tight text-[#3a3b3a] mb-4">
 					Profile settings
